@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 
@@ -41,7 +42,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                         decoration:
                             BoxDecoration(
                                 image: const DecorationImage(
-                                  image: AssetImage("assets/franchisie_slider.png"),
+                                  image: AssetImage(Assets.pngFranchisieSlider),
                                   fit: BoxFit.cover
                                 ),
                                 borderRadius: BorderRadius.circular(12)),

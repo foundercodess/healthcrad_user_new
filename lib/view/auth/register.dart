@@ -158,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ],
             ),
-            AppConstant.spaceHeight50,
+            AppConstant.spaceHeight20,
             ButtonConst(
               onTap: () {
                 Navigator.pushNamed(context, RoutesName.verifyOtpScreen);
@@ -181,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ]),
             const Spacer(),
             AuthImage(
-              height: screenHeight * 0.25,
+              height: screenHeight * 0.24,
             ),
           ],
         ),

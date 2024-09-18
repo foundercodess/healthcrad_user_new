@@ -142,7 +142,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     ),
                     AppConstant.spaceHeight10,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,11 +17,11 @@ class CategoryListView extends StatefulWidget {
 
 class CategoryListViewState extends State<CategoryListView> {
   List<CategoryModel> categoryModelList = [
-    CategoryModel(img: Assets.imageCatListBg1, tittle: 'Personal\nCare', subtittle: 'Personal care products\nare used for wellbeing, \nbeauty, and\n cleaning.'),
-    CategoryModel(img: Assets.imageCatListBg2, tittle: 'Diabetes\nMedicines', subtittle: 'Controlling blood sugar \nthrough diet, medication \nis the main treatment.'),
-    CategoryModel(img: Assets.imageCatListBg3, tittle: 'OTC \nMedicines', subtittle: 'OTC medicines can \nhelp protect your health.'),
-    CategoryModel(img: Assets.imageCatListBg4, tittle: '', subtittle: ''),
-    CategoryModel(img: Assets.imageCatListBg5, tittle: '', subtittle: ''),
+    CategoryModel(img: Assets.pngBabyMother, tittle: 'Personal\nCare', subtittle: 'Personal care products\nare used for wellbeing, \nbeauty, and\n cleaning.'),
+    CategoryModel(img: Assets.pngDiabetesMedicines, tittle: 'Diabetes\nMedicines', subtittle: 'Controlling blood sugar \nthrough diet, medication \nis the main treatment.'),
+    CategoryModel(img: Assets.pngOtcMedicines, tittle: 'OTC \nMedicines', subtittle: 'OTC medicines can \nhelp protect your health.'),
+    CategoryModel(img: Assets.pngPersonalCare, tittle: '', subtittle: ''),
+    CategoryModel(img: Assets.pngWellnessItems, tittle: '', subtittle: ''),
   ];
 
   @override

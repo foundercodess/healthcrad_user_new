@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/appointment_list_view.dart';
@@ -171,7 +172,11 @@ class _HomeScreenState extends State<HomeScreen> {
           leadingWidth: screenWidth / 2,
           leading: Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-            child: Image.asset(Assets.imageAppLogo),
+            child: SvgPicture.asset(
+             Assets.svgLogoCheck,
+              // fit: BoxFit.fill,
+            )
+            // Image.asset(Assets.imageAppLogo),
           ),
           actions: [
             Padding(
@@ -183,9 +188,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    const Icon(
-                      Icons.notifications_outlined,
-                      size: 30,
+                    // const Icon(
+                    //   Icons.notifications_outlined,
+                    //   size: 30,
+                    // ),
+
+                    SvgPicture.asset(
+                      Assets.svgBellCheck,
+                      // height: 10,
+                      // width: 10,
                     ),
                     Positioned(
                       left: screenHeight * 0.02,
@@ -217,7 +228,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Image.asset(Assets.imageCartOutline),
+                  SvgPicture.asset(
+                    Assets.svgCart,
+                    // height: 10,
+                    // width: 10,
+                  ),
                   Positioned(
                     top: -15,
                     right: -5,
@@ -257,19 +272,38 @@ class _HomeScreenState extends State<HomeScreen> {
         keyboardType: TextInputType.text,
         maxLength: 35,
         maxLines: 1,
-        prefixIcon: Image.asset(
-          Assets.iconsSearch,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        prefixIcon:  Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+              Assets.svgSearchIcons,
+              height:10,
+              width: 10,
+              color: AppColor.blueColor
+
+          ),
         ),
+        // Image.asset(
+        //   Assets.iconsSearch,
+        //   scale: 1.9,
+        //   color: AppColor.blueColor,
+        // ),
         hintColor: Colors.black.withOpacity(.6),
         hint: "Search for medicines & doctors",
         fontSize: AppConstant.fontSizeTwo,
-        sufixIcon: Image.asset(
-          Assets.iconsMic,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        sufixIcon:Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+            Assets.svgMicIcons,
+            color: AppColor.blueColor,
+            height: 10,
+            width: 10,
+          ),
         ),
+        // Image.asset(
+        //   Assets.iconsMic,
+        //   scale: 1.9,
+        //   color: AppColor.blueColor,
+        // ),
       ),
     );
   }
@@ -300,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Image.asset(
                     Assets.imageOrderPBg,
-                    width: screenWidth / 6,
+                    width: screenWidth / 6.4,
                   ),
                   AppConstant.spaceWidth10,
                   Column(

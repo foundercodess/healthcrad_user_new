@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
@@ -173,18 +174,27 @@ class _MedicinesPageState extends State<MedicinesPage> {
         keyboardType: TextInputType.text,
         maxLength: 35,
         maxLines: 1,
-        prefixIcon: Image.asset(
-          Assets.iconsSearch,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+              Assets.svgSearchIcons,
+              height:10,
+              width: 10,
+              color: AppColor.blueColor
+
+          ),
         ),
         hintColor: Colors.black.withOpacity(.6),
         hint: "Search for medicines & doctors",
         fontSize: AppConstant.fontSizeTwo,
-        sufixIcon: Image.asset(
-          Assets.iconsMic,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        sufixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+            Assets.svgMicIcons,
+            color: AppColor.blueColor,
+            height: 10,
+            width: 10,
+          ),
         ),
       ),
     );

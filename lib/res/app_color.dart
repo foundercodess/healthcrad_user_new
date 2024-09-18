@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class AppColor {
   static Color scaffoldBgGreenColor = const Color(0xfff1f2ff);
 
-  static Color blackColor = const Color(0xff000000);
+  // static Color blackColor = const Color(0xff000000);
+  static Color blackColor = const Color(0xff1E1E1E);
   static Color whiteColor = const Color(0xffffffff);
   static Color shareBgColor = const Color(0xff7C7979);
   static Color plus91Color = const Color(0xff7C7979);
@@ -13,7 +14,8 @@ class AppColor {
   static Color primaryColor = const Color(0xff13C7EB);
   static Color searchFieldBgColor = const Color(0xffECF6FF);
   static Color fadedPrimaryColor = const Color(0xff13C7EB).withOpacity(0.2);
-  static Color textColor = const Color(0xff979797);
+  // static Color textColor = const Color(0xff979797);
+  static Color textColor = const Color(0xff7C7979);
   static Color otpColor = const Color(0xff444343);
   static Color blueColor = const Color(0xff6D7DFF);
   static Color buttonBlueColor = const Color(0xff097EEB);

@@ -19,7 +19,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: screenHeight * 0.3,
+        toolbarHeight: screenHeight * 0.32,
         actions: [
           Container(
             width: screenWidth,

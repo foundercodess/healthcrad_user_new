@@ -2,7 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String assetsFranchisieSlider = 'assets/franchisie_slider.png';
   static const String assetsImageNotificationLogo = 'assets/image/notification_logo.jpeg';
   static const String fontsPoppinsRegular = 'fonts/Poppins_Regular.ttf';
   static const String gifCouponGif = 'assets/gif/coupon_gif.png';
@@ -60,7 +59,6 @@ class Assets {
   static const String iconsRxVector = 'assets/icons/rx_vector.png';
   static const String iconsSafeIcon = 'assets/icons/safe_icon.png';
   static const String iconsSafeIconOnly = 'assets/icons/safe_icon_only.png';
-  static const String iconsSearch = 'assets/icons/search.png';
   static const String iconsSelectIcon = 'assets/icons/select_icon.png';
   static const String iconsShareIcon = 'assets/icons/share_icon.png';
   static const String iconsSlider = 'assets/icons/slider.png';
@@ -120,5 +118,22 @@ class Assets {
   static const String imageTopDoctorBg = 'assets/image/top_doctor_bg.png';
   static const String imageVerifyDoctorBg = 'assets/image/verify_doctor_bg.png';
   static const String imageWhatsappBg = 'assets/image/whatsapp_bg.png';
+  static const String pngBabyMother = 'assets/png/baby_mother.png';
+  static const String pngDiabetesMedicines = 'assets/png/diabetes_medicines.png';
+  static const String pngFranchisieSlider = 'assets/png/franchisie_slider.png';
+  static const String pngOtcMedicines = 'assets/png/otc_medicines.png';
+  static const String pngPersonalCare = 'assets/png/personal_care.png';
+  static const String pngWellnessItems = 'assets/png/wellness_items.png';
+  static const String svgAmbulance = 'assets/svg/ambulance.svg';
+  static const String svgAppLogo = 'assets/svg/app_logo.svg';
+  static const String svgBell = 'assets/svg/bell.svg';
+  static const String svgBellCheck = 'assets/svg/bell_check.svg';
+  static const String svgCart = 'assets/svg/cart.svg';
+  static const String svgDoctor = 'assets/svg/doctor.svg';
+  static const String svgLogoCheck = 'assets/svg/logo_check.svg';
+  static const String svgMedicine = 'assets/svg/medicine.svg';
+  static const String svgMicIcons = 'assets/svg/mic_icons.svg';
+  static const String svgPathlab = 'assets/svg/pathlab.svg';
+  static const String svgSearchIcons = 'assets/svg/search_icons.svg';
 
 }

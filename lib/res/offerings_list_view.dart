@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
@@ -20,18 +21,18 @@ class OfferingsListViewState extends State<OfferingsListView> {
   @override
   Widget build(BuildContext context) {
     List<OfferingModel> offeringModelList = [
-      OfferingModel(title: 'Doctors', img: Assets.imageDoctorBg, onTap: () {}),
+      OfferingModel(title: 'Doctors', img: Assets.svgDoctor, onTap: () {}),
       OfferingModel(
-          title: 'Medicines', img: Assets.imageMedicinesBgN, onTap: () {}),
+          title: 'Medicines', img: Assets.svgMedicine, onTap: () {}),
       OfferingModel(
           title: 'Ambulance',
-          img: Assets.imageAmbulanceBgN,
+          img: Assets.svgAmbulance,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.ambulancePage);
           }),
       OfferingModel(
           title: 'Pathlab',
-          img: Assets.imagePathLabBgN,
+          img: Assets.svgPathlab,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.pathLab);
           }),
@@ -57,14 +58,21 @@ class OfferingsListViewState extends State<OfferingsListView> {
                 Container(
                   height: screenWidth / 6.8,
                   width: screenWidth,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5),
                       ),
-                      image: DecorationImage(
-                          image: AssetImage(offeringModelList[index].img),
-                          fit: BoxFit.cover)),
+
+                      // DecorationImage(
+                      //     image: AssetImage(offeringModelList[index].img),
+                      //     fit: BoxFit.cover)),
+                ),
+                  child: SvgPicture.asset(
+                    offeringModelList[index].img,
+                   fit: BoxFit.fill,
+                  ),
                 ),
                 const Spacer(),
                 Padding(

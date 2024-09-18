@@ -40,6 +40,7 @@ dependencies:
   intl:
   pinput:
   carousel_slider:
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +100,8 @@ flutter:
     - assets/image/
     - fonts/
     - assets/gif/
+    - assets/svg/
+    - assets/png/
 
   fonts:
     - family: Poppins_Regular
