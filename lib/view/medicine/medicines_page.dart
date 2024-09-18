@@ -1,0 +1,192 @@
+import 'package:flutter/material.dart';
+import 'package:health_crad_user/generated/assets.dart';
+import 'package:health_crad_user/main.dart';
+import 'package:health_crad_user/res/app_color.dart';
+import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/custom_text_field.dart';
+import 'package:health_crad_user/res/deals_list_view.dart';
+import 'package:health_crad_user/res/text_const.dart';
+
+import '../../utils/routes/routes_name.dart';
+
+class MedicinesPage extends StatefulWidget {
+  const MedicinesPage({super.key});
+
+  @override
+  State<MedicinesPage> createState() => _MedicinesPageState();
+}
+
+class _MedicinesPageState extends State<MedicinesPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        height: screenHeight / 14,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+            color: AppColor.primaryColor),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextConst(
+                        title: 'Quantity: 2',
+                        fontSize: AppConstant.fontSizeTwo,
+                        color: AppColor.whiteColor,
+                      ),
+                      TextConst(
+                        title: 'Rs. 5,126',
+                        fontSize: AppConstant.fontSizeTwo,
+                        color: AppColor.whiteColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.cartPage);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 40,
+                      width: screenWidth * 0.35,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColor.whiteColor,
+                      ),
+                      child: TextConst(
+                        title: 'Go to cart',
+                        fontSize: AppConstant.fontSizeTwo,
+                        color: AppColor.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: AppColor.primaryColor,
+        leadingWidth: screenWidth,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset(
+                  Assets.iconsArrowBack,
+                  color: AppColor.whiteColor,
+                  scale: 3,
+                ),
+              ),
+              AppConstant.spaceWidth10,
+              TextConst(
+                title: 'Medicines',
+                fontSize: AppConstant.fontSizeThree,
+                color: AppColor.whiteColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                ImageIcon(
+                  const AssetImage(Assets.iconsCartIcons),
+                  size: screenWidth * 0.08,
+                  color: AppColor.whiteColor,
+                ),
+                Positioned(
+                  left: screenHeight * 0.023,
+                  bottom: screenHeight * 0.01,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: screenHeight * 0.04,
+                    width: screenWidth * 0.04,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColor.redColor,
+                    ),
+                    child: TextConst(
+                      title: '3',
+                      fontSize: AppConstant.fontSizeOne,
+                      color: AppColor.whiteColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize:const Size.fromHeight(kToolbarHeight*1.4),
+          child: Container(
+            color: AppColor.whiteColor,
+            child: searchTextField(),
+          ),
+        ),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.7,
+        ),
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return const DealsMedicine(index: -1,);
+        },
+      ),
+    );
+  }
+
+  Widget searchTextField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,vertical: 15
+      ),
+      child: TextFieldConst(
+        borderRadius: BorderRadius.circular(5),
+        fillColor: AppColor.searchFieldBgColor,
+        keyboardType: TextInputType.text,
+        maxLength: 35,
+        maxLines: 1,
+        prefixIcon: Image.asset(
+          Assets.iconsSearch,
+          scale: 1.9,
+          color: AppColor.blueColor,
+        ),
+        hintColor: Colors.black.withOpacity(.6),
+        hint: "Search for medicines & doctors",
+        fontSize: AppConstant.fontSizeTwo,
+        sufixIcon: Image.asset(
+          Assets.iconsMic,
+          scale: 1.9,
+          color: AppColor.blueColor,
+        ),
+      ),
+    );
+  }
+}
