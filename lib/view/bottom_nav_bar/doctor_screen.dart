@@ -152,7 +152,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
               Assets.svgSearchIcons,
               height:10,
               width: 10,
-              color: AppColor.blueColor
+
 
           ),
         ),
@@ -163,7 +163,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
           padding: const EdgeInsets.only(top: 12,bottom: 12),
           child: SvgPicture.asset(
             Assets.svgMicIcons,
-            color: AppColor.blueColor,
+
             height: 10,
             width: 10,
           ),

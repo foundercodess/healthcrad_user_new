@@ -180,7 +180,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
               Assets.svgSearchIcons,
               height:10,
               width: 10,
-              color: AppColor.blueColor
+
 
           ),
         ),
@@ -191,7 +191,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
           padding: const EdgeInsets.only(top: 12,bottom: 12),
           child: SvgPicture.asset(
             Assets.svgMicIcons,
-            color: AppColor.blueColor,
+
             height: 10,
             width: 10,
           ),

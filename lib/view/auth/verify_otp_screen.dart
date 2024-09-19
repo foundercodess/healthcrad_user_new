@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_crad_user/generated/assets.dart';
-import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/Auth_res/auth_bg.dart';
 import 'package:health_crad_user/res/Auth_res/auth_screen_bg.dart';
 import 'package:health_crad_user/res/app_btn.dart';

@@ -38,8 +38,8 @@ import '../../view/more/add_new_address.dart';
 class Routers {
   static WidgetBuilder generateRoute(String routeName) {
     switch (routeName) {
-      case RoutesName.splash:
-        return (context) => const SplashScreen();
+      case RoutesName.mainScreen:
+        return (context) => const MainScreen();
       case RoutesName.login:
         return (context) => const LoginScreen();
       case RoutesName.register:

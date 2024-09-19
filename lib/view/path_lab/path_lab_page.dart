@@ -18,104 +18,102 @@ class PathLabPage extends StatefulWidget {
 class _PathLabPageState extends State<PathLabPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.whiteColor,
-      appBar:  AppBar(
-          toolbarHeight: kToolbarHeight * 1.2,
-          backgroundColor: AppColor.primaryColor,
-          leadingWidth: screenWidth,
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    Assets.iconsArrowBack,
-                    color: AppColor.whiteColor,
-                    scale: 3,
-                  ),
-                ),
-                AppConstant.spaceWidth10,
-                TextConst(
-                  title: 'Pathlab',
-                  fontSize: AppConstant.fontSizeThree,
-                  color: AppColor.whiteColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ],
-            ),
-          ),
-
-        ),
-
-        body: Padding(
-          padding: const EdgeInsets.only(left: 15, top: 35, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+    appBar:  AppBar(
+        toolbarHeight: kToolbarHeight * 1.2,
+        backgroundColor: AppColor.primaryColor,
+        leadingWidth: screenWidth,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
             children: [
-              ReportWidget(
+              GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesName.pathReport);
+                  Navigator.pop(context);
                 },
-                title: 'My Report',
-                img: Assets.imagePathReportBg,
-                fontWeight: FontWeight.w600,
-                subTitle: 'Empathy in practice, excellence in care.',
-              ),
-              AppConstant.spaceHeight25,
-              ReportWidget(
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.requestReport);
-                },
-                title: 'Request a Report',
-                img: Assets.imageRequestReportBg,
-                fontWeight: FontWeight.w600,
-                subTitle:
-                    'Commit to health: every day, every step, every choice makes a difference.',
-              ),
-              AppConstant.spaceHeight25,
-              Container(
-                width: screenWidth,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: screenHeight * 0.04,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(Assets.imagePathLabTrustBg),
-                        fit: BoxFit.fill)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                     Icon(
-                      Icons.check_circle,
-                      color: AppColor.blueColor,
-                      size: 20.0,
-                    ),
-                    AppConstant.spaceWidth5,
-                    CustomRichText(textSpans: [
-                      CustomTextSpan(
-                          text: "HealthCRAD Assured",
-                          textColor: AppColor.blueColor,
-                          fontSize: AppConstant.fontSizeOne),
-                      CustomTextSpan(
-                          text: " - Your trust, Our commitment.",
-                          textColor: AppColor.blackColor.withOpacity(0.8),
-                          fontSize: AppConstant.fontSizeOne)
-                    ]),
-                  ],
+                child: Image.asset(
+                  Assets.iconsArrowBack,
+                  color: AppColor.whiteColor,
+                  scale: 3,
                 ),
               ),
-              const Spacer(),
-              AuthImage(
-                height: screenHeight * 0.35,
-                width: screenWidth * 0.85,
-                img: Assets.imagePathLabBgScreen,
+              AppConstant.spaceWidth10,
+              TextConst(
+                title: 'Pathlab',
+                fontSize: AppConstant.fontSizeThree,
+                color: AppColor.whiteColor,
+                fontWeight: FontWeight.w600,
               ),
             ],
           ),
+        ),
+
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.only(left: 15, top: 35, right: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ReportWidget(
+              onTap: () {
+                Navigator.pushNamed(context, RoutesName.pathReport);
+              },
+              title: 'My Report',
+              img: Assets.imagePathReportBg,
+              fontWeight: FontWeight.w600,
+              subTitle: 'Empathy in practice, excellence in care.',
+            ),
+            AppConstant.spaceHeight25,
+            ReportWidget(
+              onTap: () {
+                Navigator.pushNamed(context, RoutesName.requestReport);
+              },
+              title: 'Request a Report',
+              img: Assets.imageRequestReportBg,
+              fontWeight: FontWeight.w600,
+              subTitle:
+                  'Commit to health: every day, every step, every choice makes a difference.',
+            ),
+            AppConstant.spaceHeight25,
+            Container(
+              width: screenWidth,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              height: screenHeight * 0.04,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(Assets.imagePathLabTrustBg),
+                      fit: BoxFit.fill)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                   Icon(
+                    Icons.check_circle,
+                    color: AppColor.blueColor,
+                    size: 18.0,
+                  ),
+                  AppConstant.spaceWidth5,
+                  CustomRichText(textSpans: [
+                    CustomTextSpan(
+                        text: "HealthCRAD Assured",
+                        textColor: AppColor.blueColor,
+                        fontSize: AppConstant.fontSizeOne),
+                    CustomTextSpan(
+                        text: " - Your trust, Our commitment.",
+                        textColor: AppColor.blackColor.withOpacity(0.8),
+                        fontSize: AppConstant.fontSizeOne)
+                  ]),
+                ],
+              ),
+            ),
+            const Spacer(),
+            AuthImage(
+              height: screenHeight * 0.35,
+              width: screenWidth * 0.85,
+              img: Assets.imagePathLabBgScreen,
+            ),
+          ],
         ),
       ),
     );

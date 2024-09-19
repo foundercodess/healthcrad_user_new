@@ -172,10 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
           leadingWidth: screenWidth / 2,
           leading: Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-            child: SvgPicture.asset(
-             Assets.svgLogoCheck,
-              // fit: BoxFit.fill,
-            )
+            child: Image.asset(Assets.pngAppLogoClint)
             // Image.asset(Assets.imageAppLogo),
           ),
           actions: [
@@ -188,16 +185,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // const Icon(
-                    //   Icons.notifications_outlined,
-                    //   size: 30,
-                    // ),
-
-                    SvgPicture.asset(
-                      Assets.svgBellCheck,
-                      // height: 10,
-                      // width: 10,
+                    const Icon(
+                      Icons.notifications_outlined,
+                      size: 30,
                     ),
+
+                    // SvgPicture.asset(
+                    //   Assets.svgBellCheck,
+                    //   // height: 10,
+                    //   // width: 10,
+                    // ),
                     Positioned(
                       left: screenHeight * 0.02,
                       bottom: screenHeight * 0.01,
@@ -228,11 +225,15 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  SvgPicture.asset(
-                    Assets.svgCart,
-                    // height: 10,
-                    // width: 10,
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 30,
                   ),
+                  // SvgPicture.asset(
+                  //   Assets.svgCart,
+                  //   // height: 10,
+                  //   // width: 10,
+                  // ),
                   Positioned(
                     top: -15,
                     right: -5,
@@ -278,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Assets.svgSearchIcons,
               height:10,
               width: 10,
-              color: AppColor.blueColor
+
 
           ),
         ),
@@ -294,7 +295,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(top: 12,bottom: 12),
           child: SvgPicture.asset(
             Assets.svgMicIcons,
-            color: AppColor.blueColor,
             height: 10,
             width: 10,
           ),
@@ -322,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Container(
               width: screenWidth / 2.2,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+           padding:const EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 7),
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(

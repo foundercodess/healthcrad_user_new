@@ -3,9 +3,9 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
-import 'package:health_crad_user/res/custom_rich_text.dart';
+
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/view/path_lab/widgets/filter_popup.dart';
+
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

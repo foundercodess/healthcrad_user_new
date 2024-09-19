@@ -119,7 +119,6 @@ class _SlotPageState extends State<SlotPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: EdgeInsets.only(
                               left: 15, right: index == 14 ? 15 : 0, bottom: 5),
-                          width: screenWidth * 0.38,
                           decoration: BoxDecoration(
                             color: selectedList == index
                                 ? AppColor.fadedPrimaryColor

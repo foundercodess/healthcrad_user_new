@@ -21,18 +21,18 @@ class OfferingsListViewState extends State<OfferingsListView> {
   @override
   Widget build(BuildContext context) {
     List<OfferingModel> offeringModelList = [
-      OfferingModel(title: 'Doctors', img: Assets.svgDoctor, onTap: () {}),
+      OfferingModel(title: 'Doctors', img: Assets.imageDoctorBg, onTap: () {}),
       OfferingModel(
-          title: 'Medicines', img: Assets.svgMedicine, onTap: () {}),
+          title: 'Medicines', img: Assets.imageMedicinesBgN, onTap: () {}),
       OfferingModel(
           title: 'Ambulance',
-          img: Assets.svgAmbulance,
+          img: Assets.imageAmbulanceBgN,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.ambulancePage);
           }),
       OfferingModel(
           title: 'Pathlab',
-          img: Assets.svgPathlab,
+          img: Assets.imagePathLabBgN,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.pathLab);
           }),
@@ -59,20 +59,20 @@ class OfferingsListViewState extends State<OfferingsListView> {
                   height: screenWidth / 6.8,
                   width: screenWidth,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5),
-                      ),
 
-                      // DecorationImage(
-                      //     image: AssetImage(offeringModelList[index].img),
-                      //     fit: BoxFit.cover)),
+                      ),
+                    image: DecorationImage(image: AssetImage(offeringModelList[index].img),fit: BoxFit.cover),
+
+
+                  // child: SvgPicture.asset(
+                  //   offeringModelList[index].img,
+                  //  fit: BoxFit.fill,
+                  // ),
                 ),
-                  child: SvgPicture.asset(
-                    offeringModelList[index].img,
-                   fit: BoxFit.fill,
-                  ),
                 ),
                 const Spacer(),
                 Padding(

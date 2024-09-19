@@ -17,12 +17,15 @@ class _OfferSliderState extends State<OfferSlider> {
   final CarouselSliderController _controller = CarouselSliderController();
 
   final List<String> _imagePaths = [
-    Assets.imageOfferSliderBg,
-    Assets.imageOfferSliderBg,
-    Assets.imageOfferSliderBg,
-    Assets.imageOfferSliderBg,
-    Assets.imageOfferSliderBg,
-    Assets.imageOfferSliderBg,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+
   ];
 
   @override
@@ -31,7 +34,7 @@ class _OfferSliderState extends State<OfferSlider> {
       children: [
         Container(
           width: screenWidth,
-          height: screenHeight/7,
+          height: screenHeight/9,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
               itemCount: _imagePaths.length, itemBuilder: (context,index){

@@ -34,7 +34,7 @@ class CategoryListViewState extends State<CategoryListView> {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(
-            left: 15,
+            left: 15, right: index==4?15:0
           ),
           child: GestureDetector(
             onTap: () {},
