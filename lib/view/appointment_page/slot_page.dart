@@ -88,7 +88,8 @@ class _SlotPageState extends State<SlotPage> {
                     children: [
                       Image.asset(
                         Assets.iconsMedicalHome,
-                        scale: 2.2,
+                        height: 25,
+                        width: 25,
                         color: AppColor.blueColor,
                       ),
                       AppConstant.spaceWidth10,
@@ -223,7 +224,8 @@ class _SlotPageState extends State<SlotPage> {
                             children: [
                               Image.asset(
                                 Assets.iconsGreenCallIcon,
-                                scale: 3,
+                                height: 25,
+                                width: 25,
                                 color: AppColor.primaryColor,
                               ),
                               TextConst(
@@ -249,7 +251,7 @@ class _SlotPageState extends State<SlotPage> {
                       children: [
                         AppConstant.spaceHeight10,
                         TextConst(
-                          title: 'Today ${dates.first}',
+                          title: '${dates.first}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.blackColor,
                         ),
@@ -277,7 +279,8 @@ class _SlotPageState extends State<SlotPage> {
                           children: [
                             Image.asset(
                               Assets.iconsMorningIcon,
-                              scale: 1.9,
+                              height: 25,
+                              width: 25,
                             ),
                             AppConstant.spaceWidth10,
                             CustomRichText(textSpans: [
@@ -303,7 +306,8 @@ class _SlotPageState extends State<SlotPage> {
                           children: [
                             Image.asset(
                               Assets.iconsMorningIcon,
-                              scale: 1.9,
+                              height: 25,
+                              width: 25,
                             ),
                             AppConstant.spaceWidth10,
                             CustomRichText(textSpans: [

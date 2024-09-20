@@ -28,7 +28,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
         height: screenHeight / 14,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-            color: AppColor.primaryColor),
+            color: AppColor.buttonBlueColor),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
@@ -59,7 +59,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      height: 40,
+                      height: 35,
                       width: screenWidth * 0.35,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -68,7 +68,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
                       child: TextConst(
                         title: 'Go to cart',
                         fontSize: AppConstant.fontSizeTwo,
-                        color: AppColor.primaryColor,
+                        color: AppColor.buttonBlueColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -148,7 +148,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
         ),
       ),
       body: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15,),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,

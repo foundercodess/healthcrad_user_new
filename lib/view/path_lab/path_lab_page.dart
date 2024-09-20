@@ -65,7 +65,7 @@ class _PathLabPageState extends State<PathLabPage> {
               fontWeight: FontWeight.w600,
               subTitle: 'Empathy in practice, excellence in care.',
             ),
-            AppConstant.spaceHeight25,
+            AppConstant.spaceHeight30,
             ReportWidget(
               onTap: () {
                 Navigator.pushNamed(context, RoutesName.requestReport);
@@ -76,7 +76,7 @@ class _PathLabPageState extends State<PathLabPage> {
               subTitle:
                   'Commit to health: every day, every step, every choice makes a difference.',
             ),
-            AppConstant.spaceHeight25,
+            AppConstant.spaceHeight30,
             Container(
               width: screenWidth,
               padding: const EdgeInsets.symmetric(horizontal: 10),

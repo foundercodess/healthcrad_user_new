@@ -85,7 +85,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             Image.asset(
               icon,
-              scale: 2,
+              height: 25,
+              width: 25,
               color: isColorDiffer
                   ? Colors.red
                   : isSelected

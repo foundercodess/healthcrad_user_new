@@ -42,10 +42,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fillColor: AppColor.containerFillColor,
               keyboardType: TextInputType.text,
               maxLength: 20,
-              prefixIcon: Image.asset(
-                Assets.iconsName,
-                scale: 1.9,
-                color: AppColor.primaryColor,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                child: Image.asset(
+                  Assets.iconsName,
+                  height: 25,
+                  width: 25,
+                  color: AppColor.primaryColor,
+                ),
               ),
               hint: "Enter your name",
               fontSize: AppConstant.fontSizeTwo,
@@ -64,10 +68,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fillColor: AppColor.containerFillColor,
               keyboardType: TextInputType.number,
               maxLength: 10,
-              prefixIcon: Image.asset(
-                Assets.iconsGreenCallIcon,
-                scale: 1.9,
-                color: AppColor.primaryColor,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                child: Image.asset(
+                  Assets.iconsGreenCallIcon,
+                  height: 25,
+                  width: 25,
+                  color: AppColor.primaryColor,
+                ),
               ),
               inputFormatter: [FilteringTextInputFormatter.digitsOnly],
               hint: "Enter mobile number",
@@ -92,10 +100,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fillColor: AppColor.containerFillColor,
               keyboardType: TextInputType.text,
               maxLength: 20,
-              prefixIcon: Image.asset(
-                Assets.iconsEmailIcon,
-                scale: 1.9,
-                color: AppColor.primaryColor,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                child: Image.asset(
+                  Assets.iconsEmailIcon,
+                  height: 25,
+                  width: 25,
+                  color: AppColor.primaryColor,
+                ),
               ),
               hint: "Enter your Email",
               fontSize: AppConstant.fontSizeTwo,
@@ -144,10 +156,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fillColor: AppColor.containerFillColor,
                       keyboardType: TextInputType.text,
                       controller: rvm.dateController,
-                      prefixIcon: Image.asset(
-                        Assets.iconsCalenderIcon,
-                        scale: 2.5,
-                        color: AppColor.primaryColor,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(top: 12,bottom: 12),
+                        child: Image.asset(
+                          Assets.iconsCalenderIcon,
+                          height: 15,
+                          width: 15,
+                          color: AppColor.primaryColor,
+                        ),
                       ),
                       hint: "Enter Dob",
                       fontSize: AppConstant.fontSizeTwo,
@@ -166,6 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: AppColor.primaryColor,
               label: 'Continue',
               textColor: AppColor.whiteColor,
+              fontWeight: FontWeight.w600,
               fontSize: AppConstant.fontSizeThree,
             ),
             AppConstant.spaceHeight15,

@@ -35,7 +35,7 @@ class AppConstant {
   static const spaceHeight50 = SizedBox(height: 50);
   static const spaceHeight180 = SizedBox(height: 180);
 
-
+static const iconSize48 = 48.0;
 
 
 }

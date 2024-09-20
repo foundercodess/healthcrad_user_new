@@ -68,7 +68,7 @@ class Assets {
   static const String iconsWhatsappIcon = 'assets/icons/whatsapp_icon.png';
   static const String imageAmbuHistoryBg = 'assets/image/ambu_history_bg.png';
   static const String imageAmbuTextBg = 'assets/image/ambu_text_bg.png';
-  static const String imageAmbulanceBgN = 'assets/image/ambulance_bg_n.jpg';
+  static const String imageAmbulanceBgN = 'assets/image/ambulance_bg_n.png';
   static const String imageAppLogo = 'assets/image/app_logo.png';
   static const String imageAppLogoWithoutText = 'assets/image/app_logo_without_text.png';
   static const String imageAuthBg = 'assets/image/auth_bg.png';
@@ -84,7 +84,7 @@ class Assets {
   static const String imageDentist = 'assets/image/Dentist.png';
   static const String imageDetailsSilderBg = 'assets/image/details_silder_bg.png';
   static const String imageDoctorAppoBg = 'assets/image/doctor_appo_bg.png';
-  static const String imageDoctorBg = 'assets/image/doctor_bg.jpg';
+  static const String imageDoctorBg = 'assets/image/doctor_bg.png';
   static const String imageEye = 'assets/image/Eye.png';
   static const String imageGeneralPhysician = 'assets/image/general_physician.png';
   static const String imageGreenDotBg = 'assets/image/green_dot_bg.png';
@@ -95,7 +95,7 @@ class Assets {
   static const String imageKideny = 'assets/image/Kideny.png';
   static const String imageLineBg = 'assets/image/line_bg.png';
   static const String imageLoginBg = 'assets/image/login_bg.png';
-  static const String imageMedicinesBgN = 'assets/image/medicines_bg_n.jpg';
+  static const String imageMedicineBgN = 'assets/image/medicine_bg_n.png';
   static const String imageMoreProfileBg = 'assets/image/more_profile_bg.png';
   static const String imageMyReportListBg = 'assets/image/my_report_list_bg.png';
   static const String imageNotificationLogo = 'assets/image/notification_logo.png';
@@ -107,7 +107,6 @@ class Assets {
   static const String imagePathLabBgScreen = 'assets/image/path_lab_bg_screen.png';
   static const String imagePathLabTrustBg = 'assets/image/path_lab-trust_bg.png';
   static const String imagePathReportBg = 'assets/image/path_report_bg.png';
-  static const String imagePathlabBgN = 'assets/image/pathlab_bg_n.png';
   static const String imagePrecriptionOrderInfo = 'assets/image/precription_order_info.png';
   static const String imageRequestReportBg = 'assets/image/request_report_bg.png';
   static const String imageRxBg = 'assets/image/rx_bg.png';
@@ -118,15 +117,20 @@ class Assets {
   static const String imageTopDoctorBg = 'assets/image/top_doctor_bg.png';
   static const String imageVerifyDoctorBg = 'assets/image/verify_doctor_bg.png';
   static const String imageWhatsappBg = 'assets/image/whatsapp_bg.png';
+  static const String pngAmbuO = 'assets/png/ambu_o.png';
   static const String pngAppLogoClint = 'assets/png/app_logo_clint.png';
   static const String pngBabyMother = 'assets/png/baby_mother.png';
   static const String pngDiabetesMedicines = 'assets/png/diabetes_medicines.png';
+  static const String pngDoctorBgO = 'assets/png/doctor_bg_o.jpg';
   static const String pngFacebook = 'assets/png/facebook.png';
   static const String pngFranchisieSlider = 'assets/png/franchisie_slider.png';
   static const String pngInsta = 'assets/png/insta.png';
   static const String pngLinkdin = 'assets/png/linkdin.png';
   static const String pngMainBg = 'assets/png/main_bg.png';
+  static const String pngMainScreenArrow = 'assets/png/main_screen_arrow.png';
+  static const String pngMedicinesBgO = 'assets/png/medicines_bg_o.jpg';
   static const String pngOtcMedicines = 'assets/png/otc_medicines.png';
+  static const String pngPathLabBgO = 'assets/png/path_lab_bg_o.png';
   static const String pngPersonalCare = 'assets/png/personal_care.png';
   static const String pngSilderBgSpecialOffer = 'assets/png/silder_bg_special_offer.png';
   static const String pngWellnessItems = 'assets/png/wellness_items.png';

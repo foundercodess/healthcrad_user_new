@@ -3,6 +3,7 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import '../../../generated/assets.dart';
+import '../../splash_screen.dart';
 
 class CommonAppBarMore extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBarMore({
@@ -13,10 +14,18 @@ class CommonAppBarMore extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColor.whiteColor,
-      leading: Image.asset(
-        Assets.iconsArrowBack,
-        color: AppColor.blackColor,
-        scale: 3,
+      leading: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Image.asset(
+            Assets.iconsArrowBack,
+            color: AppColor.blackColor,
+            scale: 3,
+          ),
+        ),
       ),
       centerTitle: true,
       title: TextConst(

@@ -21,18 +21,18 @@ class OfferingsListViewState extends State<OfferingsListView> {
   @override
   Widget build(BuildContext context) {
     List<OfferingModel> offeringModelList = [
-      OfferingModel(title: 'Doctors', img: Assets.imageDoctorBg, onTap: () {}),
+      OfferingModel(title: 'Doctors', img: Assets.pngDoctorBgO, onTap: () {}),
       OfferingModel(
-          title: 'Medicines', img: Assets.imageMedicinesBgN, onTap: () {}),
+          title: 'Medicines', img: Assets.pngMedicinesBgO, onTap: () {}),
       OfferingModel(
           title: 'Ambulance',
-          img: Assets.imageAmbulanceBgN,
+          img: Assets.pngAmbuO,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.ambulancePage);
           }),
       OfferingModel(
           title: 'Pathlab',
-          img: Assets.imagePathLabBgN,
+          img: Assets.pngPathLabBgO,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.pathLab);
           }),

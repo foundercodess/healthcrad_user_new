@@ -99,14 +99,14 @@ class AddressListViewState extends State<AddressListView> {
                             textAlign: TextAlign.start,
                             title:
                                 'Sharda Nagar (Banti Kirana Store), Bus Stand, Purnea 854301',
-                            fontSize: AppConstant.fontSizeTwo,
+                            fontSize: AppConstant.fontSizeOne,
                             color: AppColor.textColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         AppConstant.spaceHeight5,
                         TextConst(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           title: '9939716846',
                           fontSize: AppConstant.fontSizeOne,
                           color: AppColor.blackColor,

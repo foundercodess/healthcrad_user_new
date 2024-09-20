@@ -20,7 +20,7 @@ class AppointmentListView extends StatefulWidget {
 class AppointmentListViewState extends State<AppointmentListView> {
   List<AppointmentModel> appointmentModelList = [
     AppointmentModel(title: 'Doctors', img: Assets.imageDoctorBg),
-    AppointmentModel(title: 'Medicines', img: Assets.imageMedicinesBgN),
+    AppointmentModel(title: 'Medicines', img: Assets.imageMedicineBgN),
     AppointmentModel(title: 'Ambulance', img: Assets.imageAmbulanceBgN),
     AppointmentModel(title: 'Pathlab', img: Assets.imagePathLabBgN),
   ];
@@ -52,7 +52,7 @@ class AppointmentListViewState extends State<AppointmentListView> {
               child: Column(
                 children: [
                   Container(
-                    height: screenHeight/8,
+                    height: screenHeight/8.3,
                     width: screenWidth,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
@@ -137,6 +137,8 @@ class AppointmentListViewState extends State<AppointmentListView> {
                             fontSize: AppConstant.fontSizeOne,
                             fontWeight: FontWeight.bold,
                           ),
+
+                          AppConstant.spaceHeight5,
                         ],
                       ),
                     ),

@@ -21,8 +21,8 @@ class _DetailsSliderState extends State<DetailsSlider> {
   final CarouselSliderController _controller = CarouselSliderController();
 
   final  imagePaths = [
-    {"icon":Assets.iconsExpressIcons, "title":"Super fast delivery", "subtitle":"High priority delivery for all orders"},
-    {"icon":Assets.iconsExpressIcons, "title":"Super fast delivery", "subtitle":"High priority delivery for all orders"},
+    {"icon":Assets.iconsExpressIcons, "title":"Superfast delivery", "subtitle":"High priority delivery for all orders"},
+    {"icon":Assets.iconsExpressIcons, "title":"Superfast delivery", "subtitle":"High priority delivery for all orders"},
   ];
 
   @override
@@ -42,10 +42,11 @@ class _DetailsSliderState extends State<DetailsSlider> {
           CarouselSlider(
             items: imagePaths.map((data) {
               return Container(
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child:ListTile(leading: Image.asset(data["icon"]!),title: TextConst(title: data["title"],fontSize: AppConstant.fontSizeTwo,textAlign: TextAlign.left,),subtitle:TextConst(title: data["subtitle"],fontSize: AppConstant.fontSizeOne,color: AppColor.textColor,textAlign: TextAlign.left,) ,)
+                child:ListTile(leading: Image.asset(data["icon"]!,height: 35,width: 35,),title: TextConst(title: data["title"],fontSize: AppConstant.fontSizeTwo,textAlign: TextAlign.left,),subtitle:TextConst(title: data["subtitle"],fontSize: AppConstant.fontSizeZero,color: AppColor.textColor,textAlign: TextAlign.left,) ,)
 
               );
             }).toList(),
@@ -78,7 +79,7 @@ class _DetailsSliderState extends State<DetailsSlider> {
             children: [
               const Icon(Icons.star_half_outlined, color: CupertinoColors.systemYellow,),
               AppConstant.spaceWidth10,
-              TextConst(title: "Our priority is safe & secure delivery",fontSize: AppConstant.fontSizeOne,color: AppColor.whiteColor,fontWeight: FontWeight.w600,),
+              TextConst(title: "Our priority is safe & secure delivery",fontSize: AppConstant.fontSizeOne,color: AppColor.whiteColor,fontWeight: FontWeight.w500,),
             ],
           ),
         )

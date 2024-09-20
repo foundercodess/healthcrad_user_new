@@ -29,13 +29,14 @@ class _CommonOrderScreenState extends State<CommonOrderScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: screenHeight * 0.3,
-              width: screenWidth * 0.74,
+              height: screenHeight * 0.35,
+              width: screenWidth * 0.82,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(Assets.imageOrderPlacedBg),
                       fit: BoxFit.fill)),
             ),
+            AppConstant.spaceHeight30,
             SizedBox(
               height: screenHeight * 0.2,
               width: screenWidth * 0.74,
@@ -46,6 +47,7 @@ class _CommonOrderScreenState extends State<CommonOrderScreen> {
                     title:
                        args["name"],
                     fontSize: AppConstant.fontSizeThree,
+                    fontWeight: FontWeight.bold,
                     color: AppColor.blackColor,
                   ),
                   CustomRichText(textSpans: [

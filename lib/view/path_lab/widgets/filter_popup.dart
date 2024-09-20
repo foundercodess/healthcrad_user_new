@@ -60,6 +60,7 @@ class FilterPopup extends StatelessWidget {
                 ),
               ],
             ),
+            AppConstant.spaceHeight10,
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -98,6 +99,7 @@ class FilterPopup extends StatelessWidget {
                 ),
               ],
             ),
+            AppConstant.spaceHeight10,
             TextConst(
               title: 'Filter by date',
               fontSize: AppConstant.fontSizeThree,
@@ -106,12 +108,13 @@ class FilterPopup extends StatelessWidget {
             ),
             AppConstant.spaceHeight10,
             const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CommonDatePopup(),
                 CommonDatePopup(),
               ],
             ),
+            AppConstant.spaceHeight10,
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -119,6 +122,7 @@ class FilterPopup extends StatelessWidget {
                 CommonDatePopup(),
               ],
             ),
+            AppConstant.spaceHeight10,
             Align(
               alignment: Alignment.center,
               child: Container(

@@ -50,28 +50,31 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 35),
-        child: Column(
-          children: [
-            commonTextField("Full Name (Required)*"),
-            AppConstant.spaceHeight15,
-            commonTextField("Patient Name (Required)*"),
-            AppConstant.spaceHeight15,
-            commonTextField("Phone Name (Required)*"),
-            AppConstant.spaceHeight15,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                commonTextField("Pin code (Required)*",width: screenWidth/2.2),
-                commonTextField("State (Required)*",width: screenWidth/2.2),
-              ],
-            ),
-            AppConstant.spaceHeight15,
-            commonTextField("City (Required)*"),
-            AppConstant.spaceHeight15,
-            commonTextField("House No., Building Name (Required)*"),
-            AppConstant.spaceHeight15,
-            commonTextField("Road, Area, colony (Required)*"),
-          ],
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics( ),
+          child: Column(
+            children: [
+              commonTextField("Full Name (Required)*"),
+              AppConstant.spaceHeight15,
+              commonTextField("Patient Name (Required)*"),
+              AppConstant.spaceHeight15,
+              commonTextField("Phone Name (Required)*"),
+              AppConstant.spaceHeight15,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  commonTextField("Pin code (Required)*",width: screenWidth/2.2),
+                  commonTextField("State (Required)*",width: screenWidth/2.2),
+                ],
+              ),
+              AppConstant.spaceHeight15,
+              commonTextField("City (Required)*"),
+              AppConstant.spaceHeight15,
+              commonTextField("House No., Building Name (Required)*"),
+              AppConstant.spaceHeight15,
+              commonTextField("Road, Area, colony (Required)*"),
+            ],
+          ),
         ),
       ),
       bottomSheet: ButtonConst(label: "Save",color: AppColor.primaryColor,textColor: AppColor.whiteColor,fontWeight: FontWeight.w600,fontSize: AppConstant.fontSizeThree,),
@@ -81,6 +84,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   Widget commonTextField(String hint, {TextEditingController? textCon, TextInputType keyboardType=TextInputType.text,double? width}){
     return TextFieldConst(
       width: width,
+
       controller: textCon,
       fillColor: AppColor.whiteColor,
       keyboardType: keyboardType,

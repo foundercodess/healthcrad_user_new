@@ -168,7 +168,8 @@ class _MedicineHistoryOrderDetailScreenState
         Stack(
           clipBehavior: Clip.none,
           children: [
-            Image.asset(Assets.imageCartOutline),
+            Image.asset(Assets.imageCartOutline,    height: 25,
+              width: 25,),
             Positioned(
               top: -15,
               right: -5,
@@ -250,7 +251,8 @@ class _MedicineHistoryOrderDetailScreenState
                     child: Image.asset(
                       Assets.iconsArrowBack,
                       color: AppColor.buttonBlueColor,
-                      scale: 4,
+                      height: 25,
+                      width: 25,
                     ),
                   ),
                 ],
@@ -464,7 +466,8 @@ class _MedicineHistoryOrderDetailScreenState
                     ),
                     Image.asset(
                       Assets.iconsDiscountIcon,
-                      scale: 1.9,
+                      height: 25,
+                      width: 25,
                     ),
                   ],
                 ),
@@ -629,7 +632,7 @@ class _MedicineHistoryOrderDetailScreenState
     bool isActive = step <= _currentStep;
     bool lineActive= _currentStep >= step;
     return SizedBox(
-      width: screenWidth/5.45,
+      width: screenWidth/5.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -638,7 +641,7 @@ class _MedicineHistoryOrderDetailScreenState
             children: [
               Container(
                 height: 2,
-                width: screenWidth/15.3,
+                width: 15,
                 color:step==0? Colors.transparent :lineActive ? const Color(0xff0488A4) : Colors.grey,
               ),
               Container(
@@ -654,7 +657,7 @@ class _MedicineHistoryOrderDetailScreenState
               ),
               Container(
                 height: 2,
-                width: screenWidth/15.3,
+                width: 15,
                 color:step>3? Colors.transparent :lineActive ? const Color(0xff0488A4) : Colors.grey,
               ),
             ],

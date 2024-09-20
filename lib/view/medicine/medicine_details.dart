@@ -83,7 +83,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
         backgroundColor: AppColor.primaryColor,
         leadingWidth: screenWidth,
         leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding:  EdgeInsets.only(left: 10),
           child: Row(
             children: [
               GestureDetector(
@@ -98,7 +98,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
               ),
               AppConstant.spaceWidth15,
               TextFieldConst(
-                width: screenWidth / 1.3,
+                width: screenWidth / 1.4,
                 height: 45,
                 filled: true,
                 fillColor: AppColor.whiteColor,

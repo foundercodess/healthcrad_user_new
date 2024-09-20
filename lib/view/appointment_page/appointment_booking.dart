@@ -50,8 +50,10 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                       });
                 },
                 label:"Request Appointment",
+
                 width: screenWidth/2,
-                height: 40,
+                height: 35,
+                fontWeight: FontWeight.w600,
               textColor: AppColor.whiteColor,
               ),
               // GestureDetector(
@@ -230,7 +232,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     children: [
                       Image.asset(
                         Assets.iconsMedicalHome,
-                        scale: 1.9,
+                        height: 25,
+                        width: 25,
                       ),
                       AppConstant.spaceWidth10,
                       TextConst(
@@ -313,7 +316,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     children: [
                       Image.asset(
                         Assets.iconsAppoMore,
-                        scale: 2.5,
+                        height: 25,
+                        width: 25,
                         color: AppColor.textColor,
                       ),
                       AppConstant.spaceWidth10,
@@ -357,10 +361,14 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.text,
                     maxLength: 20,
-                    prefixIcon: Image.asset(
-                      Assets.iconsName,
-                      scale: 1.9,
-                      color: AppColor.primaryColor,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      child: Image.asset(
+                        Assets.iconsName,
+                        height: 15,
+                        width: 15,
+                        color: AppColor.primaryColor,
+                      ),
                     ),
                     hint: "Patient name",
                     fontSize: AppConstant.fontSizeTwo,
@@ -372,10 +380,14 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.text,
                     maxLength: 20,
-                    prefixIcon: Image.asset(
-                      Assets.iconsHome,
-                      scale: 1.9,
-                      color: AppColor.primaryColor,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      child: Image.asset(
+                        Assets.iconsHome,
+                        height: 15,
+                        width: 15,
+                        color: AppColor.primaryColor,
+                      ),
                     ),
                     hint: "Address",
                     fontSize: AppConstant.fontSizeTwo,
@@ -387,10 +399,14 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.text,
                     maxLength: 20,
-                    prefixIcon: Image.asset(
-                      Assets.iconsAge,
-                      scale: 1.9,
-                      color: AppColor.primaryColor,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      child: Image.asset(
+                        Assets.iconsAge,
+                        height: 15,
+                        width: 15,
+                        color: AppColor.primaryColor,
+                      ),
                     ),
                     hint: "Age",
                     fontSize: AppConstant.fontSizeTwo,
@@ -402,10 +418,14 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
-                    prefixIcon: Image.asset(
-                      Assets.iconsGreenCallIcon,
-                      scale: 1.9,
-                      color: AppColor.primaryColor,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      child: Image.asset(
+                        Assets.iconsGreenCallIcon,
+                        height: 15,
+                        width: 15,
+                        color: AppColor.primaryColor,
+                      ),
                     ),
                     hint: "Phone Number",
                     fontSize: AppConstant.fontSizeTwo,
@@ -552,7 +572,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                       children: [
                         Image.asset(
                           Assets.iconsPaymentIcon,
-                          scale: 4,
+                          height: 25,
+                          width: 25,
                         ),
                         AppConstant.spaceWidth15,
                         TextConst(

@@ -40,7 +40,7 @@ class _OfferSliderState extends State<OfferSlider> {
               itemCount: _imagePaths.length, itemBuilder: (context,index){
             return Container(
                 width: screenWidth/1.5,
-                margin: EdgeInsets.only(left: 15 ,right:index==5?15:0),
+                margin: EdgeInsets.only(left: 15 ,right:index==5?15:15),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
                           child: Image.asset(_imagePaths[index].toString())
             );

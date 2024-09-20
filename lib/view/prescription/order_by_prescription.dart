@@ -178,7 +178,7 @@ class _OrderByPrescriptionState extends State<OrderByPrescription> {
         ),
         AppConstant.spaceHeight15,
         Container(
-            height: screenHeight/5,
+            height: screenHeight/5.5,
             color: AppColor.containerFillColor,
             child: const AddressListView()),
         ButtonConst(
@@ -191,6 +191,7 @@ class _OrderByPrescriptionState extends State<OrderByPrescription> {
           },
           color: AppColor.primaryColor,
           label: 'Place Order',
+          fontWeight: FontWeight.bold,
           textColor: AppColor.whiteColor,
           fontSize: AppConstant.fontSizeThree,
         ),
@@ -227,7 +228,8 @@ class UploadPrescription extends StatelessWidget {
         children: [
           Image.asset(
             img,
-            scale: 1.4,
+            height: 25,
+            width: 25,
           ),
           SizedBox(
             height: screenHeight * 0.06,

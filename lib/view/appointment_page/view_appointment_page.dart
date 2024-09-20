@@ -222,7 +222,8 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                         children: [
                           Image.asset(
                             Assets.iconsLocatinIcon,
-                            scale: 2.5,
+                            height: 25,
+                            width: 25,
                           ),
                           AppConstant.spaceWidth5,
                           TextConst(
@@ -254,7 +255,8 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                               children: [
                                 Image.asset(
                                   Assets.iconsAddressMore,
-                                  scale: 2.5,
+                                  height: 25,
+                                  width: 25,
                                   color: AppColor.whiteColor,
                                 ),
                                 TextConst(
@@ -280,7 +282,8 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                               children: [
                                 Image.asset(
                                   Assets.iconsGreenCallIcon,
-                                  scale: 2.5,
+                                  height: 25,
+                                  width: 25,
                                   color: AppColor.whiteColor,
                                 ),
                                 TextConst(

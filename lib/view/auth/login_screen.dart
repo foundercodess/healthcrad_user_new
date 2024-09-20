@@ -88,6 +88,7 @@ class LoginScreen extends StatelessWidget {
                   label: 'Continue',
                   textColor: AppColor.whiteColor,
                   fontSize: AppConstant.fontSizeThree,
+                  fontWeight: FontWeight.w600,
                 ),
                 SizedBox(
                   height: screenHeight * 0.02,

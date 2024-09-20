@@ -517,7 +517,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
     bool isActive = step <= _currentStep;
     bool lineActive= _currentStep >= step;
     return SizedBox(
-      width: screenWidth/5.45,
+      width: screenWidth/5.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -530,7 +530,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
                 color:step==0? Colors.transparent :lineActive ? const Color(0xff0488A4) : Colors.grey,
               ),
               Container(
-                height: 20,width: 20,
+                height: 20,width: 15,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColor.greyColor, width: isActive?0:2),
                   shape: BoxShape.circle,

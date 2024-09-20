@@ -30,6 +30,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
               title: 'Otp'.toUpperCase(),
               fontSize: AppConstant.fontSizeTwo,
               color: AppColor.otpColor,
+              fontWeight: FontWeight.w600,
             ),
             AppConstant.spaceHeight10,
             otpField(otpController),

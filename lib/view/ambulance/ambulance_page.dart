@@ -94,7 +94,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                             title: ' Proceed to next',
                             fontSize: AppConstant.fontSizeTwo,
                             color: AppColor.whiteColor,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                           Image.asset(
                             Assets.iconsIconsArrowRight,
@@ -189,41 +189,45 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           ),
                           Image.asset(
                             Assets.iconsLocatinIcon,
-                            scale: 1.9,
+                            height: 20,
+                            width: 20,
                           )
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        TextFieldConst(
-                          onTap: () {},
-                          enabled: false,
-                          width: screenWidth * 0.7,
-                          keyboardType: TextInputType.text,
-                          hint: "Choose start location",
-                          fontSize: AppConstant.fontSizeTwo,
-                          filled: true,
-                          fillColor: AppColor.whiteColor,
-                          borderSide: BorderSide(
-                              width: 1,
-                              color: AppColor.textColor.withOpacity(0.2)),
-                        ),
-                        AppConstant.spaceHeight10,
-                        TextFieldConst(
-                          onTap: () {},
-                          enabled: false,
-                          width: screenWidth * 0.7,
-                          keyboardType: TextInputType.text,
-                          hint: "To your destination",
-                          fontSize: AppConstant.fontSizeTwo,
-                          filled: true,
-                          fillColor: AppColor.whiteColor,
-                          borderSide: BorderSide(
-                              width: 1,
-                              color: AppColor.textColor.withOpacity(0.2)),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5,bottom: 5),
+                      child: Column(
+                        children: [
+                          TextFieldConst(
+                            onTap: () {},
+                            enabled: false,
+                            width: screenWidth * 0.7,
+                            keyboardType: TextInputType.text,
+                            hint: "Choose start location",
+                            fontSize: AppConstant.fontSizeTwo,
+                            filled: true,
+                            fillColor: AppColor.whiteColor,
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: AppColor.textColor.withOpacity(0.2)),
+                          ),
+                          AppConstant.spaceHeight10,
+                          TextFieldConst(
+                            onTap: () {},
+                            enabled: false,
+                            width: screenWidth * 0.7,
+                            keyboardType: TextInputType.text,
+                            hint: "To your destination",
+                            fontSize: AppConstant.fontSizeTwo,
+                            filled: true,
+                            fillColor: AppColor.whiteColor,
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: AppColor.textColor.withOpacity(0.2)),
+                          ),
+                        ],
+                      ),
                     ),
                     Image.asset(
                       Assets.iconsAmbuArrowDown,
@@ -288,7 +292,8 @@ class _AmbulancePageState extends State<AmbulancePage> {
                                   ),
                                   Image.asset(
                                     Assets.iconsTypeIcon,
-                                    scale: 3,
+                                    height: 15,
+                                    width: 15,
                                   )
                                 ],
                               ),
@@ -346,10 +351,14 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           width: screenWidth * 0.9,
                           keyboardType: TextInputType.text,
                           maxLength: 20,
-                          prefixIcon: Image.asset(
-                            Assets.iconsName,
-                            scale: 1.9,
-                            color: AppColor.primaryColor,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(top: 12,bottom: 12),
+                            child: Image.asset(
+                              Assets.iconsName,
+                              height: 25,
+                              width: 25,
+                              color: AppColor.primaryColor,
+                            ),
                           ),
                           hint: "Patient name",
                           fontSize: AppConstant.fontSizeTwo,
@@ -364,10 +373,14 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           width: screenWidth * 0.9,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
-                          prefixIcon: Image.asset(
-                            Assets.iconsGreenCallIcon,
-                            scale: 1.9,
-                            color: AppColor.primaryColor,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(top: 12,bottom: 12),
+                            child: Image.asset(
+                              Assets.iconsGreenCallIcon,
+                              height: 25,
+                              width: 25,
+                              color: AppColor.primaryColor,
+                            ),
                           ),
                           inputFormatter: [
                             FilteringTextInputFormatter.digitsOnly

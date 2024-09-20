@@ -21,72 +21,113 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
+
+
       bottomNavigationBar: Container(
-        height: screenHeight * 0.15,
-        color: AppColor.whiteColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(
-              Assets.iconsSafeIcon,
-              scale: 4,
-            ),
-            const Divider(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-              child: Row(
+        decoration: BoxDecoration(
+            color: AppColor.whiteColor,
+            border: Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))
+        ),
+
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: screenWidth,
+                color: AppColor.whiteColor,
+                child:  Image.asset(
+                  Assets.iconsSafeIcon,
+                  scale: 4,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(int.parse((screenWidth/8).toStringAsFixed(0)), (i)=>TextConst(
+                  title:
+                  '-',
+                  fontSize: AppConstant.fontSizeZero,
+                  color: AppColor.textColor.withOpacity(0.3),
+                  fontWeight: FontWeight.w500,
+                ),),
+              ),
+              AppConstant.spaceHeight5,
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextConst(
-                    title: '₹ 550',
-                    fontSize: AppConstant.fontSizeTwo,
-                    color: AppColor.blackColor,
-                    fontWeight: FontWeight.w600,
+                  Row(
+                    children: [
+                      TextConst(
+                        title: '₹ 550',
+                        fontSize: AppConstant.fontSizeThree,
+                        color: AppColor.blackColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.commonOrderScreen, arguments: {"name":"Your order has been successfully\nplaced"});
+                      Navigator.pushNamed(context, RoutesName.payment);
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      height: 40,
-                      width: screenWidth * 0.35,
+                      height: screenHeight * 0.045,
+                      width: screenWidth * 0.38,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: AppColor.buttonBlueColor,
+                        color: AppColor.buttonBgColor,
                       ),
                       child: TextConst(
                         title: 'Place Order',
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.whiteColor,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   )
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Image.asset(
-            Assets.iconsArrowBack,
-            color: AppColor.whiteColor,
-            scale: 3,
+            ],
           ),
         ),
-        title: TextConst(
-          title: 'Payment',
-          fontSize: AppConstant.fontSizeThree,
-          color: AppColor.whiteColor,
-          fontWeight: FontWeight.w500,
+      ),
+
+
+
+
+
+
+      appBar: AppBar(
+        backgroundColor: AppColor.primaryColor,
+        leadingWidth: screenWidth*0.35,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset(
+                  Assets.iconsArrowBack,
+                  color: AppColor.whiteColor,
+                  scale: 3,
+                ),
+              ),
+              TextConst(
+                title: 'Payment',
+                fontSize: AppConstant.fontSizeThree,
+                color: AppColor.whiteColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ],
+          ),
         ),
+        // title:
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
@@ -291,7 +332,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Image.asset(
                               Assets.iconsDiscountIcon,
-                              scale: 1.9,
+                              height: 25,
+                              width: 25,
                             ),
                           ],
                         ),
@@ -467,7 +509,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       children: [
                         Image.asset(
                           Assets.iconsCartIcons,
-                          scale: 1.9,
+                          height: 25,
+                          width: 25,
                         ),
                         AppConstant.spaceWidth15,
                         Column(

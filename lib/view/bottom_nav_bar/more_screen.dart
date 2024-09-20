@@ -93,7 +93,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: AssetImage(Assets.iconsMoreCheckIcon))),
+                                image: AssetImage(Assets.iconsMoreCheckIcon,))),
                       ),
                     ),
                     SizedBox(
@@ -130,7 +130,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                 fontWeight: FontWeight.w400,
                               ),
                               TextConst(
-                                title: '+917584259456',
+                                title: '+91-7584259456',
                                 fontSize: AppConstant.fontSizeOne,
                                 color: AppColor.textColor,
                                 fontWeight: FontWeight.w500,
@@ -171,7 +171,8 @@ class _MoreScreenState extends State<MoreScreen> {
                             children: [
                               Image.asset(
                                 offeringModelList[index].img,
-                                scale: 1.9,
+                                height: 30,
+                                width: 30,
                               ),
                               SizedBox(
                                 width: screenWidth*0.27,

@@ -59,20 +59,25 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
                 AppConstant.spaceHeight20,
                 Container(
-                  alignment: Alignment.center,
-                  height: screenHeight * 0.036,
-                  width: screenWidth * 0.37,
+                  padding: const EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  height: screenHeight * 0.028,
+                  width: screenWidth * 0.33,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(Assets.imageVerifyDoctorBg),
+                          image: AssetImage(
+                              Assets.imageVerifyDoctorBg),
                           fit: BoxFit.fill)),
-                  child: TextConst(
-                    textAlign: TextAlign.left,
-                    title: 'HealthCRAD Verified',
-                    maxLines: 1,
-                    fontSize: AppConstant.fontSizeZero,
-                    color: AppColor.whiteColor,
-                    fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: TextConst(
+                      title: 'HealthCRAD Verified',
+                      maxLines: 1,
+                      fontSize: 8,
+                      textAlign: TextAlign.start,
+                      color: AppColor.whiteColor,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 AppConstant.spaceHeight20,
@@ -141,11 +146,12 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            AppConstant.spaceHeight10,
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -154,7 +160,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                     children: [
                       Image.asset(
                         Assets.iconsMedicalHome,
-                        scale: 1.9,
+                        height: 25,
+                        width: 25,
                       ),
                       AppConstant.spaceWidth10,
                       TextConst(
@@ -198,7 +205,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               width: screenWidth,
               color: AppColor.whiteColor,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -215,7 +222,9 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                     children: [
                       Image.asset(
                         Assets.iconsLoveHeart,
-                        scale: 1.9,
+                        height: 25,
+                        width: 25,
+
                       ),
                       AppConstant.spaceWidth10,
                       Column(
@@ -251,7 +260,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                     children: [
                       Image.asset(
                         Assets.iconsFaqMore,
-                        scale: 1.9,
+                        height: 25,
+                        width: 25,
                         color: AppColor.textColor,
                       ),
                       AppConstant.spaceWidth10,
@@ -289,7 +299,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              padding:  const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

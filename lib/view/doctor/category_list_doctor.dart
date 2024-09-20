@@ -175,20 +175,23 @@ class _CategoryTapListDoctorState extends State<CategoryTapListDoctor> {
                         Container(
                           padding: const EdgeInsets.only(left: 10),
                           alignment: Alignment.centerLeft,
-                          height: screenHeight * 0.036,
-                          width: screenWidth * 0.37,
+                          height: screenHeight * 0.028,
+                          width: screenWidth * 0.33,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage(
                                       Assets.imageVerifyDoctorBg),
                                   fit: BoxFit.fill)),
-                          child: TextConst(
-                            title: 'HealthCRAD Verified',
-                            maxLines: 1,
-                            fontSize: AppConstant.fontSizeOne,
-                            textAlign: TextAlign.start,
-                            color: AppColor.whiteColor,
-                            fontWeight: FontWeight.bold,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: TextConst(
+                              title: 'HealthCRAD Verified',
+                              maxLines: 1,
+                              fontSize: 8,
+                              textAlign: TextAlign.start,
+                              color: AppColor.whiteColor,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
@@ -217,7 +220,8 @@ class _CategoryTapListDoctorState extends State<CategoryTapListDoctor> {
                   Image.asset(
                     Assets.iconsLocatinIcon,
                     color: AppColor.redColor,
-                    scale: 2.5,
+                    height: 15,
+                    width: 15,
                   ),
                   AppConstant.spaceWidth5,
                   TextConst(

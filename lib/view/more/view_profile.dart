@@ -38,7 +38,6 @@ class _ViewProfileState extends State<ViewProfile> {
       backgroundColor: AppColor.whiteColor,
       appBar: const CommonAppBarMore(),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.05),
           child: Column(
@@ -70,10 +69,14 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsName,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsName,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Enter your name",
                 fontSize: AppConstant.fontSizeTwo,
@@ -93,10 +96,14 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsGreenCallIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsGreenCallIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Enter mobile number",
@@ -122,10 +129,14 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsEmailIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsEmailIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Enter your Email",
                 fontSize: AppConstant.fontSizeTwo,
@@ -160,10 +171,14 @@ class _ViewProfileState extends State<ViewProfile> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image.asset(
-                              Assets.iconsSelectIcon,
-                              scale: 2.5,
-                              color: AppColor.primaryColor,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12,bottom: 12),
+                              child: Image.asset(
+                                Assets.iconsSelectIcon,
+                                height: 25,
+                                width: 25,
+                                color: AppColor.primaryColor,
+                              ),
                             ),
                             AppConstant.spaceWidth10,
                             TextConst(
@@ -199,10 +214,14 @@ class _ViewProfileState extends State<ViewProfile> {
                         width: screenWidth / 2.3,
                         fillColor: AppColor.containerFillColor,
                         keyboardType: TextInputType.text,
-                        prefixIcon: Image.asset(
-                          Assets.iconsCalenderIcon,
-                          scale: 1.9,
-                          color: AppColor.primaryColor,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(top: 12,bottom: 12),
+                          child: Image.asset(
+                            Assets.iconsCalenderIcon,
+                            height: 25,
+                            width: 25,
+                            color: AppColor.primaryColor,
+                          ),
                         ),
                         hint: "28/02/2000",
                         fontSize: AppConstant.fontSizeTwo,
@@ -241,10 +260,14 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsGreenCallIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsGreenCallIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "+919122471133",
@@ -265,10 +288,13 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsGreenCallIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsGreenCallIcon,
+                    height: 25,
+                    width: 25,                  color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "+919122471133",
@@ -289,10 +315,14 @@ class _ViewProfileState extends State<ViewProfile> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsGreenCallIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsGreenCallIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "+919122471133",
@@ -300,7 +330,7 @@ class _ViewProfileState extends State<ViewProfile> {
                 borderSide:
                 BorderSide(width: isTextFieldEnabled ?1:0, color: isTextFieldEnabled ?AppColor.rBorderSideColor:Colors.transparent),
               ),
-              AppConstant.spaceHeight10,
+              AppConstant.spaceHeight20,
 
             ],
           ),

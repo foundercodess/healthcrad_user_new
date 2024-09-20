@@ -20,75 +20,77 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: screenHeight / 6,
-            width: screenWidth,
-            decoration: BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              child: Column(
-                children: [
-                  Row(children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        Assets.iconsArrowBack,
-                        color: AppColor.whiteColor,
-                        scale: 3,
-                      ),
-                    ),
-                    AppConstant.spaceWidth15,
-                    TextConst(
-                      title: 'APPLY COUPON',
-                      fontSize: AppConstant.fontSizeThree,
-                      color: AppColor.whiteColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ]),
-                  AppConstant.spaceHeight30,
-                  TextFieldConst(
-                    height: 45,
-                    fillColor: AppColor.whiteColor,
-                    keyboardType: TextInputType.text,
-                    maxLength: 20,
-                    filled: true,
-                    sufixIcon: Container(
-                      padding: const EdgeInsets.only(right: 15),
-                      width: 70,
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: TextConst(
-                          title: 'APPLY',
-                          fontSize: AppConstant.fontSizeOne,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.w600,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: screenHeight / 5.5,
+              width: screenWidth,
+              decoration: BoxDecoration(
+                color: AppColor.primaryColor,
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Column(
+                  children: [
+                    Row(children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset(
+                          Assets.iconsArrowBack,
+                          color: AppColor.whiteColor,
+                          scale: 3,
                         ),
                       ),
+                      AppConstant.spaceWidth15,
+                      TextConst(
+                        title: 'APPLY COUPON',
+                        fontSize: AppConstant.fontSizeThree,
+                        color: AppColor.whiteColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ]),
+                    AppConstant.spaceHeight30,
+                    TextFieldConst(
+                      height: 45,
+                      fillColor: AppColor.whiteColor,
+                      keyboardType: TextInputType.text,
+                      maxLength: 20,
+                      filled: true,
+                      sufixIcon: Container(
+                        padding: const EdgeInsets.only(right: 15),
+                        width: 70,
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: TextConst(
+                            title: 'APPLY',
+                            fontSize: AppConstant.fontSizeOne,
+                            color: AppColor.primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      hint: "Enter Coupon Code",
+                      fontSize: AppConstant.fontSizeTwo,
+                      borderSide:
+                          BorderSide(width: 0.5, color: AppColor.textColor),
                     ),
-                    hint: "Enter Coupon Code",
-                    fontSize: AppConstant.fontSizeTwo,
-                    borderSide:
-                        BorderSide(width: 0.5, color: AppColor.textColor),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-              height: screenHeight/1.2,
-              child: couponData())
-        ],
+            SizedBox(
+                height: screenHeight/1.2,
+                child: couponData())
+          ],
+        ),
       ),
     );
   }

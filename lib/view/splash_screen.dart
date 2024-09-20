@@ -49,6 +49,7 @@
 //     );
 //   }
 // }
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
@@ -56,6 +57,7 @@ import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/main_page_slider.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 
@@ -69,87 +71,158 @@ class MainScreen extends StatefulWidget {
 double screenHeight = 0;
 double screenWidth = 0;
 class _MainScreenState extends State<MainScreen> {
+
+  int _current = 0;
+  final CarouselSliderController _controller = CarouselSliderController();
+
+  final List<String> _imagePaths = [
+    Assets.pngDoctorBgO,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+    Assets.pngSilderBgSpecialOffer,
+
+  ];
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
       body: Column(
         children: [
+          // Container(
+          //   height: screenHeight * 0.6,
+          //   width: screenWidth,
+          //   color: Color(0xff0154a2),
+          //   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       AppConstant.spaceHeight25,
+          //       Container(
+          //         height: screenHeight * 0.06,
+          //         width: screenWidth * 0.5,
+          //         padding: const EdgeInsets.symmetric(horizontal: 15),
+          //         decoration: BoxDecoration(
+          //           color: AppColor.whiteColor,
+          //           borderRadius: const BorderRadius.only(
+          //               topRight: Radius.circular(50),
+          //               bottomRight: Radius.circular(50)),
+          //         ),
+          //         alignment: Alignment.centerLeft,
+          //         child: Image.asset(
+          //           Assets.imageAppLogo,
+          //           width: screenWidth / 2.5,
+          //         ),
+          //       ),
+          //       AppConstant.spaceHeight50,
+          //       AppConstant.spaceHeight10,
+          //       Container(
+          //         margin: EdgeInsets.only(left: 20),
+          //         height: screenHeight*0.2,
+          //         width: screenWidth*0.43,
+          //         decoration: BoxDecoration(
+          //           image: DecorationImage(
+          //             image: AssetImage(Assets.imageDoctorBg),fit: BoxFit.fill,
+          //           )
+          //         ),
+          //         // color: Colors.red,
+          //       ),
+          //       AppConstant.spaceHeight20,
+          //       AppConstant.spaceHeight10,
+          //       Container(
+          //         padding: EdgeInsets.only(left: 25),
+          //         width: screenWidth*0.8,
+          //         // color: Colors.red,
+          //         child:  TextConst(
+          //           textAlign: TextAlign.start,
+          //           title: 'Book doctors appointment in just 30 sec.',
+          //           fontSize: AppConstant.fontSizeHeading /1.6,
+          //           color: AppColor.whiteColor,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //       AppConstant.spaceHeight30,
+          //       Container(
+          //         padding: EdgeInsets.only(left: 20),
+          //         height: 50,
+          //         width: screenWidth * 0.5,
+          //         child: ListView.builder(
+          //           itemCount: 4,
+          //           scrollDirection: Axis.horizontal,
+          //           itemBuilder: (context, index) {
+          //             return Container(
+          //               margin: EdgeInsets.symmetric(horizontal: 2),
+          //               height: 7,
+          //               width: 7,
+          //               decoration: BoxDecoration(
+          //                 color: index == 0 ?AppColor.primaryColor:AppColor.whiteColor,
+          //
+          //                 shape: BoxShape.circle,
+          //               ),
+          //             );
+          //           },
+          //         ),
+          //       )
+          //
+          //
+          //     ],
+          //   ),
+          // ),
           Container(
-            height: screenHeight * 0.6,
             width: screenWidth,
+            height: screenHeight*0.6,
             color: Color(0xff0154a2),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppConstant.spaceHeight25,
-                Container(
-                  height: screenHeight * 0.06,
-                  width: screenWidth * 0.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  decoration: BoxDecoration(
-                    color: AppColor.whiteColor,
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(50),
-                        bottomRight: Radius.circular(50)),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  child: Image.asset(
-                    Assets.imageAppLogo,
-                    width: screenWidth / 2.5,
-                  ),
-                ),
-                AppConstant.spaceHeight25,
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  height: screenHeight*0.2,
-                  width: screenWidth*0.43,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(Assets.pngMainBg),fit: BoxFit.fill,
-                    )
-                  ),
-                  // color: Colors.red,
-                ),
-                AppConstant.spaceHeight50,
-                Container(
-                  padding: EdgeInsets.only(left: 20),
-                  width: screenWidth*0.8,
-                  // color: Colors.red,
-                  child:  TextConst(
-                    textAlign: TextAlign.start,
-                    title: 'Book doctors appointment in just 30 sec.',
-                    fontSize: AppConstant.fontSizeHeading /1.6,
-                    color: AppColor.whiteColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                AppConstant.spaceHeight30,
-                Container(
-                  padding: EdgeInsets.only(left: 15),
-                  height: 50,
-                  width: screenWidth * 0.5,
-                  child: ListView.builder(
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 2),
-                        height: 7,
-                        width: 7,
-                        decoration: BoxDecoration(
-                          color: index == 0 ?AppColor.primaryColor:AppColor.whiteColor,
+            child:Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppConstant.spaceHeight25,
+                    Container(
+                      height: screenHeight * 0.06,
+                      width: screenWidth * 0.5,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      decoration: BoxDecoration(
+                        color: AppColor.whiteColor,
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(50),
+                            bottomRight: Radius.circular(50)),
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: Image.asset(
+                        Assets.imageAppLogo,
+                        width: screenWidth / 2.5,
+                      ),
+                    ),
+                    AppConstant.spaceHeight50,
+                    AppConstant.spaceHeight10,
+                    MainPageSlider(),
 
-                          shape: BoxShape.circle,
-                        ),
-                      );
-                    },
-                  ),
-                )
+                    // Container(
+                    //   padding: EdgeInsets.only(left: 20),
+                    //   height: 50,
+                    //   width: screenWidth * 0.5,
+                    //   child: ListView.builder(
+                    //     itemCount: 4,
+                    //     scrollDirection: Axis.horizontal,
+                    //     itemBuilder: (context, index) {
+                    //       return Container(
+                    //         margin: EdgeInsets.symmetric(horizontal: 2),
+                    //         height: 7,
+                    //         width: 7,
+                    //         decoration: BoxDecoration(
+                    //           color: index == 0 ?AppColor.primaryColor:AppColor.whiteColor,
+                    //
+                    //           shape: BoxShape.circle,
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // )
 
 
-              ],
-            ),
+                  ],
+                ),
           ),
           AppConstant.spaceHeight50,
           TextConst(
@@ -177,9 +250,10 @@ class _MainScreenState extends State<MainScreen> {
                     title: "Let's Get Started",
                     fontSize: AppConstant.fontSizeThree,
                     color: AppColor.whiteColor,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Icon(Icons.arrow_forward_outlined,color: AppColor.whiteColor,)
+                  Image.asset(Assets.pngMainScreenArrow,    height: 25,
+                    width: 25,)
                 ],
               ),
             ),

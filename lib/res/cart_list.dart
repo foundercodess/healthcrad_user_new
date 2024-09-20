@@ -62,7 +62,7 @@ class CartListViewState extends State<CartListView> {
                           TextConst(
                             title: 'Dulcoflex Tablet 10s',
                             fontSize: AppConstant.fontSizeTwo,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: AppColor.blackColor,
                           ),
                           AppConstant.spaceHeight5,
@@ -87,7 +87,7 @@ class CartListViewState extends State<CartListView> {
                                             text: "₹ 22.68",
                                             textColor: AppColor.textColor,
                                             fontSize: AppConstant.fontSizeOne,
-                                            fontWeight: FontWeight.bold)
+                                            fontWeight: FontWeight.w500)
                                       ]),
                                       AppConstant.spaceWidth5,
                                       Container(
@@ -130,34 +130,38 @@ class CartListViewState extends State<CartListView> {
                               ),
                             ],
                           ),
-                          AppConstant.spaceHeight5,
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
+              AppConstant.spaceHeight5,
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.iconsExpressIcons,
-                    scale: 1.9,
+                    height: 25,
+                    width: 25,
                   ),
                   AppConstant.spaceWidth5,
-                  CustomRichText(textSpans: [
-                    CustomTextSpan(
-                        text: "Express ",
-                        fontWeight: FontWeight.w600,
-                        textColor: AppColor.blackColor,
-                        fontSize: AppConstant.fontSizeOne),
-                    CustomTextSpan(
-                        text: "Delivery within 3 to 4 days.",
-                        textColor: AppColor.textColor,
-                        fontSize: AppConstant.fontSizeOne,
-                        fontWeight: FontWeight.w300),
-                  ]),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: CustomRichText(textSpans: [
+                      CustomTextSpan(
+                          text: "Express ",
+                          fontWeight: FontWeight.w600,
+                          textColor: AppColor.blackColor,
+                          fontSize: AppConstant.fontSizeZero),
+                      CustomTextSpan(
+                          text: "Delivery within 3 to 4 days.",
+                          textColor: AppColor.textColor,
+                          fontSize: AppConstant.fontSizeZero,
+                          fontWeight: FontWeight.w300),
+                    ]),
+                  ),
                   const Spacer(),
                   SizedBox(
                     height: screenHeight * 0.04,

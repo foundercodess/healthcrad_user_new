@@ -342,7 +342,8 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                             ),
                             Image.asset(
                               Assets.iconsLocatinIcon,
-                              scale: 3,
+                              height: 20,
+                              width: 20,
                             )
                           ],
                         ),
@@ -412,7 +413,8 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                             Image.asset(
                               Assets.iconsGreenCallIcon,
                               color: AppColor.whiteColor,
-                              scale: 3,
+                              height: 20,
+                              width: 20,
                             ),
                             TextConst(
                               title: 'Call to driver',
@@ -433,7 +435,8 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                       Image.asset(
                         Assets.iconsAppoMore,
                         color: AppColor.blackColor.withOpacity(0.6),
-                        scale: 2,
+                        height: 25,
+                        width: 25,
                       ),
                       Expanded(
                         child: Container(
@@ -484,7 +487,7 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                       index == 0
                           ? ButtonConst(
                               width: screenWidth * 0.26,
-                              height: 35,
+                              height: 30,
                               color: AppColor.whiteColor,
                               label: 'Cancel',
                               border: Border.all(
@@ -508,7 +511,7 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                     ],
                   ),
                   if(index>0)
-                  AppConstant.spaceHeight15,
+                  AppConstant.spaceHeight20,
                   if(index>0)
                   CustomRichText(textSpans: [
                     CustomTextSpan(

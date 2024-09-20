@@ -108,7 +108,7 @@ class DealsMedicine extends StatelessWidget {
                             textAlign: TextAlign.left,
                             title: 'Dulcoflex Tablet',
                             fontSize: AppConstant.fontSizeOne,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             color: AppColor.blackColor,
                           ),
                         ],

@@ -165,7 +165,8 @@ class CustomDropdownState extends State<CustomDropdown> {
             children: [
               Image.asset(
                 Assets.iconsSelectIcon,
-                scale: 2.5,
+                height: 25,
+                width: 25,
                 color: AppColor.primaryColor,
               ),
               TextConst(
@@ -177,7 +178,8 @@ class CustomDropdownState extends State<CustomDropdown> {
                 flipX:_isDropdownOpen? true:false,
                 child: Image.asset(
                   Assets.iconsArrowDown,
-                  scale: 2.5,
+                  height: 20,
+                  width: 20,
                   color: AppColor.plus91Color,
                 ),
               ),

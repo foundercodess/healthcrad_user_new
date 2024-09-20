@@ -33,6 +33,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
         borderRadius: BorderRadius.zero,
         color: AppColor.primaryColor,
         label: 'Request Report',
+        fontWeight: FontWeight.bold,
         textColor: AppColor.whiteColor,
         fontSize: AppConstant.fontSizeThree,
       ),
@@ -82,10 +83,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsUploadPdf,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsUploadPdf,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Upload a valid test receipt",
                 fontSize: AppConstant.fontSizeTwo,
@@ -104,10 +109,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsMedicalHome,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsMedicalHome,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Enter pathlab name",
                 fontSize: AppConstant.fontSizeTwo,
@@ -126,10 +135,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsLocatinIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsLocatinIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Enter pathlab address",
@@ -149,10 +162,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsName,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsName,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Enter Patient Name *",
                 fontSize: AppConstant.fontSizeTwo,
@@ -171,10 +188,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
-                prefixIcon: Image.asset(
-                  Assets.iconsAge,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsAge,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 hint: "Enter patient age",
                 fontSize: AppConstant.fontSizeTwo,
@@ -193,10 +214,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsRefferd,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsRefferd,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Name of the person who referred",
@@ -216,10 +241,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsCalenderIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsCalenderIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Enter test date",
@@ -239,10 +268,14 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
-                prefixIcon: Image.asset(
-                  Assets.iconsGreenCallIcon,
-                  scale: 1.9,
-                  color: AppColor.primaryColor,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  child: Image.asset(
+                    Assets.iconsGreenCallIcon,
+                    height: 25,
+                    width: 25,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Enter phone number",

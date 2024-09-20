@@ -66,7 +66,8 @@ class _MedicineOrderHistoryScreenState
                     child: Image.asset(
                       Assets.iconsArrowBack,
                       color: AppColor.blackColor,
-                      scale: 3,
+                      height: 25,
+                      width: 25,
                     ),
                   ),
                   AppConstant.spaceWidth10,
@@ -75,7 +76,8 @@ class _MedicineOrderHistoryScreenState
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Image.asset(Assets.imageCartOutline),
+                      Image.asset(Assets.imageCartOutline,  height: 25,
+                        width: 25,),
                       Positioned(
                         top: -15,
                         right: -5,
@@ -144,6 +146,8 @@ class _MedicineOrderHistoryScreenState
             Image.asset(
               image,
               color: isSelected ? Colors.yellow : Colors.orange,
+              height: 25,
+              width: 25,
             ),
             AppConstant.spaceWidth10,
             TextConst(
