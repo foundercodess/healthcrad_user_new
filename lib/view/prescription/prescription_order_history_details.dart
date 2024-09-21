@@ -48,8 +48,10 @@ class _PrescriptionOrderHistoryDetailsScreenState
       body: SingleChildScrollView(
         child: Column(
           children: [
+            AppConstant.spaceHeight10,
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               color: AppColor.whiteColor,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +79,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           width: screenWidth / 3.5,
                           borderRadius: BorderRadius.circular(5),
-                          height: 35,
+                          height: 30,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -98,7 +100,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
                       ],
                     ),
                     AppConstant.spaceHeight15,
-                  orderTracking(),
+                    orderTracking()
                   ]),
             ),
             AppConstant.spaceHeight10,
@@ -111,19 +113,12 @@ class _PrescriptionOrderHistoryDetailsScreenState
               color: AppColor.whiteColor,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               alignment: Alignment.centerLeft,
-              child: CustomRichText(textSpans: [
-                CustomTextSpan(
-                    text: "•  Cash on delivery : ",
-                    textColor: AppColor.blackColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppConstant.fontSizeOne),
-                CustomTextSpan(
-                  text: " ₹ 400",
-                  fontWeight: FontWeight.w600,
-                  textColor: AppColor.textColor,
-                  fontSize: AppConstant.fontSizeOne,
-                )
-              ]),
+              child:TextConst(
+                title: "•  Cash on delivery",
+                fontSize: AppConstant.fontSizeTwo,
+                color: AppColor.blackColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             AppConstant.spaceHeight10,
             ratingOptionUI(),
@@ -162,7 +157,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
         Stack(
           clipBehavior: Clip.none,
           children: [
-            Image.asset(Assets.imageCartOutline),
+            Image.asset(Assets.imageCartOutline,height: 25,width: 25,),
             Positioned(
               top: -15,
               right: -5,
@@ -440,7 +435,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
             title: "Om Shankar Sharma",
             color: AppColor.blackColor,
             fontSize: AppConstant.fontSizeTwo,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
           AppConstant.spaceHeight5,
           TextConst(
@@ -508,6 +503,18 @@ class _PrescriptionOrderHistoryDetailsScreenState
             ],
           ),
           AppConstant.spaceHeight20,
+                   CustomRichText(textSpans: [
+            CustomTextSpan(
+              text: "Do you face any problem? ",
+              textColor: AppColor.blackColor,
+              fontSize: AppConstant.fontSizeOne,
+              fontWeight: FontWeight.w600,),
+            CustomTextSpan(
+                text: "Call Now",
+                textColor: AppColor.primaryColor,
+                fontWeight: FontWeight.w600,
+                fontSize: AppConstant.fontSizeOne)
+          ]),
         ],
       ),
     );

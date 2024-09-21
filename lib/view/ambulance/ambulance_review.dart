@@ -161,7 +161,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.15,
+                      height: screenHeight * 0.12,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -184,10 +184,10 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                                     fit: BoxFit.fill)),
                           ),
                           Image.asset(
-                            Assets.iconsLocatinIcon,
+                            Assets.pngLocatinIcon,
                             height: 20,
                             width: 20,
-                          )
+                          ),
                         ],
                       ),
                     ),

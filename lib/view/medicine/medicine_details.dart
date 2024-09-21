@@ -18,6 +18,7 @@ class MedicineDetails extends StatefulWidget {
 }
 
 class _MedicineDetailsState extends State<MedicineDetails> {
+  int number =2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,8 +142,8 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                   color: AppColor.whiteColor,
                 ),
                 Positioned(
-                  left: screenHeight * 0.023,
-                  bottom: screenHeight * 0.01,
+                  left: screenHeight * 0.028,
+                  bottom: screenHeight * 0.017,
                   child: Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.04,
@@ -271,7 +272,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
               color: AppColor.whiteColor,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -281,37 +282,89 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                       color: AppColor.blackColor,
                       fontWeight: FontWeight.w500,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 30,
-                          width: 30,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.iconsMinusIcon),
-                                  fit: BoxFit.fill)),
+                Container(
+                  alignment: Alignment.center,
+                  height: screenHeight * 0.038,
+                  width: screenWidth * 0.22,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.buttonBgColor,width: 0.5),
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      image: AssetImage(Assets.pngPlusMinusIcon),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (number > 0) { // To prevent negative numbers
+                              number--;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: screenHeight * 0.05,
+                          width: screenWidth * 0.095,
+                          color: Colors.transparent,
                         ),
-                        AppConstant.spaceWidth20,
-                        TextConst(
-                          title: '2',
-                          fontSize: AppConstant.fontSizeThree,
-                          color: AppColor.blackColor,
+
+                      ),
+                      TextConst(
+                        title: "$number",
+                        fontSize: AppConstant.fontSizeThree,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.blackColor,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            number++; // Increase the number when green container is clicked
+                          });
+                        },
+                        child: Container(
+                          height: screenHeight * 0.05,
+                          width: screenWidth * 0.095,
+                          color: Colors.transparent,
                         ),
-                        AppConstant.spaceWidth20,
-                        Container(
-                          alignment: Alignment.center,
-                          height: 30,
-                          width: 30,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.iconsPlusIcon),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ],
-                    )
+                      ),
+                    ],
+                  ),
+                ),
+
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     Container(
+                    //       alignment: Alignment.center,
+                    //       height: 30,
+                    //       width: 30,
+                    //       decoration: const BoxDecoration(
+                    //           image: DecorationImage(
+                    //               image: AssetImage(Assets.iconsMinusIcon),
+                    //               fit: BoxFit.fill)),
+                    //     ),
+                    //     AppConstant.spaceWidth20,
+                    //     TextConst(
+                    //       title: '2',
+                    //       fontSize: AppConstant.fontSizeThree,
+                    //       color: AppColor.blackColor,
+                    //     ),
+                    //     AppConstant.spaceWidth20,
+                    //     Container(
+                    //       alignment: Alignment.center,
+                    //       height: 30,
+                    //       width: 30,
+                    //       decoration: const BoxDecoration(
+                    //           shape: BoxShape.circle,
+                    //           image: DecorationImage(
+                    //               image: AssetImage(Assets.iconsPlusIcon),
+                    //               fit: BoxFit.fill)),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),

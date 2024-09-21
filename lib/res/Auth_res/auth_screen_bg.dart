@@ -30,8 +30,8 @@ class AuthScreenBg extends StatelessWidget {
                 },
                 child: Image.asset(
                   Assets.iconsArrowBack,
-                  height: 25,
-                  width: 25,
+                  height: 20,
+                  width: 20,
                 ),
               ),
               AppConstant.spaceWidth15,

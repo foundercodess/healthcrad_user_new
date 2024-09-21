@@ -118,8 +118,8 @@ class _MedicinesPageState extends State<MedicinesPage> {
                   color: AppColor.whiteColor,
                 ),
                 Positioned(
-                  left: screenHeight * 0.023,
-                  bottom: screenHeight * 0.01,
+                  left: screenHeight * 0.026,
+                  bottom: screenHeight * 0.017,
                   child: Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.04,
@@ -139,26 +139,38 @@ class _MedicinesPageState extends State<MedicinesPage> {
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize:const Size.fromHeight(kToolbarHeight*1.4),
-          child: Container(
-            color: AppColor.whiteColor,
-            child: searchTextField(),
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize:const Size.fromHeight(kToolbarHeight*1.4),
+        //   child: Container(
+        //     color: AppColor.whiteColor,
+        //     child: searchTextField(),
+        //   ),
+        // ),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 15,),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.7,
+      body: SingleChildScrollView(
+
+        child: Column(
+          children: [
+            // AppConstant.spaceHeight10,
+            searchTextField(),
+            AppConstant.spaceHeight20,
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 15,),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.7,
+              ),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return const DealsMedicine(index: -1,);
+              },
+            ),
+          ],
         ),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return const DealsMedicine(index: -1,);
-        },
       ),
     );
   }

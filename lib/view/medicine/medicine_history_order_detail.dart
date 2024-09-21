@@ -48,7 +48,9 @@ class _MedicineHistoryOrderDetailScreenState
       appBar: appBarWidget(),
       body: SingleChildScrollView(
         child: Column(
+
           children: [
+            AppConstant.spaceHeight10,
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -79,7 +81,7 @@ class _MedicineHistoryOrderDetailScreenState
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           width: screenWidth / 3.5,
                           borderRadius: BorderRadius.circular(5),
-                          height: 35,
+                          height: 30,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -115,19 +117,24 @@ class _MedicineHistoryOrderDetailScreenState
               padding:
                   const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               alignment: Alignment.centerLeft,
-              child: CustomRichText(textSpans: [
-                CustomTextSpan(
-                    text: "•  Cash on delivery : ",
-                    textColor: AppColor.blackColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppConstant.fontSizeOne),
-                CustomTextSpan(
-                  text: " ₹ 400",
-                  fontWeight: FontWeight.w600,
-                  textColor: AppColor.textColor,
-                  fontSize: AppConstant.fontSizeOne,
-                )
-              ]),
+              child:   Container(
+                width: screenWidth,
+                color: AppColor.whiteColor,
+                alignment: Alignment.centerLeft,
+                child: CustomRichText(textSpans: [
+                  CustomTextSpan(
+                      text: "•  Cash on delivery : ",
+                      textColor: AppColor.blackColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppConstant.fontSizeOne),
+                  CustomTextSpan(
+                    text: " ₹ 400",
+                    fontWeight: FontWeight.w600,
+                    textColor: AppColor.textColor,
+                    fontSize: AppConstant.fontSizeOne,
+                  )
+                ]),
+              ),
             ),
             AppConstant.spaceHeight10,
             ratingOptionUI(),
@@ -251,8 +258,8 @@ class _MedicineHistoryOrderDetailScreenState
                     child: Image.asset(
                       Assets.iconsArrowBack,
                       color: AppColor.buttonBlueColor,
-                      height: 25,
-                      width: 25,
+                      height: 15,
+                      width: 15,
                     ),
                   ),
                 ],
@@ -307,7 +314,7 @@ class _MedicineHistoryOrderDetailScreenState
                               text: "₹ 22.68",
                               textColor: AppColor.textColor,
                               fontSize: AppConstant.fontSizeOne,
-                              fontWeight: FontWeight.bold)
+                              fontWeight: FontWeight.w500)
                         ]),
                         AppConstant.spaceWidth5,
                         Container(
@@ -555,7 +562,7 @@ class _MedicineHistoryOrderDetailScreenState
             title: "Om Shankar Sharma",
             color: AppColor.blackColor,
             fontSize: AppConstant.fontSizeTwo,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
           AppConstant.spaceHeight5,
           TextConst(
@@ -623,6 +630,18 @@ class _MedicineHistoryOrderDetailScreenState
             ],
           ),
           AppConstant.spaceHeight20,
+          CustomRichText(textSpans: [
+            CustomTextSpan(
+              text: "Do you face any problem? ",
+              textColor: AppColor.blackColor,
+              fontSize: AppConstant.fontSizeOne,
+              fontWeight: FontWeight.w600,),
+            CustomTextSpan(
+                text: "Call Now",
+                textColor: AppColor.primaryColor,
+                fontWeight: FontWeight.w600,
+                fontSize: AppConstant.fontSizeOne)
+          ]),
         ],
       ),
     );

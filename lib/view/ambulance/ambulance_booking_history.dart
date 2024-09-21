@@ -319,7 +319,7 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                     children: [
                       SizedBox(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
                               height: 15,
@@ -341,16 +341,16 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                               )),
                             ),
                             Image.asset(
-                              Assets.iconsLocatinIcon,
+                              Assets.pngLocatinIcon,
                               height: 20,
                               width: 20,
-                            )
+                            ),
                           ],
                         ),
                       ),
                       AppConstant.spaceWidth15,
                       SizedBox(
-                        height: screenHeight * 0.07,
+                        height: screenHeight * 0.077,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -444,18 +444,30 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                           margin: const EdgeInsets.only(left: 15),
                           decoration: BoxDecoration(
                             color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(5), // Outer container border radius
                           ),
-                          child: LinearProgressIndicator(
-                            value: 0.5, // Set progress value here
-                            color: AppColor.primaryColor,
-                            backgroundColor: Colors.transparent,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5), // Circular border for the progress indicator
+                            child: LinearProgressIndicator(
+                              value: 0.5, // Set progress value here
+                              color: AppColor.primaryColor,
+                              backgroundColor: Colors.transparent,
+                            ),
                           ),
                         ),
                       ),
+
                     ],
                   ),
-
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextConst(
+                      title: '02 min. 14 sec.',
+                      fontSize: AppConstant.fontSizeOne,
+                      color: AppColor.blackColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   AppConstant.spaceHeight15,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

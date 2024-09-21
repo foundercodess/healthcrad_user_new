@@ -218,10 +218,9 @@ class _CategoryTapListDoctorState extends State<CategoryTapListDoctor> {
               Row(
                 children: [
                   Image.asset(
-                    Assets.iconsLocatinIcon,
-                    color: AppColor.redColor,
-                    height: 15,
-                    width: 15,
+                    Assets.pngLocatinIcon,
+                    height: 20,
+                    width: 20,
                   ),
                   AppConstant.spaceWidth5,
                   TextConst(

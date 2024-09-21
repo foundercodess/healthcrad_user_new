@@ -22,7 +22,8 @@ class _DetailsSliderState extends State<DetailsSlider> {
 
   final  imagePaths = [
     {"icon":Assets.iconsExpressIcons, "title":"Superfast delivery", "subtitle":"High priority delivery for all orders"},
-    {"icon":Assets.iconsExpressIcons, "title":"Superfast delivery", "subtitle":"High priority delivery for all orders"},
+    {"icon":Assets.pngCashback, "title":"Unlimited Free Delivery", "subtitle":"Free delivery on orders above Rs. 799"},
+    {"icon":Assets.pngInfinite, "title":"Additional Discounts, Rewards...", "subtitle":"HealthCRAD exclusive discount for all orders"},
   ];
 
   @override
@@ -42,11 +43,30 @@ class _DetailsSliderState extends State<DetailsSlider> {
           CarouselSlider(
             items: imagePaths.map((data) {
               return Container(
+                margin: EdgeInsets.only(bottom: 10),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child:ListTile(leading: Image.asset(data["icon"]!,height: 35,width: 35,),title: TextConst(title: data["title"],fontSize: AppConstant.fontSizeTwo,textAlign: TextAlign.left,),subtitle:TextConst(title: data["subtitle"],fontSize: AppConstant.fontSizeZero,color: AppColor.textColor,textAlign: TextAlign.left,) ,)
+                child:Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                Image.asset(data["icon"]!,height: 35,width: 35,),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      TextConst(title: data["title"],fontSize: AppConstant.fontSizeTwo,textAlign: TextAlign.left,fontWeight: FontWeight.bold,)
+                      ,
+                      TextConst(title: data["subtitle"],fontSize: AppConstant.fontSizeZero,color: AppColor.textColor,textAlign: TextAlign.left,)
+                    ],)
+                  ],
+                )
+
+
+
+
+                // ListTile(minLeadingWidth: screenWidth*0.17,leading: Image.asset(data["icon"]!,height: 35,width: 35,),title: TextConst(title: data["title"],fontSize: AppConstant.fontSizeTwo,textAlign: TextAlign.left,fontWeight: FontWeight.bold,),subtitle:TextConst(title: data["subtitle"],fontSize: AppConstant.fontSizeZero,color: AppColor.textColor,textAlign: TextAlign.left,) ,)
 
               );
             }).toList(),
@@ -79,7 +99,7 @@ class _DetailsSliderState extends State<DetailsSlider> {
             children: [
               const Icon(Icons.star_half_outlined, color: CupertinoColors.systemYellow,),
               AppConstant.spaceWidth10,
-              TextConst(title: "Our priority is safe & secure delivery",fontSize: AppConstant.fontSizeOne,color: AppColor.whiteColor,fontWeight: FontWeight.w500,),
+              TextConst(title: "Our priority is safe & secure delivery",fontSize: AppConstant.fontSizeOne,color: AppColor.whiteColor,fontWeight: FontWeight.w600,),
             ],
           ),
         )

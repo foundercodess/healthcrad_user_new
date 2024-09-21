@@ -221,9 +221,9 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                       child: Row(
                         children: [
                           Image.asset(
-                            Assets.iconsLocatinIcon,
-                            height: 25,
-                            width: 25,
+                            Assets.pngLocatinIcon,
+                            height: 15,
+                            width: 15,
                           ),
                           AppConstant.spaceWidth5,
                           TextConst(
@@ -255,8 +255,8 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                               children: [
                                 Image.asset(
                                   Assets.iconsAddressMore,
-                                  height: 25,
-                                  width: 25,
+                                  height: 15,
+                                  width: 15,
                                   color: AppColor.whiteColor,
                                 ),
                                 TextConst(
@@ -282,8 +282,8 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                               children: [
                                 Image.asset(
                                   Assets.iconsGreenCallIcon,
-                                  height: 25,
-                                  width: 25,
+                                  height: 15,
+                                  width: 15,
                                   color: AppColor.whiteColor,
                                 ),
                                 TextConst(
@@ -325,7 +325,7 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
               ),
               AppConstant.spaceHeight5,
               TextConst(
-                title: '+919365524875',
+                title: '+91-9365524875',
                 fontSize: AppConstant.fontSizeOne,
                 color: AppColor.textColor,
                 fontWeight: FontWeight.w400,

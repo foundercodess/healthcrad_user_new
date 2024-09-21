@@ -29,11 +29,11 @@ class _CommonOrderScreenState extends State<CommonOrderScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: screenHeight * 0.35,
-              width: screenWidth * 0.82,
+              height: screenHeight * 0.3,
+              width: screenWidth * 0.85,
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(Assets.imageOrderPlacedBg),
+                      image: AssetImage(Assets.gifPlaced),
                       fit: BoxFit.fill)),
             ),
             AppConstant.spaceHeight30,

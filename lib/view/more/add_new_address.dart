@@ -58,6 +58,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
               AppConstant.spaceHeight15,
               commonTextField("Patient Name (Required)*"),
               AppConstant.spaceHeight15,
+              commonTextField("Patient Age (Required)*"),
+              AppConstant.spaceHeight15,
               commonTextField("Phone Name (Required)*"),
               AppConstant.spaceHeight15,
               Row(

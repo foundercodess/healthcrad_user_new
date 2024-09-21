@@ -36,7 +36,7 @@ class _MedicineOrderHistoryScreenState
           backgroundColor: AppColor.whiteColor,
           toolbarHeight: 0,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight * 2.9),
+            preferredSize: const Size.fromHeight(kToolbarHeight * 2.68),
             child: appBarWithTab(),
           ),
         ),
@@ -66,8 +66,8 @@ class _MedicineOrderHistoryScreenState
                     child: Image.asset(
                       Assets.iconsArrowBack,
                       color: AppColor.blackColor,
-                      height: 25,
-                      width: 25,
+                      height: 15,
+                      width: 15,
                     ),
                   ),
                   AppConstant.spaceWidth10,
@@ -136,7 +136,7 @@ class _MedicineOrderHistoryScreenState
       child: ButtonConst(
         color: isSelected ? AppColor.buttonBlueColor : AppColor.whiteColor,
         width: screenWidth / 2.3,
-        height: 40,
+        height: 30,
         borderRadius: BorderRadius.circular(5),
         border:
             Border.all(color: AppColor.textColor.withOpacity(0.5), width: 0.5),
@@ -146,8 +146,8 @@ class _MedicineOrderHistoryScreenState
             Image.asset(
               image,
               color: isSelected ? Colors.yellow : Colors.orange,
-              height: 25,
-              width: 25,
+              height: 15,
+              width: 15,
             ),
             AppConstant.spaceWidth10,
             TextConst(

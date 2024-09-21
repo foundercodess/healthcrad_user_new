@@ -7,9 +7,9 @@ import '../../splash_screen.dart';
 
 class CommonAppBarMore extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBarMore({
-    super.key,
+    super.key, required this.title,
   });
-
+final String title;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -29,7 +29,7 @@ class CommonAppBarMore extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: TextConst(
-        title: 'Account',
+        title: title,
         fontSize: AppConstant.fontSizeThree,
         color: AppColor.blackColor,
         fontWeight: FontWeight.w600,

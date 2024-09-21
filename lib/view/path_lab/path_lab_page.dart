@@ -21,7 +21,6 @@ class _PathLabPageState extends State<PathLabPage> {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
     appBar:  AppBar(
-        toolbarHeight: kToolbarHeight * 1.2,
         backgroundColor: AppColor.primaryColor,
         leadingWidth: screenWidth,
         leading: Padding(

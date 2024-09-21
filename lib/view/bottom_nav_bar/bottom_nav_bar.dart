@@ -23,12 +23,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
               color: AppColor.whiteColor,
+              // boxShadow: [
+              //   BoxShadow(
+              //       offset: const Offset(0, -1),
+              //       color: Colors.grey.shade200,
+              //       spreadRadius: 1,
+              //       blurRadius: 3)
+              // ]
               boxShadow: [
                 BoxShadow(
-                    offset: const Offset(0, -1),
-                    color: Colors.grey.shade200,
+                    offset: const Offset(0, 0),
+                    color: Colors.black.withOpacity(0.2),
                     spreadRadius: 1,
-                    blurRadius: 3)
+                    blurRadius: 6)
               ]
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -85,8 +92,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             Image.asset(
               icon,
-              height: 25,
-              width: 25,
+              height: 23,
+              width: 23,
               color: isColorDiffer
                   ? Colors.red
                   : isSelected

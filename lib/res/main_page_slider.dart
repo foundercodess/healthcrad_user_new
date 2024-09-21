@@ -21,6 +21,10 @@ class _MainPageSliderState extends State<MainPageSlider> {
 
    List<dynamic> _imagePaths = [
     {'img':Assets.imageDoctorBg,"title":"Book doctors appointment in just 30 sec."},
+    {'img':Assets.imageMedicineBgN,"title":"Quick doorstep medicine delivery with affordable price."},
+    {'img':Assets.imageAmbulanceBgN,"title":"Instant Ambulance Bookings at the time of need."},
+     {'img':Assets.imagePathLabBgN,"title":"Digital / Physical pathlab reports delivery."},
+    {'img':Assets.imageManyMoreBg,"title":"and\nmany more..."},
   ];
 
   @override
@@ -44,23 +48,25 @@ class _MainPageSliderState extends State<MainPageSlider> {
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(12)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: AppConstant.spaceHeight20,
-                        ),
-                        TextConst(
-                          textAlign: TextAlign.start,
-                       title:_imagePaths[_current]['title'],
-                          fontSize: AppConstant.fontSizeHeading / 1.6,
-                          color: AppColor.whiteColor,
-                          fontWeight: FontWeight.bold,
+                        AppConstant.spaceHeight30,
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          height: screenHeight*0.08,
+                          width: screenWidth,
+                          child: TextConst(
+                            textAlign: TextAlign.start,
+                                                 title:_imagePaths[_current]['title'],
+                            fontSize: AppConstant.fontSizeHeading / 1.6,
+                            color: AppColor.whiteColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
               ))
               .toList(),
           options: CarouselOptions(
-            height: screenHeight * 0.3,
+            height: screenHeight * 0.34,
             viewportFraction: 1,
             enlargeFactor: 0,
             initialPage: 0,
@@ -80,8 +86,9 @@ class _MainPageSliderState extends State<MainPageSlider> {
           ),
           carouselController: _controller,
         ),
+        AppConstant.spaceHeight30,
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: _imagePaths.asMap().entries.map((entry) {
@@ -99,8 +106,7 @@ class _MainPageSliderState extends State<MainPageSlider> {
                     shape: BoxShape.circle,
                     color: _current == entry.key
                         ? AppColor.primaryColor
-                            .withOpacity(_current == entry.key ? 0.9 : 0.4)
-                        : AppColor.whiteColor,
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4):AppColor.whiteColor,
                   ),
                 ),
               );

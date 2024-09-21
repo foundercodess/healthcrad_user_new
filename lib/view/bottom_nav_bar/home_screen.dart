@@ -154,11 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                  offset: const Offset(0, 1),
-                  color: Colors.grey.shade100,
+                  offset: const Offset(0, 0),
+                  color: Colors.black.withOpacity(0.2),
                   spreadRadius: 1,
-                  blurRadius: 3)
-            ]),
+                  blurRadius: 6)
+            ]
+        ),
         child: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: kToolbarHeight * 1.2,
@@ -185,10 +186,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    const Icon(
-                      Icons.notifications_outlined,
-                      size: 30,
-                    ),
+                    Image.asset(Assets.pngNotificatiobBellIcon,  height: 25,
+                      width: 25,),
 
                     // SvgPicture.asset(
                     //   Assets.svgBellCheck,
@@ -196,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //   // width: 10,
                     // ),
                     Positioned(
-                      left: screenHeight * 0.02,
+                      left: screenHeight * 0.015,
                       bottom: screenHeight * 0.01,
                       child: Container(
                         alignment: Alignment.center,
@@ -225,18 +224,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 30,
-                  ),
+                  Image.asset(Assets.imageCartOutline,  height: 25,
+                    width: 25,),
                   // SvgPicture.asset(
                   //   Assets.svgCart,
                   //   // height: 10,
                   //   // width: 10,
                   // ),
                   Positioned(
-                    top: -15,
-                    right: -5,
+                    top: -12,
+                    right: -4,
                     child: Container(
                       alignment: Alignment.center,
                       height: screenHeight * 0.04,
@@ -449,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Our Offerings',
             fontSize: AppConstant.fontSizeThree,
             color: AppColor.blackColor,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         AppConstant.spaceHeight10,
@@ -473,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
             horizontal: 15,
           ),
           child: TextConst(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             title: 'Special Offers for You',
             fontSize: AppConstant.fontSizeThree,
             color: AppColor.blackColor,
@@ -496,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               TextConst(
                 title: 'Limited time deals',
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 fontSize: AppConstant.fontSizeThree,
                 color: AppColor.blackColor,
               ),
@@ -528,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
             horizontal: 15,
           ),
           child: TextConst(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             title: 'Shop medicine by category',
             fontSize: AppConstant.fontSizeThree,
             color: AppColor.blackColor,
@@ -561,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextConst(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     title: 'Best Offers',
                     fontSize: AppConstant.fontSizeThree,
                     color: AppColor.blackColor,
@@ -602,7 +599,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: 'Doctors from top categories',
               fontSize: AppConstant.fontSizeThree,
               color: AppColor.blackColor,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
             subtitle: TextConst(
               title: 'Verified doctors in all specialties',
@@ -648,7 +645,7 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Book appointment to top doctors',
             fontSize: AppConstant.fontSizeThree,
             color: AppColor.blackColor,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         AppConstant.spaceHeight10,
@@ -798,7 +795,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 alignment: Alignment.centerLeft,
                 child: Image.asset(
-                  Assets.imageAppLogo,
+                  Assets.pngAppLogoClint,
                   width: screenWidth / 2.5,
                 ),
               ),

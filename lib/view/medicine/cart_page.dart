@@ -22,117 +22,85 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
-    decoration: BoxDecoration(
-    color: AppColor.whiteColor,
-        border: Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))
-    ),
-
-    child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    child: Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    Container(
-    width: screenWidth,
-    color: AppColor.whiteColor,
-    child:  Image.asset(
-    Assets.iconsSafeIcon,
-    scale: 4,
-    ),
-    ),
-    Row(
-    mainAxisSize: MainAxisSize.max,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: List.generate(int.parse((screenWidth/8).toStringAsFixed(0)), (i)=>TextConst(
-    title:
-    '-',
-    fontSize: AppConstant.fontSizeZero,
-    color: AppColor.textColor.withOpacity(0.3),
-    fontWeight: FontWeight.w500,
-    ),),
-    ),
-    AppConstant.spaceHeight5,
-    Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-    Row(
-    children: [
-     TextConst(
-    title: '₹ 550',
-    fontSize: AppConstant.fontSizeThree,
-    color: AppColor.blackColor,
-    fontWeight: FontWeight.w600,
-    ),
-    ],
-    ),
-    GestureDetector(
-    onTap: () {
-    Navigator.pushNamed(context, RoutesName.payment);
-    },
-    child: Container(
-    height: screenHeight * 0.045,
-    width: screenWidth * 0.38,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(5),
-    color: AppColor.buttonBgColor,
-    ),
-    child: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-    TextConst(
-    title: 'Proceed',
-    fontSize: AppConstant.fontSizeTwo,
-    color: AppColor.whiteColor,
-    fontWeight: FontWeight.w600,
-    ),
-    AppConstant.spaceWidth10,
-    Image.asset(
-    Assets.iconsIconsArrowRight,
-    scale: 2.8,
-    )
-    ],
-    ),
-    ),
-    )
-    ],
-    ),
-    ],
-    ),
-    ),
-    ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        decoration: BoxDecoration(
+            color: AppColor.whiteColor,
+            border:
+                Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: screenWidth,
+                color: AppColor.whiteColor,
+                child: Image.asset(
+                  Assets.iconsSafeIcon,
+                  scale: 4,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                  int.parse((screenWidth / 8).toStringAsFixed(0)),
+                  (i) => TextConst(
+                    title: '-',
+                    fontSize: AppConstant.fontSizeZero,
+                    color: AppColor.textColor.withOpacity(0.3),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              AppConstant.spaceHeight5,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      TextConst(
+                        title: '₹ 550',
+                        fontSize: AppConstant.fontSizeThree,
+                        color: AppColor.blackColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.payment);
+                    },
+                    child: Container(
+                      height: screenHeight * 0.045,
+                      width: screenWidth * 0.38,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: AppColor.buttonBgColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextConst(
+                            title: 'Proceed',
+                            fontSize: AppConstant.fontSizeTwo,
+                            color: AppColor.whiteColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          AppConstant.spaceWidth10,
+                          Image.asset(
+                            Assets.iconsIconsArrowRight,
+                            scale: 2.8,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
         leadingWidth: screenWidth,
@@ -161,8 +129,7 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         bottom: PreferredSize(
-          preferredSize:
-              Size.fromHeight(screenHeight * 0.1),
+          preferredSize: Size.fromHeight(screenHeight * 0.1),
           child: Container(
             height: screenHeight * 0.1,
             width: screenWidth,
@@ -176,7 +143,7 @@ class _CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: screenWidth/1.5,
+                        width: screenWidth / 1.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -194,7 +161,8 @@ class _CartPageState extends State<CartPage> {
                             ]),
                             AppConstant.spaceHeight5,
                             TextConst(
-                              title: 'Sharda Nagar (Banti Kirana Store), Purn..',
+                              title:
+                                  'Sharda Nagar (Banti Kirana Store), Purn..',
                               fontSize: AppConstant.fontSizeOne,
                               color: AppColor.textColor,
                             ),
@@ -204,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                       Container(
                         alignment: Alignment.center,
                         height: screenHeight * 0.04,
-                        width: screenWidth/5,
+                        width: screenWidth / 5,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(

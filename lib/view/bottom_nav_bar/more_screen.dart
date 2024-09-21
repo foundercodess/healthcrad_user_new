@@ -66,7 +66,7 @@ class _MoreScreenState extends State<MoreScreen> {
     ];
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      appBar: const CommonAppBarMore(),
+      appBar: const CommonAppBarMore(title: 'Account',),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
         child: SingleChildScrollView(
@@ -171,8 +171,9 @@ class _MoreScreenState extends State<MoreScreen> {
                             children: [
                               Image.asset(
                                 offeringModelList[index].img,
-                                height: 30,
-                                width: 30,
+                                fit: BoxFit.contain,
+                                height: 25,
+                                width: 25,
                               ),
                               SizedBox(
                                 width: screenWidth*0.27,

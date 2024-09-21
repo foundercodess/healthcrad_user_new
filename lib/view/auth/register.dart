@@ -43,11 +43,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: TextInputType.text,
               maxLength: 20,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                padding: const EdgeInsets.only(top: 13,bottom: 13),
                 child: Image.asset(
                   Assets.iconsName,
-                  height: 25,
-                  width: 25,
+                  height: 15,
+                  width: 15,
                   color: AppColor.primaryColor,
                 ),
               ),
@@ -69,11 +69,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: TextInputType.number,
               maxLength: 10,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                padding: const EdgeInsets.only(top: 13,bottom: 13),
                 child: Image.asset(
                   Assets.iconsGreenCallIcon,
-                  height: 25,
-                  width: 25,
+                  height: 15,
+                  width: 15,
                   color: AppColor.primaryColor,
                 ),
               ),
@@ -101,11 +101,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: TextInputType.text,
               maxLength: 20,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 12,bottom: 12),
+                padding: const EdgeInsets.only(top: 13,bottom: 13),
                 child: Image.asset(
                   Assets.iconsEmailIcon,
-                  height: 25,
-                  width: 25,
+                  height: 15,
+                  width: 15,
                   color: AppColor.primaryColor,
                 ),
               ),
@@ -157,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       keyboardType: TextInputType.text,
                       controller: rvm.dateController,
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(top: 12,bottom: 12),
+                        padding: const EdgeInsets.only(top: 13,bottom: 13),
                         child: Image.asset(
                           Assets.iconsCalenderIcon,
                           height: 15,

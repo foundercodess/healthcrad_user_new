@@ -190,37 +190,13 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       alignment: Alignment.centerLeft,
                       child: Image.asset(
-                        Assets.imageAppLogo,
+                        Assets.pngAppLogoClint,
                         width: screenWidth / 2.5,
                       ),
                     ),
                     AppConstant.spaceHeight50,
                     AppConstant.spaceHeight10,
                     MainPageSlider(),
-
-                    // Container(
-                    //   padding: EdgeInsets.only(left: 20),
-                    //   height: 50,
-                    //   width: screenWidth * 0.5,
-                    //   child: ListView.builder(
-                    //     itemCount: 4,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemBuilder: (context, index) {
-                    //       return Container(
-                    //         margin: EdgeInsets.symmetric(horizontal: 2),
-                    //         height: 7,
-                    //         width: 7,
-                    //         decoration: BoxDecoration(
-                    //           color: index == 0 ?AppColor.primaryColor:AppColor.whiteColor,
-                    //
-                    //           shape: BoxShape.circle,
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // )
-
-
                   ],
                 ),
           ),
@@ -271,11 +247,11 @@ class _MainScreenState extends State<MainScreen> {
             width: screenWidth*0.6,
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SocialMedia(context,Assets.pngLinkdin),
-                SocialMedia(context,Assets.pngWhatsapp),
-                SocialMedia(context,Assets.pngInsta,),
-                SocialMedia(context,Assets.pngFacebook,),
-                SocialMedia(context,Assets.pngYoutube,),
+                SocialMedia(context,Assets.pngLinkdin, screenHeight*0.04,screenWidth*0.085),
+                SocialMedia(context,Assets.pngWhatsapp,screenHeight*0.04,screenWidth*0.085),
+                SocialMedia(context,Assets.pngInsta,screenHeight*0.04,screenWidth*0.085),
+                SocialMedia(context,Assets.pngFacebook,screenHeight*0.04,screenWidth*0.085),
+                SocialMedia(context,Assets.pngYoutube,screenHeight*0.055,screenWidth*0.089),
               ],
             ),
           ),
@@ -284,13 +260,11 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
-  Widget SocialMedia( context,img) {
+  Widget SocialMedia( context,img,double ?height,double width ) {
     return Container(
-      height: screenHeight*0.04,
-      width: screenWidth*0.085,
-
+      height:height,
+      width: width,
       decoration: BoxDecoration(
-
         image: DecorationImage(
           image: AssetImage(img),fit: BoxFit.fill
         )

@@ -188,10 +188,10 @@ class _AmbulancePageState extends State<AmbulancePage> {
                                     fit: BoxFit.fill)),
                           ),
                           Image.asset(
-                            Assets.iconsLocatinIcon,
+                            Assets.pngLocatinIcon,
                             height: 20,
                             width: 20,
-                          )
+                          ),
                         ],
                       ),
                     ),

@@ -62,20 +62,25 @@ class _DoctorScreenState extends State<DoctorScreen> {
               ],
             ),
           ),
-          bottom: PreferredSize(
-            preferredSize:const Size.fromHeight(kToolbarHeight*1.2),
-            child: Container(
-              color: AppColor.whiteColor,
-              child: searchTextField(),
-            ),
-          ),
+          // bottom: PreferredSize(
+          //   preferredSize:const Size.fromHeight(kToolbarHeight*1.2),
+          //   child: Container(
+          //     color: AppColor.whiteColor,
+          //     child: searchTextField(),
+          //   ),
+          // ),
         ),
 
-      body:Column(
-        children: [
-          AppConstant.spaceHeight10,
-          Expanded(
-            child: GridView.builder(
+      body:SingleChildScrollView(
+
+        child: Column(
+          children: [
+            AppConstant.spaceHeight10,
+            searchTextField(),
+            AppConstant.spaceHeight20,
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 15),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
@@ -126,9 +131,9 @@ class _DoctorScreenState extends State<DoctorScreen> {
                 );
               },
             ),
-          ),
-          AppConstant.spaceHeight10,
-        ],
+            AppConstant.spaceHeight10,
+          ],
+        ),
       )
 
 

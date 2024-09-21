@@ -196,22 +196,45 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                           ),
                           AppConstant.spaceHeight10,
                           Container(
-                            alignment: Alignment.center,
-                            height: screenHeight * 0.034,
-                            width: screenWidth * 0.35,
+                            padding: const EdgeInsets.only(left: 10),
+                            alignment: Alignment.centerLeft,
+                            height: screenHeight * 0.028,
+                            width: screenWidth * 0.33,
                             decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                    image:
-                                        AssetImage(Assets.imageVerifyDoctorBg),
+                                    image: AssetImage(
+                                        Assets.imageVerifyDoctorBg),
                                     fit: BoxFit.fill)),
-                            child: TextConst(
-                              title: 'HealthCRAD Verified',
-                              maxLines: 1,
-                              fontSize: AppConstant.fontSizeZero,
-                              color: AppColor.whiteColor,
-                              fontWeight: FontWeight.bold,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: TextConst(
+                                title: 'HealthCRAD Verified',
+                                maxLines: 1,
+                                fontSize: 8,
+                                textAlign: TextAlign.start,
+                                color: AppColor.whiteColor,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
+
+                          // Container(
+                          //   alignment: Alignment.center,
+                          //   height: screenHeight * 0.034,
+                          //   width: screenWidth * 0.35,
+                          //   decoration: const BoxDecoration(
+                          //       image: DecorationImage(
+                          //           image:
+                          //               AssetImage(Assets.imageVerifyDoctorBg),
+                          //           fit: BoxFit.fill)),
+                          //   child: TextConst(
+                          //     title: 'HealthCRAD Verified',
+                          //     maxLines: 1,
+                          //     fontSize: AppConstant.fontSizeZero,
+                          //     color: AppColor.whiteColor,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

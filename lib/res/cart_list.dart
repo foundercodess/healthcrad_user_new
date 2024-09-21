@@ -23,7 +23,8 @@ class CartListViewState extends State<CartListView> {
     // CartModel(title: 'Ambulance', img: Assets.imageAmbulanceBg),
     // CartModel(title: 'Pathlab', img: Assets.imagePathlabBg),
   ];
-
+  int number =2;
+  bool selectedIndex=true;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -163,42 +164,95 @@ class CartListViewState extends State<CartListView> {
                     ]),
                   ),
                   const Spacer(),
-                  SizedBox(
-                    height: screenHeight * 0.04,
-                    width: screenWidth /4.5,
+                  Container(
+                    alignment: Alignment.center,
+                    height: screenHeight * 0.038,
+                    width: screenWidth * 0.22,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.buttonBgColor,width: 0.5),
+                      borderRadius: BorderRadius.circular(5),
+                      image: DecorationImage(
+
+                        image: AssetImage(Assets.pngPlusMinusIcon),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 25,
-                          width: 25,
-                          decoration: const BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.iconsBMinusIcons),
-                                  fit: BoxFit.fill)),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (number > 0) { // To prevent negative numbers
+                                number--;
+                              }
+                            });
+                          },
+                          child: Container(
+                            height: screenHeight * 0.05,
+                            width: screenWidth * 0.095,
+                            color: Colors.transparent,
+                          ),
                         ),
                         TextConst(
-                          title: '2',
-                          fontSize: AppConstant.fontSizeOne,
+                          title: "$number",
+                          fontSize: AppConstant.fontSizeThree,
+                          fontWeight: FontWeight.w500,
                           color: AppColor.blackColor,
-                          fontWeight: FontWeight.w600,
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 25,
-                          width:25,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.iconsBPlusIcons),
-                                  fit: BoxFit.fill)),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              number++; // Increase the number when green container is clicked
+                            });
+                          },
+                          child: Container(
+                            height: screenHeight * 0.05,
+                            width: screenWidth * 0.095,
+                            color: Colors.transparent,
+                          ),
                         ),
                       ],
                     ),
-                  )
+                  ),
+
+
+                  // SizedBox(
+                  //   height: screenHeight * 0.04,
+                  //   width: screenWidth /4.5,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Container(
+                  //         alignment: Alignment.center,
+                  //         height: 25,
+                  //         width: 25,
+                  //         decoration: const BoxDecoration(
+                  //             color: Colors.blue,
+                  //             shape: BoxShape.circle,
+                  //             image: DecorationImage(
+                  //                 image: AssetImage(Assets.iconsBMinusIcons),
+                  //                 fit: BoxFit.fill)),
+                  //       ),
+                  //       TextConst(
+                  //         title: '2',
+                  //         fontSize: AppConstant.fontSizeOne,
+                  //         color: AppColor.blackColor,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //       Container(
+                  //         alignment: Alignment.center,
+                  //         height: 25,
+                  //         width:25,
+                  //         decoration: const BoxDecoration(
+                  //             shape: BoxShape.circle,
+                  //             image: DecorationImage(
+                  //                 image: AssetImage(Assets.iconsBPlusIcons),
+                  //                 fit: BoxFit.fill)),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // )
                 ],
               )
             ],

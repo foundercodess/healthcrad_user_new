@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 
 
@@ -207,7 +208,7 @@ class TextFieldConst extends StatelessWidget {
                         const BorderRadius.all(Radius.circular(8.0))),
             focusedBorder: outLineBorderEnabled
                 ? OutlineInputBorder(
-                    borderSide: borderSide ?? BorderSide.none,
+                    borderSide:BorderSide(color: AppColor.primaryColor),
                     borderRadius: fieldRadius == null
                         ? const BorderRadius.all(Radius.circular(8.0))
                         : fieldRadius!)

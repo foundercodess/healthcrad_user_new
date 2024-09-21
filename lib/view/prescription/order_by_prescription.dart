@@ -124,10 +124,10 @@ class _OrderByPrescriptionState extends State<OrderByPrescription> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: AssetImage(
-                              Assets.imageDoctorBg,
+                              Assets.pngDoctorPrescription,
                             ),
                             alignment: Alignment.center,
-                            fit: BoxFit.cover)),
+                            fit: BoxFit.fitHeight)),
                   ),
                   Positioned(
                       top: screenHeight * 0.059,
@@ -231,9 +231,9 @@ class UploadPrescription extends StatelessWidget {
             height: 25,
             width: 25,
           ),
-          SizedBox(
+          Container(
             height: screenHeight * 0.06,
-            width: screenWidth * 0.2,
+            width: screenWidth * 0.16,
             child: TextConst(
               title: title,
               fontSize: AppConstant.fontSizeTwo,
