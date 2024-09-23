@@ -12,7 +12,9 @@ import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/drop_down.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
-import 'package:health_crad_user/view_model/service/register_view_model.dart';
+import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -22,9 +24,29 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
+
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
+void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      Map arguments =
+      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      mobileCon.text=arguments['phone'];
+      });
+  }
+  final emailPattern =
+  RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
+
+  final TextEditingController mobileCon = TextEditingController();
+  final TextEditingController nameCon = TextEditingController();
+  final TextEditingController emailCon = TextEditingController();
+  // final TextEditingController genderCon = TextEditingController();
+  // final TextEditingController dobCon = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Consumer<AuthViewModel>(builder: (context, rvm, child) {
       return AuthScreenBg(
         column: Column(
@@ -39,9 +61,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             AppConstant.spaceHeight5,
             TextFieldConst(
+              controller: nameCon,
               fillColor: AppColor.containerFillColor,
               keyboardType: TextInputType.text,
-              maxLength: 20,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(top: 13,bottom: 13),
                 child: Image.asset(
@@ -65,6 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             AppConstant.spaceHeight5,
             TextFieldConst(
+              readOnly: true,
+              controller: mobileCon,
               fillColor: AppColor.containerFillColor,
               keyboardType: TextInputType.number,
               maxLength: 10,
@@ -97,9 +121,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ]),
             AppConstant.spaceHeight5,
             TextFieldConst(
+              controller: emailCon,
               fillColor: AppColor.containerFillColor,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
+              keyboardType: TextInputType.emailAddress,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(top: 13,bottom: 13),
                 child: Image.asset(
@@ -177,8 +201,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
             AppConstant.spaceHeight20,
             ButtonConst(
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.verifyOtpScreen);
+
+                if(nameCon.text.isEmpty){
+                  Utils.show("Please enter your name", context);
+                }else if(rvm.isSelectedValue.isEmpty){
+                  Utils.show("Please enter your age", context);
+                }
+                else if (
+                    !emailPattern.hasMatch(emailCon.text)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please Enter Valid Email'),
+                    ),
+                  );
+                }else if (rvm.pickedDate ==null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please Enter Valid DOB'),
+                    ),
+                  );
+                }
+                else{
+                  Map data = {
+                    "mobileno": mobileCon.text,
+                    "name": nameCon.text,
+                    "email": emailCon.text,
+                    "gender": rvm.isSelectedValue,
+                    "dob": DateFormat('dd-MM-yyyy').format(rvm.pickedDate!),
+
+                  };
+                  authViewModel.registerApi(data, context);
+
+                }
+
               },
+              loading: authViewModel.loadingRegister,
               color: AppColor.primaryColor,
               label: 'Continue',
               textColor: AppColor.whiteColor,

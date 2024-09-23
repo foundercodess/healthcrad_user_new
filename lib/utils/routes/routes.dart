@@ -41,7 +41,7 @@ class Routers {
       case RoutesName.mainScreen:
         return (context) => const MainScreen();
       case RoutesName.login:
-        return (context) => const LoginScreen();
+        return (context) => LoginScreen();
       case RoutesName.register:
         return (context) => const RegisterScreen();
       // case RoutesName.singUpOtpScreen:

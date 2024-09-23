@@ -36,7 +36,7 @@ class _MedicineOrderHistoryScreenState
           backgroundColor: AppColor.whiteColor,
           toolbarHeight: 0,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight * 2.68),
+            preferredSize: const Size.fromHeight(kToolbarHeight * 2.77),
             child: appBarWithTab(),
           ),
         ),
@@ -136,7 +136,7 @@ class _MedicineOrderHistoryScreenState
       child: ButtonConst(
         color: isSelected ? AppColor.buttonBlueColor : AppColor.whiteColor,
         width: screenWidth / 2.3,
-        height: 30,
+        height: 35,
         borderRadius: BorderRadius.circular(5),
         border:
             Border.all(color: AppColor.textColor.withOpacity(0.5), width: 0.5),

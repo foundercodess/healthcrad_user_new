@@ -1,5 +1,6 @@
 class ApiUrl {
-  static const baseUrl = "https://npl.fctechteam.org/api/";
-  static const loginUrl = "${baseUrl}login";
-  static const profileUrl = "${baseUrl}profile/";
+  static const baseUrl = "https://new.healthcrad.com/public/api/";
+  static const loginUrl = "${baseUrl}Login";
+  static const sliderUrl = "${baseUrl}slider";
+  static const registerUrl = "${baseUrl}Register";
 }

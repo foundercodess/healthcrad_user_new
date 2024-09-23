@@ -9,15 +9,28 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController mobileCon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
       SystemUiOverlay.bottom
     ]);
+
+
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.whiteColor,
@@ -52,6 +65,7 @@ class LoginScreen extends StatelessWidget {
                 TextFieldConst(
                   fillColor: AppColor.whiteColor,
                   keyboardType: TextInputType.number,
+                  controller: mobileCon,
                   maxLength: 10,
                   prefixIcon: Container(
                     width:60,
@@ -82,8 +96,15 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ButtonConst(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutesName.register);
+
+                    if(mobileCon.text.length ==10 ){
+                      authViewModel.loginApi(mobileCon.text, context);
+                    }else {
+                      Utils.show(' Please Enter 10 digit Number', context);
+                    }
+
                   },
+                  loading: authViewModel.loading,
                   color: AppColor.primaryColor,
                   label: 'Continue',
                   textColor: AppColor.whiteColor,

@@ -9,7 +9,7 @@ import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/drop_down.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/view/more/widget/common_app_bar_more.dart';
-import 'package:health_crad_user/view_model/service/register_view_model.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../res/custom_rich_text.dart';

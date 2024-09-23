@@ -40,7 +40,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 ),
                 AppConstant.spaceWidth10,
                 TextConst(
-                  title: 'Notificator Center',
+                  title: 'Notification Center',
                   fontSize: AppConstant.fontSizeThree,
                   color: AppColor.whiteColor,
                   fontWeight: FontWeight.w500,

@@ -40,6 +40,7 @@ class ButtonConst extends StatelessWidget {
   bool? isClicked;
   final BoxShape? shape;
   final bool? inCol;
+  final bool loading;
   final BoxBorder? border;
   ButtonConst(
       {super.key, this.alignment,
@@ -74,6 +75,7 @@ class ButtonConst extends StatelessWidget {
       this.iconSize,
       this.boxShadow,
       this.isClicked,
+        this.loading = false,
       this.shape,
       this.inCol = false,
       this.border});
@@ -102,7 +104,9 @@ class ButtonConst extends StatelessWidget {
             border: border),
         child: child ??
             (icon == null
-                ? Text(
+                ? loading ? CircularProgressIndicator(
+              color: Colors.white,
+            ) :Text(
                     label == null ? "" : label!,
                     style: TextStyle(
                         fontSize: fontSize ?? AppConstant.fontSizeTwo/1.1,

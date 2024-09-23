@@ -13,10 +13,6 @@ class BottomNavViewModel with ChangeNotifier {
     const MoreScreen(),
     const MoreScreen(),
   ];
-
-
-
-
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
 

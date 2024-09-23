@@ -3,7 +3,8 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/utils/routes/routes.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view_model/service/bottom_nav_view_model.dart';
-import 'package:health_crad_user/view_model/service/register_view_model.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
+import 'package:health_crad_user/view_model/slider_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthViewModel()),
         ChangeNotifierProvider(create: (context) => BottomNavViewModel()),
-
+        ChangeNotifierProvider(create: (context) => SliderViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(scaffoldBackgroundColor: AppColor.scaffoldBgGreenColor),

@@ -15,6 +15,8 @@ import 'package:health_crad_user/res/offerings_list_view.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/slider_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +26,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<SliderViewModel>(context, listen: false).sliderApi(context);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,8 +233,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Image.asset(Assets.imageCartOutline,  height: 25,
-                    width: 25,),
+                  Image.asset(Assets.imageCartOutline,  height: 28,
+                    width: 28,),
                   // SvgPicture.asset(
                   //   Assets.svgCart,
                   //   // height: 10,

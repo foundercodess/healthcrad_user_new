@@ -52,7 +52,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                 label:"Request Appointment",
 
                 width: screenWidth/2,
-                height: 35,
+                height: 40,
                 fontWeight: FontWeight.w600,
               textColor: AppColor.whiteColor,
               ),
@@ -205,16 +205,13 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                                     image: AssetImage(
                                         Assets.imageVerifyDoctorBg),
                                     fit: BoxFit.fill)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: TextConst(
-                                title: 'HealthCRAD Verified',
-                                maxLines: 1,
-                                fontSize: 8,
-                                textAlign: TextAlign.start,
-                                color: AppColor.whiteColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: TextConst(
+                              title: 'HealthCRAD Verified',
+                              maxLines: 1,
+                              fontSize: 9,
+                              textAlign: TextAlign.start,
+                              color: AppColor.whiteColor,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
 

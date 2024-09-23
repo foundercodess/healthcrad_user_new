@@ -108,7 +108,7 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/common_container.dart';
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/view_model/service/register_view_model.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CustomDropdown extends StatefulWidget {

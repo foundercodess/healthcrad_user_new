@@ -39,6 +39,7 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -461,12 +462,12 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                   ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: TextConst(
+                    child:index ==0? TextConst(
                       title: '02 min. 14 sec.',
                       fontSize: AppConstant.fontSizeOne,
                       color: AppColor.blackColor,
                       fontWeight: FontWeight.w400,
-                    ),
+                    ):null,
                   ),
                   AppConstant.spaceHeight15,
                   Row(
