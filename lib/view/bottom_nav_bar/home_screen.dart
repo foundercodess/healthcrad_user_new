@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
@@ -15,6 +14,7 @@ import 'package:health_crad_user/res/offerings_list_view.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/medicine_view_model.dart';
 import 'package:health_crad_user/view_model/slider_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,10 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final sliderViewModel = Provider.of<SliderViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarConst(),
-      body: SingleChildScrollView(
+      body:  sliderViewModel.sliderModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -471,24 +472,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget specialOfferForYou() {
+    final sliderViewModel = Provider.of<SliderViewModel>(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15,
-          ),
-          child: TextConst(
-            fontWeight: FontWeight.w600,
-            title: 'Special Offers for You',
-            fontSize: AppConstant.fontSizeThree,
-            color: AppColor.blackColor,
-          ),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
         ),
-        const OfferSlider(),
-      ],
-    );
-  }
+        child: TextConst(
+          fontWeight: FontWeight.w600,
+          title: 'Special Offers for You',
+          fontSize: AppConstant.fontSizeThree,
+          color: AppColor.blackColor,
+        ),
+      ),
+
+       OfferSlider(imageList: sliderViewModel.sliderModelData !=null?sliderViewModel.sliderModelData!.bestOffer!:[]),
+    ],
+  );
+    }
 
   Widget limitedTimeOffer() {
     return Column(
@@ -526,6 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget shopMedicineByCategory() {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -544,12 +548,14 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             height: screenHeight / 3,
             alignment: Alignment.center,
-            child: const CategoryListView()),
+            child: medicineViewModel.medicineModelData ==null?Center(child: CircularProgressIndicator()) :CategoryListView()),
       ],
     );
   }
 
   Widget bestOffer() {
+    final sliderViewModel = Provider.of<SliderViewModel>(context);
+
     return Column(
       children: [
         Padding(
@@ -584,7 +590,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         AppConstant.spaceHeight10,
-        const OfferSlider(),
+         OfferSlider(imageList: sliderViewModel.sliderModelData!.offerSlider!),
       ],
     );
   }

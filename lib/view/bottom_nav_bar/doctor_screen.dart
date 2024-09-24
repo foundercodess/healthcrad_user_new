@@ -8,6 +8,9 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/doctor_view_model.dart';
 
 class DoctorScreen extends StatefulWidget {
   const DoctorScreen({super.key});
@@ -17,21 +20,29 @@ class DoctorScreen extends StatefulWidget {
 }
 
 class _DoctorScreenState extends State<DoctorScreen> {
-
-  List<DoctorGridModel> doctorGridModelList = [
-    DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
-    DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
-    DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
-    DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
-    DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye), DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
-    DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
-    DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
-    DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
-    DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye),
-];
+//
+//   List<DoctorGridModel> doctorGridModelList = [
+//     DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
+//     DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
+//     DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
+//     DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
+//     DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye), DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
+//     DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
+//     DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
+//     DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
+//     DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye),
+// ];
+@override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_){
+    Provider.of<DoctorViewModel>(context, listen: false).doctorCatApi(context);
+  });
+}
 
   @override
   Widget build(BuildContext context) {
+    final doctorViewModel = Provider.of<DoctorViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
         appBar:  AppBar(
@@ -71,7 +82,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
           // ),
         ),
 
-      body:SingleChildScrollView(
+      body: doctorViewModel.doctorDepartmentModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
 
         child: Column(
           children: [
@@ -87,7 +98,8 @@ class _DoctorScreenState extends State<DoctorScreen> {
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 20.0,
                   childAspectRatio: 2/2.5),
-              itemCount: doctorGridModelList.length,
+              // itemCount: doctorGridModelList.length,
+              itemCount: doctorViewModel.doctorDepartmentModelData?.doctorCat!.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: (){
@@ -110,15 +122,17 @@ class _DoctorScreenState extends State<DoctorScreen> {
                           width: screenWidth,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage(doctorGridModelList[index].img),
+                                  // image: AssetImage(doctorGridModelList[index].img),
+                                image: NetworkImage(doctorViewModel.doctorDepartmentModelData!.doctorCat![index].image.toString()),
                                   fit: BoxFit.fill)),
                         ),
                         Padding(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 15),
+                          const EdgeInsets.symmetric(horizontal: 10),
                           child: TextConst(
                             textAlign: TextAlign.start,
-                            title: doctorGridModelList[index].title,
+                            title: doctorViewModel.doctorDepartmentModelData!.doctorCat?[index].name,
+                            // title: doctorGridModelList[index].title,
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.blackColor,
                             fontWeight: FontWeight.w600,

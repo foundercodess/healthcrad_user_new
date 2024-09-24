@@ -27,6 +27,7 @@ import 'package:health_crad_user/view/payments/apply%20_coupon_page.dart';
 import 'package:health_crad_user/view/payments/payment_screen.dart';
 import 'package:health_crad_user/view/prescription/order_by_prescription.dart';
 import 'package:health_crad_user/view/prescription/prescription_order_history_details.dart';
+import 'package:health_crad_user/view/auth/main_screen.dart';
 import 'package:health_crad_user/view/splash_screen.dart';
 
 import '../../res/common_order_successfully_screen.dart';
@@ -38,7 +39,9 @@ import '../../view/more/add_new_address.dart';
 class Routers {
   static WidgetBuilder generateRoute(String routeName) {
     switch (routeName) {
-      case RoutesName.mainScreen:
+      case RoutesName.splashScreen:
+        return (context) => const SplashScreen();
+        case RoutesName.mainScreen:
         return (context) => const MainScreen();
       case RoutesName.login:
         return (context) => LoginScreen();

@@ -6,6 +6,12 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/more/widget/common_app_bar_more.dart';
+import 'package:health_crad_user/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/profile_view_model.dart';
+
+import '../../view_model/profile_view_model.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({super.key});
@@ -15,8 +21,12 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
-
-
+@override
+  void initState() {
+    super.initState();
+   final profileViewModel =Provider.of<ProfileViewModel>(context, listen: false);
+   profileViewModel.profileApi(context);
+  }
   @override
   Widget build(BuildContext context) {
     List<MoreGridModel> offeringModelList = [
@@ -62,8 +72,13 @@ class _MoreScreenState extends State<MoreScreen> {
       MoreGridModel(
           title: 'FAQs', img: Assets.iconsFaqMore, subTitle: 'Quick Answers', onTap: () {  }),
       MoreGridModel(
-          title: 'Logout', img: Assets.iconsLogOut, subTitle: 'Back to see you', onTap: () {  }),
+          title: 'Logout', img: Assets.iconsLogOut, subTitle: 'Back to see you', onTap: ()  {
+        UserViewModel userViewModel = UserViewModel();
+       userViewModel.remove();
+
+      }),
     ];
+    final profileViewModel =Provider.of<ProfileViewModel>(context).modelData?.data;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: const CommonAppBarMore(title: 'Account',),
@@ -117,20 +132,20 @@ class _MoreScreenState extends State<MoreScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextConst(
-                                title: 'Hello,',
+                                title: "Hello,",
                                 fontSize: AppConstant.fontSizeThree,
                                 color: AppColor.blackColor,
                                 fontWeight: FontWeight.w600,
                               ),
                               AppConstant.spaceHeight10,
                               TextConst(
-                                title: 'Om Shankar Sharma',
+                                title:profileViewModel?.name,
                                 fontSize: AppConstant.fontSizeTwo,
                                 color: AppColor.blackColor,
                                 fontWeight: FontWeight.w400,
                               ),
                               TextConst(
-                                title: '+91-7584259456',
+                                title:'+91-${profileViewModel?.mobileno}',
                                 fontSize: AppConstant.fontSizeOne,
                                 color: AppColor.textColor,
                                 fontWeight: FontWeight.w500,

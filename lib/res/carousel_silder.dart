@@ -41,7 +41,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
             CarouselSlider(
 
-              items: sliderViewModel.sliderModelData.promotional!
+              items: sliderViewModel.sliderModelData!.promotional!
                   .map((path) => Container(
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:5),
@@ -77,7 +77,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: sliderViewModel.sliderModelData.promotional!.asMap().entries.map((entry) {
+              children: sliderViewModel.sliderModelData!.promotional!.asMap().entries.map((entry) {
                 return GestureDetector(
                   onTap: () => _controller.animateToPage(entry.key),
                   child: Container(

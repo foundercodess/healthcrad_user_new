@@ -8,10 +8,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AuthViewModel with ChangeNotifier {
-  final dateController =TextEditingController();
-  final genderList=['Male', 'Female', 'Other'];
+  final dateController = TextEditingController();
+  final genderList = ['Male', 'Female', 'Other'];
   String _isSelectedValue = "";
-  String get isSelectedValue=> _isSelectedValue;
+  String get isSelectedValue => _isSelectedValue;
   DateTime? pickedDate;
   setSelectedValue(String value) {
     _isSelectedValue = value;
@@ -27,7 +27,7 @@ class AuthViewModel with ChangeNotifier {
   }
 
   pickDate(context) async {
-     pickedDate = await showDatePicker(
+    pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
@@ -35,13 +35,14 @@ class AuthViewModel with ChangeNotifier {
     );
 
     if (pickedDate != null) {
-        dateController.text = DateFormat('dd/MM/yyyy').format(pickedDate!);
+      dateController.text = DateFormat('dd/MM/yyyy').format(pickedDate!);
     }
     notifyListeners();
   }
 
-
   final _authRepo = AuthRepository();
+
+  // Login Api
 
   bool _loading = false;
 
@@ -51,22 +52,22 @@ class AuthViewModel with ChangeNotifier {
     _loading = value;
     notifyListeners();
   }
+
   Future<void> loginApi(dynamic mobileCon, context) async {
     setLoading(true);
-    // final userPref = Provider.of<UserViewModel>(context, listen: false);
     Map data = {
       "mobileno": mobileCon,
     };
     _authRepo.loginApi(data).then((value) {
       if (value['status'] == 200) {
-        // userPref.saveUser(value['id'].toString());
         setLoading(false);
-        Navigator.pushReplacementNamed(context, RoutesName.verifyOtpScreen);
+        Navigator.pushReplacementNamed(context, RoutesName.verifyOtpScreen,
+            arguments: {'phone': mobileCon});
       }
       if (value['status'] == 400) {
-        // userPref.saveUser(value['id'].toString());
         setLoading(false);
-        Navigator.pushReplacementNamed(context, RoutesName.register,arguments: {'phone':mobileCon});
+        Navigator.pushReplacementNamed(context, RoutesName.register,
+            arguments: {'phone': mobileCon});
       }
     }).onError((error, stackTrace) {
       setLoading(false);
@@ -76,26 +77,31 @@ class AuthViewModel with ChangeNotifier {
     });
   }
 
-
+// REGISTER API
   bool _loadingRegister = false;
 
-  bool get loadingRegister => _loading;
+  bool get loadingRegister => _loadingRegister;
 
   setLoadingRegister(bool value) {
     _loadingRegister = value;
     notifyListeners();
   }
 
-
-  Future<void> registerApi(dynamic data, context) async {
+  Future<void> registerApi(dynamic mobileCon, dynamic nameCon, dynamic emailCon,
+      dynamic isSelectedValue, dynamic dob, context) async {
     setLoadingRegister(true);
-    // final userPref = Provider.of<UserViewModel>(context, listen: false);
-
+    Map data = {
+      "mobileno": mobileCon,
+      "name": nameCon,
+      "email": emailCon,
+      "gender": isSelectedValue,
+      "dob": dob,
+    };
     _authRepo.registerApi(data).then((value) {
       if (value['status'] == 200) {
-        // userPref.saveUser(value['id'].toString());
         setLoadingRegister(false);
-        Navigator.pushReplacementNamed(context, RoutesName.verifyOtpScreen);
+        Navigator.pushReplacementNamed(context, RoutesName.verifyOtpScreen,
+            arguments: {'phone': mobileCon});
       }
     }).onError((error, stackTrace) {
       setLoadingRegister(false);
@@ -105,11 +111,63 @@ class AuthViewModel with ChangeNotifier {
     });
   }
 
+// SEND OTP
 
+  bool _sendOtp = false;
 
+  bool get sendOtp => _sendOtp;
 
+  setSendOtp(bool value) {
+    _sendOtp = value;
+    notifyListeners();
+  }
 
+  Future<void> sendOtpApi(dynamic mobileCon, context) async {
+    setSendOtp(true);
+    Map data = {
+      "mobile": mobileCon,
+    };
+    _authRepo.sendOtpApi(data).then((value) {
+      if (value['status'] == 200) {
+        setSendOtp(false);
+      }
+    }).onError((error, stackTrace) {
+      setLoadingRegister(false);
+      if (kDebugMode) {
+        print('error: $error');
+      }
+    });
+  }
 
+// Verify OTP
 
+  bool _verifyOtp = false;
 
+  bool get verifyOtp => _verifyOtp;
+
+  setVerifyOtp(bool value) {
+    _verifyOtp = value;
+    notifyListeners();
+  }
+
+  Future<void> verifyOtpApi(dynamic mobileCon, dynamic otpCon, context) async {
+    setVerifyOtp(true);
+    final userPref = Provider.of<UserViewModel>(context, listen: false);
+    Map data = {
+      "mobileno": mobileCon,
+      "otp": otpCon,
+    };
+    _authRepo.verifyOtpApi(data).then((value) {
+      if (value['status'] == 200) {
+        userPref.saveUser(value['data']['id'].toString());
+        setVerifyOtp(false);
+        Navigator.pushReplacementNamed(context, RoutesName.bottomNavBar);
+      }
+    }).onError((error, stackTrace) {
+      setLoadingRegister(false);
+      if (kDebugMode) {
+        print('error: $error');
+      }
+    });
+  }
 }

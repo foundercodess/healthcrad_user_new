@@ -3,7 +3,7 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/view_model/service/bottom_nav_view_model.dart';
+import 'package:health_crad_user/view_model/service/bottom_services.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {

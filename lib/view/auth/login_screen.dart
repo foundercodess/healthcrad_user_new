@@ -96,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ButtonConst(
                   onTap: () {
-
                     if(mobileCon.text.length ==10 ){
                       authViewModel.loginApi(mobileCon.text, context);
                     }else {

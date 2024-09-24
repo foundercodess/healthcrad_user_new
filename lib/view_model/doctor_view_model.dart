@@ -1,11 +1,17 @@
 import 'package:flutter/foundation.dart';
+import 'package:health_crad_user/model/doctor_department.dart';
 import 'package:health_crad_user/model/slider_model.dart';
+import 'package:health_crad_user/repo/doctor_repo.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import '../repo/silder_repo.dart';
 
 
-class SliderViewModel with ChangeNotifier {
-  final _sliderRepo = SliderRepo();
+class DoctorViewModel with ChangeNotifier {
+
+
+  final _doctorDepartmentRepo = DoctorDepartmentRepo();
+
+
 
   bool _loading = false;
 
@@ -16,26 +22,23 @@ class SliderViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  SliderModel? _sliderModelData;
+  DoctorDepartment? _doctorModelData;
 
-  SliderModel? get sliderModelData => _sliderModelData;
+  DoctorDepartment? get doctorDepartmentModelData => _doctorModelData;
 
-  setListData(SliderModel value) {
-    _sliderModelData = value;
+  setListData(DoctorDepartment value) {
+    _doctorModelData = value;
     notifyListeners();
   }
 
-  Future<void> sliderApi(context) async {
+  Future<void> doctorCatApi(context) async {
     setLoading(true);
-    _sliderRepo.sliderApi({"userid":"1111"}).then((value) {
-
+    _doctorDepartmentRepo.doctorCatApi().then((value) {
       if (value.status == 200) {
-
         setLoading(false);
         setListData(value);
       } else {
         setLoading(false);
-
         Utils.show(value.message.toString(), context);
       }
     }).onError((error, stackTrace) {

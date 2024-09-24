@@ -1,5 +1,6 @@
 class RoutesName {
-  static const mainScreen = '/';
+  static const splashScreen = '/';
+  static const mainScreen = '/mainScreen';
   static const login = '/login';
   static const register = '/register';
   static const singUpOtpScreen = '/singUpOtpScreen';

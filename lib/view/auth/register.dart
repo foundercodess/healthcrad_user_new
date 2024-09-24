@@ -222,15 +222,7 @@ void initState() {
                   );
                 }
                 else{
-                  Map data = {
-                    "mobileno": mobileCon.text,
-                    "name": nameCon.text,
-                    "email": emailCon.text,
-                    "gender": rvm.isSelectedValue,
-                    "dob": DateFormat('dd-MM-yyyy').format(rvm.pickedDate!),
-
-                  };
-                  authViewModel.registerApi(data, context);
+                  authViewModel.registerApi(mobileCon.text,nameCon.text, emailCon.text, rvm.isSelectedValue,DateFormat('dd-MM-yyyy').format(rvm.pickedDate!),context);
 
                 }
 

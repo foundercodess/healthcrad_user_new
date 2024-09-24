@@ -3,7 +3,7 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import '../../../generated/assets.dart';
-import '../../splash_screen.dart';
+import '../../auth/main_screen.dart';
 
 class CommonAppBarMore extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBarMore({

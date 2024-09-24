@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:health_crad_user/generated/assets.dart';
@@ -8,6 +10,11 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view/path_lab/widgets/file_selection_bottomsheet.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/path_view_model.dart';
 
 class RequestLabReport extends StatefulWidget {
   const RequestLabReport({super.key});
@@ -19,17 +26,50 @@ class RequestLabReport extends StatefulWidget {
 int _selectedValue = 1;
 
 class _RequestLabReportState extends State<RequestLabReport> {
+  final TextEditingController pathLabNameCon = TextEditingController();
+  final TextEditingController pathLabAddressCon = TextEditingController();
+  final TextEditingController patientNameCon = TextEditingController();
+  final TextEditingController referredByCon = TextEditingController();
+  final TextEditingController ageCon = TextEditingController();
+  final TextEditingController testDateCon = TextEditingController();
+  final TextEditingController phoneNumberCon = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final pathViewModel = Provider.of<PathViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       bottomNavigationBar: ButtonConst(
         onTap: () {
-          Navigator.pushNamed(context, RoutesName.commonOrderScreen,
-              arguments: {
-                "name": "Your Request Report has been\nsubmitted successfully"
-              });
+          if (pathLabNameCon.text.isEmpty ) {
+            Utils.show("Please enter Lab name", context);
+          } else if (pathLabAddressCon.text.isEmpty) {
+            Utils.show("Please enter Lab Address", context);
+          } else if (patientNameCon.text.isEmpty) {
+            Utils.show("Please enter  patient Name", context);
+          } else if (referredByCon.text.isEmpty) {
+            Utils.show("Please enter  referred Name", context);
+          } else if (ageCon.text.isEmpty) {
+            Utils.show("Please enter Age", context);
+          } else if (testDateCon.text.isEmpty) {
+            Utils.show("Please enter  Test Date", context);
+          } else if (phoneNumberCon.text.isEmpty || phoneNumberCon.text.length ==10) {
+            Utils.show("Please enter Phone Number", context);
+          } else {
+            pathViewModel.requestApi(
+                pathLabNameCon.text,
+                pathLabAddressCon.text,
+                patientNameCon.text,
+                ageCon.text,
+                referredByCon.text,
+                testDateCon.text,
+                phoneNumberCon.text,
+                payMode.toString(),
+                context);
+          }
+
+
         },
+        loading: pathViewModel.loadingRequest,
         borderRadius: BorderRadius.zero,
         color: AppColor.primaryColor,
         label: 'Request Report',
@@ -67,8 +107,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 15, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -80,11 +119,20 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                onTap: () {
+                  print("sdbjbfjfe");
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (_) {
+                        return FileSelectionBottomSheet();
+                      });
+                },
+                enabled: false,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsUploadPdf,
                     height: 25,
@@ -92,7 +140,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
                     color: AppColor.primaryColor,
                   ),
                 ),
-                hint: "Upload a valid test receipt",
+                hint: pathViewModel.imagePath ?? "Upload a valid test receipt",
                 fontSize: AppConstant.fontSizeTwo,
                 borderSide:
                     BorderSide(width: 0.5, color: AppColor.rBorderSideColor),
@@ -106,11 +154,11 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: pathLabNameCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
-                maxLength: 20,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsMedicalHome,
                     height: 25,
@@ -132,11 +180,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: pathLabAddressCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsLocatinIcon,
                     height: 25,
@@ -159,11 +208,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: patientNameCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsName,
                     height: 25,
@@ -185,11 +235,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: ageCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.text,
                 maxLength: 20,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsAge,
                     height: 25,
@@ -211,11 +262,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: referredByCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsRefferd,
                     height: 25,
@@ -238,11 +290,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: testDateCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsCalenderIcon,
                     height: 25,
@@ -265,11 +318,12 @@ class _RequestLabReportState extends State<RequestLabReport> {
               ),
               AppConstant.spaceHeight5,
               TextFieldConst(
+                controller: phoneNumberCon,
                 fillColor: AppColor.containerFillColor,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12,bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
                     Assets.iconsGreenCallIcon,
                     height: 25,
@@ -291,28 +345,15 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fontWeight: FontWeight.w600,
               ),
               AppConstant.spaceHeight5,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                 radioButtonDesignCustom(1),
-                  AppConstant.spaceWidth10,
-                  TextConst(
-                    title: 'Paid',
-                    fontSize: AppConstant.fontSizeThree,
-                    color: AppColor.textColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  AppConstant.spaceWidth15,
-                  AppConstant.spaceWidth15,
-                 radioButtonDesignCustom(0),
-                  AppConstant.spaceWidth10,
-                  TextConst(
-                    title: 'Unpaid',
-                    fontSize: AppConstant.fontSizeThree,
-                    color: AppColor.textColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ],
+              SizedBox(
+                width: screenWidth / 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    radioButtonDesignCustom(0, "Paid"),
+                    radioButtonDesignCustom(1, "Unpaid"),
+                  ],
+                ),
               ),
               AppConstant.spaceHeight25,
             ],
@@ -321,29 +362,51 @@ class _RequestLabReportState extends State<RequestLabReport> {
       ),
     );
   }
-  Widget radioButtonDesignCustom(int index){
-    return Container(
-      height: 18,
-      width: 18,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color:
-          index == 0 ? AppColor.primaryColor : Colors.transparent,
-          border: Border.all(
-              color: index != 0
-                  ? AppColor.greyColor
-                  : Colors.transparent)),
-      child: index == 0
-          ? Container(
-        height: 8,
-        width: 8,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColor.whiteColor,
-        ),
-      )
-          : const SizedBox.shrink(),
+
+  int payMode = 0;
+  Widget radioButtonDesignCustom(int index, String title) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          payMode = index;
+        });
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 18,
+            width: 18,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: index == payMode
+                    ? AppColor.primaryColor
+                    : Colors.transparent,
+                border: Border.all(
+                    color: index != payMode
+                        ? AppColor.greyColor
+                        : Colors.transparent)),
+            child: index == payMode
+                ? Container(
+                    height: 8,
+                    width: 8,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColor.whiteColor,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+          AppConstant.spaceWidth5,
+          TextConst(
+            title: title,
+            fontSize: AppConstant.fontSizeThree,
+            color: AppColor.textColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ],
+      ),
     );
   }
 }
