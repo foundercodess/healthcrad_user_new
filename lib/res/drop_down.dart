@@ -130,7 +130,7 @@ class CustomDropdownState extends State<CustomDropdown> {
           maxWidth: screenWidth * 0.43,
         ),
         onSelected: (String value) {
-          rvm.setSelectedValue(value);
+          rvm.setSelectedGender(value);
           setState(() {
             _isDropdownOpen = false;
           });
@@ -170,7 +170,7 @@ class CustomDropdownState extends State<CustomDropdown> {
                 color: AppColor.primaryColor,
               ),
               TextConst(
-                title: rvm.isSelectedValue,
+                title: rvm.selectedGender,
                 fontSize: AppConstant.fontSizeTwo,
                 color: AppColor.textColor,
               ),

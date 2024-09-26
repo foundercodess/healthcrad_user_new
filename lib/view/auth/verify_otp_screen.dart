@@ -76,7 +76,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
                 if (otpCon.length == 5 || otpCon.text.isNotEmpty) {
                   authViewModel.verifyOtpApi(
                       arguments['phone'], otpCon.text, context);
-                }else{
+                } else {
                   Utils.show("Please enter Valid Otp", context);
                 }
               },

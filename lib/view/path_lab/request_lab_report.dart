@@ -12,6 +12,7 @@ import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view/path_lab/widgets/file_selection_bottomsheet.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 import '../../view_model/path_view_model.dart';
@@ -40,20 +41,28 @@ class _RequestLabReportState extends State<RequestLabReport> {
       backgroundColor: AppColor.whiteColor,
       bottomNavigationBar: ButtonConst(
         onTap: () {
-          if (pathLabNameCon.text.isEmpty ) {
-            Utils.show("Please enter Lab name", context);
-          } else if (pathLabAddressCon.text.isEmpty) {
+          if (pathViewModel.base64Image==null ) {
+            Utils.show("Please upload Test Receipt", context);
+          }
+
+          else if (pathLabNameCon.text.isEmpty) {
+            Utils.show("Please enter Lab Name", context);
+          }
+
+
+          else if (pathLabAddressCon.text.isEmpty) {
             Utils.show("Please enter Lab Address", context);
           } else if (patientNameCon.text.isEmpty) {
             Utils.show("Please enter  patient Name", context);
-          } else if (referredByCon.text.isEmpty) {
-            Utils.show("Please enter  referred Name", context);
           } else if (ageCon.text.isEmpty) {
             Utils.show("Please enter Age", context);
-          } else if (testDateCon.text.isEmpty) {
+          }
+          else if (referredByCon.text.isEmpty) {
+            Utils.show("Please enter referred Name", context);
+          }  else if (testDateCon.text.isEmpty) {
             Utils.show("Please enter  Test Date", context);
-          } else if (phoneNumberCon.text.isEmpty || phoneNumberCon.text.length ==10) {
-            Utils.show("Please enter Phone Number", context);
+          } else if (phoneNumberCon.text.isEmpty || phoneNumberCon.text.length !=10 ) {
+            Utils.show("Please enter valid Phone Number", context);
           } else {
             pathViewModel.requestApi(
                 pathLabNameCon.text,
@@ -237,8 +246,8 @@ class _RequestLabReportState extends State<RequestLabReport> {
               TextFieldConst(
                 controller: ageCon,
                 fillColor: AppColor.containerFillColor,
-                keyboardType: TextInputType.text,
-                maxLength: 20,
+                keyboardType: TextInputType.number,
+                maxLength: 2,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
@@ -264,8 +273,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
               TextFieldConst(
                 controller: referredByCon,
                 fillColor: AppColor.containerFillColor,
-                keyboardType: TextInputType.number,
-                maxLength: 10,
+                keyboardType: TextInputType.text,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
@@ -275,7 +283,6 @@ class _RequestLabReportState extends State<RequestLabReport> {
                     color: AppColor.primaryColor,
                   ),
                 ),
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Name of the person who referred",
                 fontSize: AppConstant.fontSizeTwo,
                 borderSide:

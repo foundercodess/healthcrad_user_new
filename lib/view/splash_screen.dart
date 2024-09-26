@@ -6,6 +6,7 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/service/splash_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,11 +17,11 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   @override
+  SplashServices splashServices = SplashServices();
+  @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushNamed(context, RoutesName.login);
-    });
+    splashServices.checkAuthentication(context);
   }
 
   @override

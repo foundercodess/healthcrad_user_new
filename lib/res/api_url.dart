@@ -9,4 +9,12 @@ class ApiUrl {
   static const doctorCatUrl = "${baseUrl}doctordepartment";
   static const medicineCatUrl = "${baseUrl}medicinecategory";
   static const requestReportUrl = "${baseUrl}request_report";
+  static const allMedicineUrl = "${baseUrl}all_medicine";
+  static const addToCartUrl = "${baseUrl}add_to_cart";
+  static const deleteCartUrl = "${baseUrl}cart_delete";
+  static const cartViewUrl = "${baseUrl}cart_view/";
+  static const addAddressUrl = "${baseUrl}add_address";
+  static const getAddressUrl = "${baseUrl}get_address/";
+  static const deleteAddressUrl = "${baseUrl}delete_address";
+  static const ambulancetypeUrl = "${baseUrl}ambulancetype";
 }

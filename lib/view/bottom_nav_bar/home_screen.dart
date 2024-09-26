@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       Provider.of<SliderViewModel>(context, listen: false).sliderApi(context);
+      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
     });
   }
   @override
@@ -494,6 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
   Widget limitedTimeOffer() {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
     return Column(
       children: [
         Padding(
@@ -523,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         AppConstant.spaceHeight10,
-        SizedBox(height: screenHeight / 3, child: const DealsListView()),
+        SizedBox(height: screenHeight / 3, child: medicineViewModel.allMedicineModelData ==null?Center(child: CircularProgressIndicator()) : DealsListView()),
       ],
     );
   }
@@ -548,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             height: screenHeight / 3,
             alignment: Alignment.center,
-            child: medicineViewModel.medicineModelData ==null?Center(child: CircularProgressIndicator()) :CategoryListView()),
+            child: CategoryListView()),
       ],
     );
   }

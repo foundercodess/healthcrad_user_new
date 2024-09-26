@@ -7,6 +7,8 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/deals_list_view.dart';
 import 'package:health_crad_user/res/text_const.dart';
+import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/routes/routes_name.dart';
 
@@ -19,7 +21,16 @@ class MedicinesPage extends StatefulWidget {
 
 class _MedicinesPageState extends State<MedicinesPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -147,7 +158,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
         //   ),
         // ),
       ),
-      body: SingleChildScrollView(
+      body:medicineViewModel.allMedicineModelData ==null?Center(child: CircularProgressIndicator()) : SingleChildScrollView(
 
         child: Column(
           children: [
@@ -156,7 +167,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
             AppConstant.spaceHeight20,
             GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 15,),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -164,9 +175,9 @@ class _MedicinesPageState extends State<MedicinesPage> {
                 mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
-              itemCount: 10,
+              itemCount: medicineViewModel.allMedicineModelData!.allMedicineData?.length,
               itemBuilder: (context, index) {
-                return const DealsMedicine(index: -1,);
+                return  DealsMedicine(index: -1, allMedicineData: medicineViewModel.allMedicineModelData!.allMedicineData![index]);
               },
             ),
           ],

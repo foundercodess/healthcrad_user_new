@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
 
 class SplashServices {
@@ -14,11 +15,12 @@ class SplashServices {
         print('valueId');
       }
       if (value.toString() == 'null' || value.toString() == '') {
-        // await Future.delayed(const Duration(seconds: 3));
-        // Navigator.pushNamed(context, RoutesName.mainScreen);
+        await Future.delayed(const Duration(seconds: 3));
+        Navigator.pushNamed(context, RoutesName.mainScreen);
       } else {
-        // await Future.delayed(const Duration(seconds: 3));
-        // Navigator.pushNamed(context, RoutesName.bottomNavBar);
+        await Future.delayed(const Duration(seconds: 3));
+        Navigator.pushNamed(context, RoutesName.bottomNavBar);
+        // Navigator.pushNamed(context, RoutesName.mapPage);
       }
     }).onError((error, stackTrace) {
       if (kDebugMode) {

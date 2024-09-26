@@ -8,6 +8,8 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/ambulance_view_model.dart';
+import 'package:provider/provider.dart';
 
 class AmbulancePage extends StatefulWidget {
   const AmbulancePage({super.key});
@@ -17,23 +19,33 @@ class AmbulancePage extends StatefulWidget {
 }
 
 class _AmbulancePageState extends State<AmbulancePage> {
-  List<String> gridList = [
-    'Mortuary',
-    'Patient Transport',
-    'Basic Life Support',
-    'Advance Life Support'
-  ];
+  int _selectedIndex = 0;
+  // List<String> gridList = [
+  //   'Mortuary',
+  //   'Patient Transport',
+  //   'Basic Life Support',
+  //   'Advance Life Support'
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AmbulanceViewModel>(context, listen: false)
+          .ambulanceTypeApi(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ambulanceViewModel = Provider.of<AmbulanceViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColor.whiteColor,
-          border: Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))
-        ),
-
+            color: AppColor.whiteColor,
+            border:
+                Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
@@ -50,13 +62,15 @@ class _AmbulancePageState extends State<AmbulancePage> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(int.parse((screenWidth/8).toStringAsFixed(0)), (i)=>TextConst(
-                  title:
-                  '-',
-                  fontSize: AppConstant.fontSizeZero,
-                  color: AppColor.textColor.withOpacity(0.3),
-                  fontWeight: FontWeight.w500,
-                ),),
+                children: List.generate(
+                  int.parse((screenWidth / 8).toStringAsFixed(0)),
+                  (i) => TextConst(
+                    title: '-',
+                    fontSize: AppConstant.fontSizeZero,
+                    color: AppColor.textColor.withOpacity(0.3),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               AppConstant.spaceHeight5,
               Row(
@@ -69,7 +83,8 @@ class _AmbulancePageState extends State<AmbulancePage> {
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.blackColor,
                         fontWeight: FontWeight.w600,
-                      ),TextConst(
+                      ),
+                      TextConst(
                         title: '250 Km',
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.blackColor,
@@ -196,7 +211,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 5,bottom: 5),
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Column(
                         children: [
                           TextFieldConst(
@@ -257,49 +272,99 @@ class _AmbulancePageState extends State<AmbulancePage> {
                         height: screenHeight * 0.2,
                         width: screenWidth,
                         color: Colors.white,
-                        child: GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 30.0,
-                                  mainAxisSpacing: 10.0,
-                                  childAspectRatio: 2.4),
-                          itemCount: gridList.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      width: 1,
-                                      color:
-                                          AppColor.textColor.withOpacity(0.3))),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    height: screenHeight * 0.06,
-                                    width: screenWidth * 0.25,
-                                    alignment: Alignment.centerLeft,
-                                    child: TextConst(
-                                      textAlign: TextAlign.start,
-                                      title: gridList[index],
-                                      fontSize: AppConstant.fontSizeTwo,
-                                      color: AppColor.textColor,
-                                      fontWeight: FontWeight.w400,
+                        child: ambulanceViewModel.ambulanceTypeData == null
+                            ? const Center(child: CircularProgressIndicator())
+                            : GridView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 30.0,
+                                        mainAxisSpacing: 10.0,
+                                        childAspectRatio: 2.4),
+                                itemCount: ambulanceViewModel
+                                    .ambulanceTypeData!.data!.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Showing the dialog box on tap
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor:
+                                                AppColor.whiteColor,
+                                            title: Text(
+                                                "${ambulanceViewModel.ambulanceTypeData!.data?[index].type.toString()}"),
+                                            content: SingleChildScrollView(
+                                              child: ListBody(
+                                                children: [
+                                                  Text(
+                                                      "${ambulanceViewModel.ambulanceTypeData!.data?[index].description.toString()}"),
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                child: Text('OK'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+
+                                      // Handling selection logic
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: _selectedIndex == index
+                                              ? AppColor.primaryColor
+                                                  .withOpacity(0.3)
+                                              : AppColor.textColor
+                                                  .withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            height: screenHeight * 0.06,
+                                            width: screenWidth * 0.25,
+                                            alignment: Alignment.centerLeft,
+                                            child: TextConst(
+                                              textAlign: TextAlign.start,
+                                              title: ambulanceViewModel
+                                                  .ambulanceTypeData!
+                                                  .data?[index]
+                                                  .type
+                                                  .toString(),
+                                              fontSize: AppConstant.fontSizeTwo,
+                                              color: AppColor.textColor,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          Image.asset(
+                                            Assets.iconsTypeIcon,
+                                            height: 15,
+                                            width: 15,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Image.asset(
-                                    Assets.iconsTypeIcon,
-                                    height: 15,
-                                    width: 15,
-                                  )
-                                ],
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
                       ),
                     ],
                   )),
@@ -316,8 +381,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                       text: "Total Distance : ",
                       textColor: AppColor.blackColor,
                       fontSize: AppConstant.fontSizeTwo,
-                  fontWeight: FontWeight.w600
-                  ),
+                      fontWeight: FontWeight.w600),
                   CustomTextSpan(
                       text: "250 Km",
                       textColor: AppColor.textColor,
@@ -352,7 +416,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           keyboardType: TextInputType.text,
                           maxLength: 20,
                           prefixIcon: Padding(
-                            padding: const EdgeInsets.only(top: 12,bottom: 12),
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
                             child: Image.asset(
                               Assets.iconsName,
                               height: 25,
@@ -374,7 +438,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           keyboardType: TextInputType.number,
                           maxLength: 10,
                           prefixIcon: Padding(
-                            padding: const EdgeInsets.only(top: 12,bottom: 12),
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
                             child: Image.asset(
                               Assets.iconsGreenCallIcon,
                               height: 25,
@@ -398,7 +462,6 @@ class _AmbulancePageState extends State<AmbulancePage> {
               ),
             ),
             AppConstant.spaceHeight10,
-
             AppConstant.spaceHeight5,
           ],
         ),

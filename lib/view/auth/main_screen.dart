@@ -1,8 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
-import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
@@ -21,19 +19,6 @@ double screenHeight = 0;
 double screenWidth = 0;
 
 class _MainScreenState extends State<MainScreen> {
-  int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
-
-  final List<String> _imagePaths = [
-    Assets.pngDoctorBgO,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-    Assets.pngSilderBgSpecialOffer,
-  ];
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -46,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
           Container(
             width: screenWidth,
             height: screenHeight * 0.6,
-            color: Color(0xff0154a2),
+            color: const Color(0xff0154a2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -69,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 AppConstant.spaceHeight50,
                 AppConstant.spaceHeight10,
-                MainPageSlider(),
+                const MainPageSlider(),
               ],
             ),
           ),
@@ -90,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.pushNamed(context, RoutesName.login);
               },
               borderRadius: BorderRadius.circular(30),
-              color: Color(0xff0154a2),
+              color: const Color(0xff0154a2),
               fontSize: AppConstant.fontSizeThree,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -111,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           TextConst(
             textAlign: TextAlign.start,
             title: "Follow Us",
@@ -120,20 +105,20 @@ class _MainScreenState extends State<MainScreen> {
             fontWeight: FontWeight.bold,
           ),
           AppConstant.spaceHeight10,
-          Container(
+          SizedBox(
             width: screenWidth * 0.6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SocialMedia(context, Assets.pngLinkdin, screenHeight * 0.04,
+                socialMedia(context, Assets.pngLinkdin, screenHeight * 0.04,
                     screenWidth * 0.085),
-                SocialMedia(context, Assets.pngWhatsapp, screenHeight * 0.04,
+                socialMedia(context, Assets.pngWhatsapp, screenHeight * 0.04,
                     screenWidth * 0.085),
-                SocialMedia(context, Assets.pngInsta, screenHeight * 0.04,
+                socialMedia(context, Assets.pngInsta, screenHeight * 0.04,
                     screenWidth * 0.085),
-                SocialMedia(context, Assets.pngFacebook, screenHeight * 0.04,
+                socialMedia(context, Assets.pngFacebook, screenHeight * 0.04,
                     screenWidth * 0.085),
-                SocialMedia(context, Assets.pngYoutube, screenHeight * 0.055,
+                socialMedia(context, Assets.pngYoutube, screenHeight * 0.055,
                     screenWidth * 0.089),
               ],
             ),
@@ -144,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget SocialMedia(context, img, double? height, double width) {
+  Widget socialMedia(context, img, double? height, double width) {
     return Container(
       height: height,
       width: width,

@@ -14,7 +14,7 @@ import 'package:health_crad_user/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-   LoginScreen({super.key});
+   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
 
                   },
-                  loading: authViewModel.loading,
+                  loading: authViewModel.isLoading,
                   color: AppColor.primaryColor,
                   label: 'Continue',
                   textColor: AppColor.whiteColor,

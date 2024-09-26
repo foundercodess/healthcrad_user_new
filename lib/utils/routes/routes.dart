@@ -3,6 +3,7 @@ import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/ambulance/ambulance_booking_history.dart';
 import 'package:health_crad_user/view/ambulance/ambulance_page.dart';
 import 'package:health_crad_user/view/ambulance/ambulance_review.dart';
+import 'package:health_crad_user/view/ambulance/map_page.dart';
 import 'package:health_crad_user/view/appointment_page/appointment_booking.dart';
 import 'package:health_crad_user/view/appointment_page/slot_page.dart';
 import 'package:health_crad_user/view/appointment_page/view_appointment_page.dart';
@@ -12,6 +13,7 @@ import 'package:health_crad_user/view/auth/login_screen.dart';
 import 'package:health_crad_user/view/auth/register.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/appointment_screen.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:health_crad_user/view/bottom_nav_bar/home_screen.dart';
 import 'package:health_crad_user/view/doctor/doctor_profile_page.dart';
 import 'package:health_crad_user/view/medicine/cart_page.dart';
 import 'package:health_crad_user/view/medicine/medicine_details.dart';
@@ -105,6 +107,8 @@ class Routers {
         return (context) => const SavedAddressScreen();
       case RoutesName.addNewAddressScreen:
         return (context) => const AddNewAddressScreen();
+      // case RoutesName.mapPage:
+      //   return (context) =>  MapPage();
       default:
         return (context) => const Scaffold(
               body: Center(

@@ -32,5 +32,6 @@ class RoutesName {
   static const appointmentHistoryScreen = '/appointmentHistoryScreen';
   static const savedAddressScreen = '/savedAddressScreen';
   static const addNewAddressScreen = '/addNewAddressScreen';
+  static const mapPage = '/mapPage';
 
 }

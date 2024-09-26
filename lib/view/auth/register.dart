@@ -11,7 +11,6 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/drop_down.dart';
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/auth_view_model.dart';
 import 'package:intl/intl.dart';
@@ -42,8 +41,6 @@ void initState() {
   final TextEditingController mobileCon = TextEditingController();
   final TextEditingController nameCon = TextEditingController();
   final TextEditingController emailCon = TextEditingController();
-  // final TextEditingController genderCon = TextEditingController();
-  // final TextEditingController dobCon = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
@@ -201,33 +198,22 @@ void initState() {
             AppConstant.spaceHeight20,
             ButtonConst(
               onTap: () {
-
                 if(nameCon.text.isEmpty){
                   Utils.show("Please enter your name", context);
-                }else if(rvm.isSelectedValue.isEmpty){
-                  Utils.show("Please enter your age", context);
+                }else if(rvm.selectedGender.isEmpty){
+                  Utils.show("Please select your gender", context);
                 }
                 else if (
                     !emailPattern.hasMatch(emailCon.text)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please Enter Valid Email'),
-                    ),
-                  );
+                      Utils.show('Please Enter Valid Email', context);
                 }else if (rvm.pickedDate ==null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please Enter Valid DOB'),
-                    ),
-                  );
+                  Utils.show('Please Enter Valid DOB', context);
                 }
                 else{
-                  authViewModel.registerApi(mobileCon.text,nameCon.text, emailCon.text, rvm.isSelectedValue,DateFormat('dd-MM-yyyy').format(rvm.pickedDate!),context);
-
+                  authViewModel.registerApi(mobileCon.text,nameCon.text, emailCon.text, rvm.selectedGender,DateFormat('dd-MM-yyyy').format(rvm.pickedDate!),context);
                 }
-
               },
-              loading: authViewModel.loadingRegister,
+              loading: authViewModel.isRegistering,
               color: AppColor.primaryColor,
               label: 'Continue',
               textColor: AppColor.whiteColor,

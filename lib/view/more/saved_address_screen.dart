@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/more/widget/common_app_bar_more.dart';
+import 'package:health_crad_user/view_model/address_view_model.dart';
+import 'package:health_crad_user/view_model/profile_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../generated/assets.dart';
 import '../../main.dart';
@@ -19,7 +22,14 @@ class SavedAddressScreen extends StatefulWidget {
 class _SavedAddressScreenState extends State<SavedAddressScreen> {
   int selectedIndex=0;
   @override
+  void initState() {
+    super.initState();
+    final addressViewModel =Provider.of<AddressViewModel>(context, listen: false);
+    addressViewModel.getAddressApi(context);
+  }
+  @override
   Widget build(BuildContext context) {
+    final addressViewModel =Provider.of<AddressViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: AppBar(
@@ -76,10 +86,11 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
           ),
         ),
       ),
-      body: ListView.builder(
+      body:addressViewModel.modelAddressData ==null?const Center(child: CircularProgressIndicator()): ListView.builder(
         padding: const EdgeInsets.only(top: 10),
-          itemCount: 5,
+          itemCount: addressViewModel.modelAddressData?.getAddressData?.length,
           itemBuilder: (_, int i) {
+          final resData=addressViewModel.modelAddressData?.getAddressData?[i];
         return InkWell(
           onTap: (){
             setState(() {
@@ -117,13 +128,13 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                       : const SizedBox.shrink(),
                 ),
                 AppConstant.spaceWidth10,
-                Container(
+                SizedBox(
                   width: screenWidth / 1.6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextConst(
-                        title: "Ashutosh Tripathi",
+                        title: resData!.userName.toString(),
                         fontSize: AppConstant.fontSizeTwo,
                         textAlign: TextAlign.left,
                         fontWeight: FontWeight.w600,
@@ -131,7 +142,7 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                       AppConstant.spaceHeight10,
                       TextConst(
                         title:
-                            "Sharda Nagar (Banti Kirana Store), Bus Stand, Purnea 854301",
+                        resData.address.toString() +resData.landmark.toString() ,
                         fontSize: AppConstant.fontSizeOne,
                         textAlign: TextAlign.left,
                         color: AppColor.textColor,
@@ -139,7 +150,7 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                       AppConstant.spaceHeight10,
                       TextConst(
                         title:
-                        "3216556446",
+                        resData.phone.toString(),
                         fontSize: AppConstant.fontSizeOne,
                         textAlign: TextAlign.left,
                         color: AppColor.blackColor,
@@ -148,7 +159,11 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                   ),
                 ),
                 const Spacer(),
-                ButtonConst(
+                ButtonConst(onTap: () {
+                  addressViewModel.deleteAddressApi(
+                      resData.id,
+                      context);
+                },
                   label: "Delete",
                   width: screenWidth / 5,
                   color: Colors.transparent,
