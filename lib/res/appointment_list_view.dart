@@ -21,7 +21,7 @@ class AppointmentListViewState extends State<AppointmentListView> {
   List<AppointmentModel> appointmentModelList = [
     AppointmentModel(title: 'Doctors', img: Assets.imageDoctorBg),
     AppointmentModel(title: 'Medicines', img: Assets.imageMedicinesBgN),
-    AppointmentModel(title: 'Ambulance', img: Assets.imageAmbulanceBgN),
+    AppointmentModel(title: 'Ambulance', img: Assets.imageAmbulenceBgS),
     AppointmentModel(title: 'Pathlab', img: Assets.imagePathLabBgN),
   ];
 

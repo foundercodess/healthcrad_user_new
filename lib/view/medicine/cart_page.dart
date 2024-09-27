@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
@@ -196,10 +197,20 @@ class _CartPageState extends State<CartPage> {
                   ),
                   GestureDetector(
                       onTap: () {},
-                      child: Image.asset(
-                        Assets.iconsCamaraIcon,
-                        scale: 1.5,
-                      ))
+                      child:
+                      SvgPicture.asset(
+                        Assets.iconsCameraS,
+                        color: AppColor.blueColor,
+                        height: 10,
+                        width: 10,
+                      ),
+
+
+                      // Image.asset(
+                      //   Assets.iconsCamaraIcon,
+                      //   scale: 1.5,
+                      // )
+                  )
                 ],
               ),
             ),

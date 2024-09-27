@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
@@ -49,11 +50,19 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                         borderRadius: BorderRadius.circular(5),
                         color: AppColor.shareBgColor,
                       ),
-                      child: Image.asset(
-                        Assets.iconsShareIcon,
+                      child:
+
+                      SvgPicture.asset(
+                        Assets.iconsShareIconsS,
                         color: AppColor.whiteColor,
-                        scale: 3,
+                        height: 5,
+                        width: 5,
                       ),
+                      // Image.asset(
+                      //   Assets.iconsShareIcon,
+                      //   color: AppColor.whiteColor,
+                      //   scale: 3,
+                      // ),
                     ),
                   ],
                 ),

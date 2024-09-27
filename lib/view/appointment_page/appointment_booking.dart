@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
@@ -600,10 +601,16 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                         children: [
                           Positioned(
                             left: -8,
-                            child: Image.asset(
-                              Assets.iconsSafeIconOnly,
+                            child:SvgPicture.asset(
+                              Assets.iconsSafeIconS,
+                              color: AppColor.blueColor,
                               width: 16,
                             ),
+                            //
+                            // Image.asset(
+                            //   Assets.iconsSafeIconOnly,
+                            //   width: 16,
+                            // ),
                           ),
                           TextConst(
                             title: '  Safe VISIT',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
@@ -50,7 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
               _buildNavItem(
                 index: 2,
-                icon: Assets.iconsDoctor,
+                icon: Assets.iconsDoctorBottomIcons,
                 label: "Doctor",
               ),
               _buildNavItem(
@@ -60,7 +61,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   isColorDiffer: true),
               _buildNavItem(
                 index: 4,
-                icon: Assets.iconsMore,
+                icon: Assets.iconsMoreBottomIcons,
                 label: "More",
               ),
             ],
@@ -83,14 +84,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            SvgPicture.asset(
               icon,
-              scale: 2,
               color: isColorDiffer
                   ? Colors.red
                   : isSelected
-                      ? AppColor.primaryColor
-                      : AppColor.greyColor,
+                  ? AppColor.primaryColor
+                  : AppColor.greyColor,
+              height: 20,
+              width: 20,
             ),
             TextConst(
               title: label,

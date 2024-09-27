@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
@@ -49,17 +50,26 @@ class _CategoryTapListDoctorState extends State<CategoryTapListDoctor> {
             keyboardType: TextInputType.text,
             maxLength: 35,
             maxLines: 1,
-            prefixIcon: Image.asset(
-              Assets.iconsSearch,
-              scale: 1.9,
-              color: AppColor.blueColor,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(top: 12,bottom: 12),
+              child: SvgPicture.asset(
+                Assets.iconsSearchIcons,
+                height:10,
+                width: 10,
+
+              ),
             ),
+
             hint: "Find doctors...",
             fontSize: AppConstant.fontSizeTwo,
-            sufixIcon: Image.asset(
-              Assets.iconsMic,
-              scale: 1.9,
-              color: AppColor.blueColor,
+            sufixIcon:Padding(
+              padding: const EdgeInsets.only(top: 12,bottom: 12),
+              child: SvgPicture.asset(
+                Assets.iconsMicIcons,
+                color: AppColor.blueColor,
+                height: 10,
+                width: 10,
+              ),
             ),
           )
         ],

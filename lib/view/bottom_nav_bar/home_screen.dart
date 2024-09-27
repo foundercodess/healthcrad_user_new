@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/appointment_list_view.dart';
@@ -171,7 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
           leadingWidth: screenWidth / 2,
           leading: Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-            child: Image.asset(Assets.imageAppLogo),
+            child:
+            // Image.asset(Assets.imageAppLog),
+            SvgPicture.asset(
+              Assets.imageAppLogoS,
+              color: AppColor.blueColor,
+              height: 10,
+              width: 10,
+            ),
           ),
           actions: [
             Padding(
@@ -257,18 +265,28 @@ class _HomeScreenState extends State<HomeScreen> {
         keyboardType: TextInputType.text,
         maxLength: 35,
         maxLines: 1,
-        prefixIcon: Image.asset(
-          Assets.iconsSearch,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+            Assets.iconsSearchIcons,
+            height:10,
+            width: 10,
+            color: AppColor.blueColor
+
+          ),
         ),
+
         hintColor: Colors.black.withOpacity(.6),
         hint: "Search for medicines & doctors",
         fontSize: AppConstant.fontSizeTwo,
-        sufixIcon: Image.asset(
-          Assets.iconsMic,
-          scale: 1.9,
-          color: AppColor.blueColor,
+        sufixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          child: SvgPicture.asset(
+            Assets.iconsMicIcons,
+            color: AppColor.blueColor,
+            height: 10,
+            width: 10,
+          ),
         ),
       ),
     );
@@ -763,10 +781,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       bottomRight: Radius.circular(50)),
                 ),
                 alignment: Alignment.centerLeft,
-                child: Image.asset(
-                  Assets.imageAppLogo,
+                child:
+                SvgPicture.asset(
+                  Assets.imageAppLogoS,
                   width: screenWidth / 2.5,
                 ),
+                // Image.asset(
+                //   Assets.imageAppLogo,
+                //   width: screenWidth / 2.5,
+                // ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15),

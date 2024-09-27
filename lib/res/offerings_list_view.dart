@@ -25,7 +25,7 @@ class OfferingsListViewState extends State<OfferingsListView> {
           title: 'Medicines', img: Assets.imageMedicinesBgN, onTap: () {}),
       OfferingModel(
           title: 'Ambulance',
-          img: Assets.imageAmbulanceBgN,
+          img: Assets.imageAmbulenceBgS,
           onTap: () {
             Navigator.pushNamed(context, RoutesName.ambulancePage);
           }),

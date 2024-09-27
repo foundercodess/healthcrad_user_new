@@ -31,12 +31,13 @@ class SplashScreenState extends State<SplashScreen> {
          height: MediaQuery.of(context).size.height,
           width:MediaQuery.of(context).size.width/1.5,
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Assets.imageAppLogo),
-              fit: BoxFit.contain,
-            ),
+          //   image: DecorationImage(
+          //     image: AssetImage(Assets.imageAppLogo),
+          //     fit: BoxFit.contain,
+          //   ),
+          // ),
+          // alignment: Alignment.bottomCenter,
           ),
-          alignment: Alignment.bottomCenter,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
