@@ -4,9 +4,12 @@ import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_rating_popup.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/rating_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ViewAppointmentPage extends StatefulWidget {
   const ViewAppointmentPage({super.key});
@@ -16,29 +19,21 @@ class ViewAppointmentPage extends StatefulWidget {
 }
 
 class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
-  final ratingOption = ["very poor", "poor", "average", "good", "excellent"];
-  int ratingValue = 3;
-  final List<GlobalKey<TooltipState>> _tooltipKeys =
-      List.generate(5, (_) => GlobalKey<TooltipState>());
-  final feedBackCon = TextEditingController();
 
-  void _showTooltip(int index) {
-    final dynamic tooltip = _tooltipKeys[index].currentState;
-    tooltip.ensureTooltipVisible();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _showTooltip(ratingValue);
-      });
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final ratingViewModel = Provider.of<RatingViewModel>(context, listen: false);
+  //     Future.delayed(const Duration(milliseconds: 500), () {
+  //       ratingViewModel.setRatingValue(2);
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final ratingViewModel = Provider.of<RatingViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -376,43 +371,7 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                 fontWeight: FontWeight.w400,
               ),
               AppConstant.spaceHeight5,
-              Row(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(5, (i) {
-                      return Tooltip(
-                        verticalOffset: -50,
-                        key: _tooltipKeys[i],
-                        message: ratingOption[i],
-                        child: InkWell(
-                            onTap: () {
-                              _showTooltip(i);
-                              setState(() {
-                                ratingValue = i;
-                              });
-                            },
-                            child: Icon(
-                              Icons.star_rounded,
-                              color: ratingValue >= i
-                                  ? AppColor.greenColor
-                                  : AppColor.greyColor,
-                              size: 30,
-                            )),
-                      );
-                    }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: TextConst(
-                      title: "Submit",
-                      color: AppColor.primaryColor,
-                      fontSize: AppConstant.fontSizeOne,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
+              ratingViewModel.rateWidget(context,"1","1"),
               AppConstant.spaceHeight50,
               AppConstant.spaceHeight20
             ],

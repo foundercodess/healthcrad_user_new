@@ -3,6 +3,7 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_filter_popup.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/more/widget/common_app_bar_more.dart';
@@ -62,11 +63,31 @@ class _MoreScreenState extends State<MoreScreen> {
 
       }),
       MoreGridModel(
-          title: 'Help', img: Assets.iconsHelpMore, subTitle: 'Let us help you', onTap: () {  }),
+          title: 'Help', img: Assets.iconsHelpMore, subTitle: 'Let us help you', onTap: () {
+
+            Navigator.pushNamed(context, RoutesName.helpPage);
+
+      }),
       MoreGridModel(
           title: 'Policy',
           img: Assets.iconsPolicyIcon,
-          subTitle: 'Privacy Policy', onTap: () {  }),
+          subTitle: 'Privacy Policy', onTap: () {
+
+
+
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return CommonFilterPopup(
+                    title: 'Filter by status',
+                    );
+              });
+
+
+
+
+      }),
       MoreGridModel(
           title: 'T&C', img: Assets.iconsTCMore, subTitle: 'Company Policies', onTap: () {  }),
       MoreGridModel(

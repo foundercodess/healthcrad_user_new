@@ -4,7 +4,6 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
-import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
@@ -73,13 +72,6 @@ void initState() {
               ],
             ),
           ),
-          // bottom: PreferredSize(
-          //   preferredSize:const Size.fromHeight(kToolbarHeight*1.2),
-          //   child: Container(
-          //     color: AppColor.whiteColor,
-          //     child: searchTextField(),
-          //   ),
-          // ),
         ),
 
       body: doctorViewModel.doctorDepartmentModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
@@ -103,7 +95,7 @@ void initState() {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: (){
-                    Navigator.pushNamed(context, RoutesName.cTapDoctor);
+                   doctorViewModel.getDoctorApi(context,doctorViewModel.doctorDepartmentModelData!.doctorCat![index].id.toString() );
                   },
                   child: Container(
                     decoration: BoxDecoration(

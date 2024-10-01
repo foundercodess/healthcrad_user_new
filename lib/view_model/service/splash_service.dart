@@ -16,10 +16,10 @@ class SplashServices {
       }
       if (value.toString() == 'null' || value.toString() == '') {
         await Future.delayed(const Duration(seconds: 3));
-        Navigator.pushNamed(context, RoutesName.mainScreen);
+        Navigator.pushReplacementNamed(context, RoutesName.mainScreen);
       } else {
         await Future.delayed(const Duration(seconds: 3));
-        Navigator.pushNamed(context, RoutesName.bottomNavBar);
+        Navigator.pushReplacementNamed(context, RoutesName.bottomNavBar);
         // Navigator.pushNamed(context, RoutesName.mapPage);
       }
     }).onError((error, stackTrace) {

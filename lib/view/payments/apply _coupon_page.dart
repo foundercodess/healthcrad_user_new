@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
-import 'package:health_crad_user/res/custom_rich_text.dart';
+
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
+import 'package:health_crad_user/view_model/coupon_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ApplyCouponPage extends StatefulWidget {
   const ApplyCouponPage({super.key});
@@ -16,11 +17,21 @@ class ApplyCouponPage extends StatefulWidget {
 }
 
 class _ApplyCouponPageState extends State<ApplyCouponPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CouponViewModel>(context, listen: false).couponGetApi(context);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final couponViewModel = Provider.of<CouponViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
-      body: SingleChildScrollView(
+      body: couponViewModel.couponsModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,6 +107,7 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
   }
 
   Widget couponData(){
+    final couponViewModel = Provider.of<CouponViewModel>(context);
     return  SingleChildScrollView(
       child: Column(
         children: [
@@ -110,16 +122,16 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
           ),
           AppConstant.spaceHeight10,
           ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
-            itemCount: 6,
+            itemCount: couponViewModel.couponsModelData!.couponsModelData!.length,
             padding: const EdgeInsets.symmetric(horizontal: 15),
             itemBuilder: (context, index) {
               return Container(
                 width: screenWidth,
                 height: screenHeight / 5,
-                margin: EdgeInsets.only(bottom: 20,),
+                margin: const EdgeInsets.only(bottom: 20,),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -146,7 +158,7 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: TextConst(
-                            title: 'FLAT  ₹ 50 OFF',
+                            title: 'FLAT ${couponViewModel.couponsModelData!.couponsModelData![index].discountPrice} OFF',
                             fontSize: AppConstant.fontSizeThree,
                             color: AppColor.whiteColor,
                             fontWeight: FontWeight.w900,
@@ -168,7 +180,7 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextConst(
-                                title: 'TRYNEW',
+                                title: couponViewModel.couponsModelData!.couponsModelData![index].couponCode,
                                 fontSize: AppConstant.fontSizeTwo,
                                 color: AppColor.blackColor,
                                 fontWeight: FontWeight.w600,
@@ -183,20 +195,20 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
                           ),
                           AppConstant.spaceHeight5,
                           TextConst(
-                            title: 'Add Rs. 5000 to avail this offer',
+                            title: 'Add Rs. ${couponViewModel.couponsModelData!.couponsModelData![index].minOrderPrice} to avail this offer',
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.blackColor,
                             fontWeight: FontWeight.w400,
                           ),
                           AppConstant.spaceHeight5,
                           TextConst(
-                            title: 'Get flat Rs. 50 off',
+                            title: 'Get flat Rs. ${couponViewModel.couponsModelData!.couponsModelData![index].discountPrice} off',
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.textColor,
                             fontWeight: FontWeight.w400,
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
                             width: screenWidth,
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -215,7 +227,7 @@ class _ApplyCouponPageState extends State<ApplyCouponPage> {
                           TextConst(
                             textAlign: TextAlign.start,
                             title:
-                            'Use code TRYNEW & get flat Rs. 50 off on orders above Rs. 4,999.',
+                            couponViewModel.couponsModelData?.couponsModelData![index].description,
                             fontSize: AppConstant.fontSizeOne,
                             color: Colors.black87,
                             fontWeight: FontWeight.w400,

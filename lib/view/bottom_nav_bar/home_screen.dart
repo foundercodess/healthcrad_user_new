@@ -550,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             height: screenHeight / 3,
             alignment: Alignment.center,
-            child: CategoryListView()),
+            child: medicineViewModel.medicineModelData ==null?Center(child: CircularProgressIndicator()): CategoryListView()),
       ],
     );
   }

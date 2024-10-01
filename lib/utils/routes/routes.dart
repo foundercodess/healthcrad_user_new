@@ -15,6 +15,7 @@ import 'package:health_crad_user/view/bottom_nav_bar/appointment_screen.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/home_screen.dart';
 import 'package:health_crad_user/view/doctor/doctor_profile_page.dart';
+import 'package:health_crad_user/view/help_page.dart';
 import 'package:health_crad_user/view/medicine/cart_page.dart';
 import 'package:health_crad_user/view/medicine/medicine_details.dart';
 import 'package:health_crad_user/view/medicine/medicines_page.dart';
@@ -107,8 +108,10 @@ class Routers {
         return (context) => const SavedAddressScreen();
       case RoutesName.addNewAddressScreen:
         return (context) => const AddNewAddressScreen();
-      // case RoutesName.mapPage:
-      //   return (context) =>  MapPage();
+        case RoutesName.helpPage:
+        return (context) => const HelpPage();
+      case RoutesName.mapPage:
+        return (context) =>  MapPage();
       default:
         return (context) => const Scaffold(
               body: Center(

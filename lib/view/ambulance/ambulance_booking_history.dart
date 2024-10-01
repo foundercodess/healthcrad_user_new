@@ -4,9 +4,11 @@ import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
-
+import 'package:health_crad_user/view_model/ambulance_view_model.dart';
+import 'package:provider/provider.dart';
 import '../../res/app_btn.dart';
 import '../../res/custom_rich_text.dart';
+import '../../view_model/rating_view_model.dart';
 
 class AmbulanceBookingHistory extends StatefulWidget {
   const AmbulanceBookingHistory({super.key});
@@ -17,31 +19,25 @@ class AmbulanceBookingHistory extends StatefulWidget {
 }
 
 class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
-  List<int> starList = [1, 2, 3, 4, 5];
+  //
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     Future.delayed(const Duration(milliseconds: 500), () {
+  //       _showTooltip(ratingValue);
+  //     });
+  //   });
 
-  final ratingOption = ["very poor", "poor", "average", "good", "excellent"];
-  int ratingValue = 3;
-  final List<GlobalKey<TooltipState>> _tooltipKeys =
-  List.generate(5, (_) => GlobalKey<TooltipState>());
-  final feedBackCon = TextEditingController();
-
-  void _showTooltip(int index) {
-    final dynamic tooltip = _tooltipKeys[index].currentState;
-    tooltip.ensureTooltipVisible();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _showTooltip(ratingValue);
-      });
-    });
-  }
+  //   Provider.of<AmbulanceViewModel>(context, listen: false)
+  //       .ambulanceHistoryApi(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final ratingViewModel = Provider.of<RatingViewModel>(context);
+    final ambulanceViewModel = Provider.of<AmbulanceViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: AppBar(
@@ -145,10 +141,12 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
       //     ],
       //   ),
       // ),
-      body: ListView.builder(
+      body:  ambulanceViewModel
+          .ambulanceHistoryModel == null? CircularProgressIndicator():  ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        itemCount: 2,
+        itemCount: ambulanceViewModel
+            .ambulanceHistoryModel!.ambulanceHistoryData!.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.only(top: index == 0 ? 10 : 0, bottom: 10),
@@ -170,7 +168,9 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeOne),
                         CustomTextSpan(
-                            text: "432",
+                            text: ambulanceViewModel.ambulanceHistoryModel!
+                                .ambulanceHistoryData![index].id
+                                .toString(),
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeOne)
@@ -268,28 +268,33 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             TextConst(
-                              title: 'Shivam Kumar',
+                              title: ambulanceViewModel.ambulanceHistoryModel!
+                                  .ambulanceHistoryData![index].username,
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w400,
                             ),
                             TextConst(
-                              title: '9645125486',
+                              title: ambulanceViewModel.ambulanceHistoryModel!
+                                  .ambulanceHistoryData![index].phone
+                                  .toString(),
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w400,
                             ),
                             TextConst(
-                              title: 'Basic Life Support',
+                              title: ambulanceViewModel.ambulanceHistoryModel!
+                                  .ambulanceHistoryData![index].ambulanceType,
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w400,
                             ),
                             TextConst(
-                              title: '250 km',
+                              title:
+                                  '${ambulanceViewModel.ambulanceHistoryModel!.ambulanceHistoryData![index].distance} km',
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w400,
@@ -307,7 +312,7 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: List.generate(
                         int.parse((screenWidth / 8).toStringAsFixed(0)),
-                            (i) => TextConst(
+                        (i) => TextConst(
                           title: '-',
                           fontSize: AppConstant.fontSizeZero,
                           color: AppColor.textColor.withOpacity(0.4),
@@ -352,18 +357,25 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                       AppConstant.spaceWidth15,
                       SizedBox(
                         height: screenHeight * 0.077,
+                        width: screenWidth * 0.8,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextConst(
-                              title: 'Line bazar, Purnea, Bihar',
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              title: ambulanceViewModel.ambulanceHistoryModel!
+                                  .ambulanceHistoryData![index].pickupAddress,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.addressColor,
                               fontWeight: FontWeight.w400,
                             ),
                             TextConst(
-                              title: 'PMCH, Patna, Bihar',
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              title: ambulanceViewModel.ambulanceHistoryModel!
+                                  .ambulanceHistoryData![index].dropAddress,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.greenColor,
                               fontWeight: FontWeight.w400,
@@ -390,16 +402,15 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                             color: AppColor.primaryColor.withOpacity(0.6)),
                         label: index == 0
                             ? 'Searching for driver'
-                            : "Mukesh Kumar",
+                            : ambulanceViewModel.ambulanceHistoryModel!
+                                .ambulanceHistoryData![index].driverName,
                         textColor: index == 0
                             ? AppColor.textColor.withOpacity(0.4)
                             : AppColor.primaryColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       ButtonConst(
-                        onTap: () {
-                          // Navigator.pushNamed(context, RoutesName.verifyOtpScreen);
-                        },
+                        onTap: () {},
                         width: screenWidth * 0.4,
                         height: screenHeight * 0.041,
                         borderRadius: BorderRadius.circular(5),
@@ -429,45 +440,48 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                     ],
                   ),
                   AppConstant.spaceHeight15,
-                  if(index==0)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset(
-                        Assets.iconsAppoMore,
-                        color: AppColor.blackColor.withOpacity(0.6),
-                        height: 25,
-                        width: 25,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 8,
-                          margin: const EdgeInsets.only(left: 15),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(5), // Outer container border radius
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5), // Circular border for the progress indicator
-                            child: LinearProgressIndicator(
-                              value: 0.5, // Set progress value here
-                              color: AppColor.primaryColor,
-                              backgroundColor: Colors.transparent,
+                  if (index == 0)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset(
+                          Assets.iconsAppoMore,
+                          color: AppColor.blackColor.withOpacity(0.6),
+                          height: 25,
+                          width: 25,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 8,
+                            margin: const EdgeInsets.only(left: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(
+                                  5), // Outer container border radius
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  5), // Circular border for the progress indicator
+                              child: LinearProgressIndicator(
+                                value: 0.5, // Set progress value here
+                                color: AppColor.primaryColor,
+                                backgroundColor: Colors.transparent,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-
-                    ],
-                  ),
+                      ],
+                    ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child:index ==0? TextConst(
-                      title: '02 min. 14 sec.',
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.blackColor,
-                      fontWeight: FontWeight.w400,
-                    ):null,
+                    child: index == 0
+                        ? TextConst(
+                            title: '02 min. 14 sec.',
+                            fontSize: AppConstant.fontSizeOne,
+                            color: AppColor.blackColor,
+                            fontWeight: FontWeight.w400,
+                          )
+                        : null,
                   ),
                   AppConstant.spaceHeight15,
                   Row(
@@ -523,440 +537,35 @@ class _AmbulanceBookingHistoryState extends State<AmbulanceBookingHistory> {
                             ]),
                     ],
                   ),
-                  if(index>0)
-                  AppConstant.spaceHeight20,
-                  if(index>0)
-                  CustomRichText(textSpans: [
-                    CustomTextSpan(
-                        text: "Do you have any problem?  ",
-                        fontWeight: FontWeight.w400,
-                        textColor: AppColor.blackColor,
-                        fontSize: AppConstant.fontSizeOne),
-                    CustomTextSpan(
-                        text: "Call Now",
-                        fontWeight: FontWeight.w600,
-                        textColor: AppColor.primaryColor,
-                        fontSize: AppConstant.fontSizeOne)
-                  ]),
-                  if(index>0)
-                  AppConstant.spaceHeight20,
-                  if(index>0)
-                  TextConst(
-                    title: '• Rate your experience',
-                    fontSize: AppConstant.fontSizeOne,
-                    color: AppColor.blackColor,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  if(index>0)
-                  AppConstant.spaceHeight5,
-                  if(index>0)
-                  Row(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(5, (i) {
-                          return Tooltip(
-                            verticalOffset: -50,
-                            key: _tooltipKeys[i],
-                            message: ratingOption[i],
-                            child: InkWell(
-                                onTap: () {
-                                  _showTooltip(i);
-                                  setState(() {
-                                    ratingValue = i;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.star_rounded,
-                                  color:ratingValue >= i
-                                      ? AppColor.greenColor:AppColor.greyColor,
-                                  size: 30,
-                                )),
-                          );
-                        }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: TextConst(title: "Submit",color: AppColor.primaryColor,fontSize: AppConstant.fontSizeOne,fontWeight: FontWeight.bold,),
-                      )
-                    ],
-                  ),
+                  if (index > 0) AppConstant.spaceHeight20,
+                  if (index > 0)
+                    CustomRichText(textSpans: [
+                      CustomTextSpan(
+                          text: "Do you have any problem?  ",
+                          fontWeight: FontWeight.w400,
+                          textColor: AppColor.blackColor,
+                          fontSize: AppConstant.fontSizeOne),
+                      CustomTextSpan(
+                          text: "Call Now",
+                          fontWeight: FontWeight.w600,
+                          textColor: AppColor.primaryColor,
+                          fontSize: AppConstant.fontSizeOne)
+                    ]),
+                  if (index > 0) AppConstant.spaceHeight20,
+                  if (index > 0)
+                    TextConst(
+                      title: '• Rate your experience',
+                      fontSize: AppConstant.fontSizeOne,
+                      color: AppColor.blackColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  if (index > 0) AppConstant.spaceHeight5,
+                  if (index > 0)
+                    ratingViewModel.rateWidget(context, "4",ambulanceViewModel.ambulanceHistoryModel!.ambulanceHistoryData![index].id.toString())
                 ],
               ),
             ),
           );
-
-          index == 0
-              ? Container(
-                  margin: EdgeInsets.only(top: index == 0 ? 10 : 0, bottom: 10),
-                  width: screenWidth,
-                  color: AppColor.whiteColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: screenWidth,
-                          height: screenHeight * 0.4,
-                          color: AppColor.whiteColor,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Icon(Icons.clear,
-                                      color: AppColor.blackColor)),
-                              AppConstant.spaceHeight50,
-                              Image.asset(
-                                Assets.imageSorryBg,
-                                scale: 4.6,
-                              ),
-                              TextConst(
-                                title: 'Sorry !',
-                                fontSize: AppConstant.fontSizeHeading,
-                                color: AppColor.blackColor.withOpacity(0.5),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              AppConstant.spaceHeight10,
-                              TextConst(
-                                title: 'Ambulance not found, please try again.',
-                                fontSize: AppConstant.fontSizeTwo,
-                                color: AppColor.textColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : Container(
-                  margin: EdgeInsets.only(top: index == 0 ? 10 : 0, bottom: 10),
-                  width: screenWidth,
-                  color: AppColor.whiteColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomRichText(textSpans: [
-                              CustomTextSpan(
-                                  text: "Order Id : ",
-                                  fontWeight: FontWeight.w400,
-                                  textColor: AppColor.blackColor,
-                                  fontSize: AppConstant.fontSizeOne),
-                              CustomTextSpan(
-                                  text: "432",
-                                  fontWeight: FontWeight.w400,
-                                  textColor: AppColor.textColor,
-                                  fontSize: AppConstant.fontSizeOne)
-                            ]),
-                            CustomRichText(textSpans: [
-                              CustomTextSpan(
-                                  text: "Verification code : ",
-                                  fontWeight: FontWeight.w400,
-                                  textColor: AppColor.blackColor,
-                                  fontSize: AppConstant.fontSizeOne),
-                              CustomTextSpan(
-                                  text: "335900",
-                                  fontWeight: FontWeight.w400,
-                                  textColor: AppColor.textColor,
-                                  fontSize: AppConstant.fontSizeOne)
-                            ]),
-                          ],
-                        ),
-                        AppConstant.spaceHeight10,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: screenHeight * 0.12,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextConst(
-                                    title: 'Name',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: 'Phone',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: 'Type',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: 'Distance',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            AppConstant.spaceWidth10,
-                            SizedBox(
-                              height: screenHeight * 0.12,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextConst(
-                                    title: ':',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: ':',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: ':',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextConst(
-                                    title: ':',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            AppConstant.spaceWidth10,
-                            SizedBox(
-                              height: screenHeight * 0.12,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextConst(
-                                    title: 'Shivam Kumar',
-                                    maxLines: 1,
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.textColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  TextConst(
-                                    title: '9645125486',
-                                    maxLines: 1,
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.textColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  TextConst(
-                                    title: 'Basic Life Support',
-                                    maxLines: 1,
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.textColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  TextConst(
-                                    title: '250 km',
-                                    fontSize: AppConstant.fontSizeTwo,
-                                    color: AppColor.textColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppConstant.spaceHeight5,
-                        TextConst(
-                          title:
-                              '--------------------------------------------------------------',
-                          fontSize: AppConstant.fontSizeZero,
-                          color: AppColor.textColor.withOpacity(0.3),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        AppConstant.spaceHeight10,
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: screenHeight * 0.07,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    height: 10,
-                                    width: 10,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 1,
-                                            color: AppColor.blackColor)),
-                                  ),
-                                  Container(
-                                    height: 20,
-                                    width: 1,
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                      image: AssetImage(
-                                        Assets.imageLineBg,
-                                      ),
-                                      fit: BoxFit.fill,
-                                    )),
-                                  ),
-                                  Image.asset(
-                                    Assets.iconsLocatinIcon,
-                                    scale: 3,
-                                  )
-                                ],
-                              ),
-                            ),
-                            AppConstant.spaceWidth5,
-                            SizedBox(
-                              height: screenHeight * 0.07,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextConst(
-                                    title: 'Line bazar, Purnea, Bihar',
-                                    fontSize: AppConstant.fontSizeOne,
-                                    color: AppColor.addressColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  TextConst(
-                                    title: 'PMCH, Patna, Bihar',
-                                    fontSize: AppConstant.fontSizeOne,
-                                    color: AppColor.greenColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        AppConstant.spaceHeight10,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ButtonConst(
-                              onTap: () {
-                                // Navigator.pushNamed(context, RoutesName.verifyOtpScreen);
-                              },
-                              width: screenWidth * 0.44,
-                              height: screenHeight * 0.04,
-                              borderRadius: BorderRadius.circular(5),
-                              color: AppColor.whiteColor,
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      AppColor.primaryColor.withOpacity(0.6)),
-                              label: "Mukesh Kumar",
-                              textColor: AppColor.primaryColor,
-                              fontSize: AppConstant.fontSizeOne,
-                            ),
-                            ButtonConst(
-                              onTap: () {
-                                // Navigator.pushNamed(context, RoutesName.verifyOtpScreen);
-                              },
-                              width: screenWidth * 0.4,
-                              height: screenHeight * 0.041,
-                              borderRadius: BorderRadius.circular(5),
-                              color: AppColor.blueColor,
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      AppColor.primaryColor.withOpacity(0.6)),
-                              fontSize: AppConstant.fontSizeOne,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Image.asset(
-                                    Assets.iconsGreenCallIcon,
-                                    color: AppColor.whiteColor,
-                                    scale: 3,
-                                  ),
-                                  TextConst(
-                                    title: 'Call to driver',
-                                    fontSize: AppConstant.fontSizeOne,
-                                    color: AppColor.whiteColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppConstant.spaceHeight20,
-                        CustomRichText(textSpans: [
-                          CustomTextSpan(
-                              text: "Status : ",
-                              fontWeight: FontWeight.w500,
-                              textColor: AppColor.blackColor,
-                              fontSize: AppConstant.fontSizeTwo),
-                          CustomTextSpan(
-                              text: "journey completed",
-                              fontWeight: FontWeight.w500,
-                              textColor: AppColor.primaryColor,
-                              fontSize: AppConstant.fontSizeTwo)
-                        ]),
-                        AppConstant.spaceHeight10,
-                        TextConst(
-                          title: '●  Rate your experience',
-                          fontSize: AppConstant.fontSizeOne,
-                          color: AppColor.blackColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        AppConstant.spaceHeight10,
-                        Row(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(starList.length, (index) {
-                                return Icon(
-                                  Icons.star,
-                                  color: index == starList.length - 1
-                                      ? AppColor.greyColor
-                                      : AppColor.greenColor,
-                                  size: 30,
-                                );
-                              }),
-                            ),
-                            AppConstant.spaceWidth5,
-                            TextConst(
-                              title: 'Submit',
-                              fontSize: AppConstant.fontSizeTwo,
-                              color: AppColor.blueColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
         },
       ),
     );

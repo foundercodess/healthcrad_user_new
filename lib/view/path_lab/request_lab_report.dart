@@ -9,10 +9,11 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/utils/routes/routes_name.dart';
+
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view/path_lab/widgets/file_selection_bottomsheet.dart';
-import 'package:pinput/pinput.dart';
+import 'package:health_crad_user/view_model/auth_view_model.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../view_model/path_view_model.dart';
@@ -24,7 +25,7 @@ class RequestLabReport extends StatefulWidget {
   State<RequestLabReport> createState() => _RequestLabReportState();
 }
 
-int _selectedValue = 1;
+
 
 class _RequestLabReportState extends State<RequestLabReport> {
   final TextEditingController pathLabNameCon = TextEditingController();
@@ -32,11 +33,11 @@ class _RequestLabReportState extends State<RequestLabReport> {
   final TextEditingController patientNameCon = TextEditingController();
   final TextEditingController referredByCon = TextEditingController();
   final TextEditingController ageCon = TextEditingController();
-  final TextEditingController testDateCon = TextEditingController();
   final TextEditingController phoneNumberCon = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final pathViewModel = Provider.of<PathViewModel>(context);
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       bottomNavigationBar: ButtonConst(
@@ -59,7 +60,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
           }
           else if (referredByCon.text.isEmpty) {
             Utils.show("Please enter referred Name", context);
-          }  else if (testDateCon.text.isEmpty) {
+          }  else if (authViewModel.dateController.text.isEmpty) {
             Utils.show("Please enter  Test Date", context);
           } else if (phoneNumberCon.text.isEmpty || phoneNumberCon.text.length !=10 ) {
             Utils.show("Please enter valid Phone Number", context);
@@ -70,7 +71,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 patientNameCon.text,
                 ageCon.text,
                 referredByCon.text,
-                testDateCon.text,
+                authViewModel.dateController.text,
                 phoneNumberCon.text,
                 payMode.toString(),
                 context);
@@ -191,8 +192,7 @@ class _RequestLabReportState extends State<RequestLabReport> {
               TextFieldConst(
                 controller: pathLabAddressCon,
                 fillColor: AppColor.containerFillColor,
-                keyboardType: TextInputType.number,
-                maxLength: 10,
+                keyboardType: TextInputType.text,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Image.asset(
@@ -202,7 +202,6 @@ class _RequestLabReportState extends State<RequestLabReport> {
                     color: AppColor.primaryColor,
                   ),
                 ),
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 hint: "Enter pathlab address",
                 fontSize: AppConstant.fontSizeTwo,
                 borderSide:
@@ -296,25 +295,31 @@ class _RequestLabReportState extends State<RequestLabReport> {
                 fontWeight: FontWeight.w600,
               ),
               AppConstant.spaceHeight5,
-              TextFieldConst(
-                controller: testDateCon,
-                fillColor: AppColor.containerFillColor,
-                keyboardType: TextInputType.number,
-                maxLength: 10,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 12),
-                  child: Image.asset(
-                    Assets.iconsCalenderIcon,
-                    height: 25,
-                    width: 25,
-                    color: AppColor.primaryColor,
+              GestureDetector(
+                onTap: (){
+                  authViewModel.pickDate(context);
+                },
+                child: TextFieldConst(
+                  controller: authViewModel.dateController,
+                  fillColor: AppColor.containerFillColor,
+                  keyboardType: TextInputType.number,
+                  enabled: false,
+                  maxLength: 10,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: Image.asset(
+                      Assets.iconsCalenderIcon,
+                      height: 25,
+                      width: 25,
+                      color: AppColor.primaryColor,
+                    ),
                   ),
+                  inputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                  hint: "Enter test date",
+                  fontSize: AppConstant.fontSizeTwo,
+                  borderSide:
+                      BorderSide(width: 0.5, color: AppColor.rBorderSideColor),
                 ),
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                hint: "Enter test date",
-                fontSize: AppConstant.fontSizeTwo,
-                borderSide:
-                    BorderSide(width: 0.5, color: AppColor.rBorderSideColor),
               ),
               AppConstant.spaceHeight15,
               TextConst(

@@ -1,246 +1,472 @@
-// // ignore_for_file: use_build_context_synchronously
-//
 // import 'dart:async';
 // import 'dart:convert';
-// import 'dart:ui' as ui;
 //
-//
-// import 'package:health_crad_user/generated/assets.dart';
-// import 'package:health_crad_user/res/app_color.dart';
-// import 'package:http/http.dart' as http;
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-//
+// import 'package:geolocator/geolocator.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:http/http.dart' as http;
 //
-// class AuthMapSearch extends StatefulWidget {
-//   const AuthMapSearch({super.key});
+// class MapViewModel with ChangeNotifier {
+//   final CameraPosition initialCameraPosition = const CameraPosition(
+//     target: LatLng(26.9157806819305, 80.9580939971136),
+//     zoom: 14,
+//   );
 //
-//   @override
-//   State<AuthMapSearch> createState() => _AuthMapSearchState();
-// }
+//   final Completer<GoogleMapController> completer =
+//       Completer<GoogleMapController>();
 //
-// class _AuthMapSearchState extends State<AuthMapSearch> {
-//   String? location;
-//   var searchedLocationLatitude;
-//   var searchedLocationLongitude;
-//   String searchedLocationPincode = "";
-//   List<Map<String, dynamic>> _suggestions = [];
-//   final Completer<GoogleMapController> _controller = Completer();
+//   final Set<Marker> markers = {};
 //
-//   @override
-//   Widget build(BuildContext context) {
-//     double height = ScreenSize.height(context);
-//     double width = ScreenSize.width(context);
-//     return Scaffold(
-//       backgroundColor: AppColor.greenColor,
-//       body: BackgroundPage(
-//         text: 'Select your location'.tr,
-//         child: Container(
-//           height: height * 0.85,
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 12.0),
-//             child: Column(
-//               children: [
-//                 SizedBox(
-//                   height: height * 0.03,
-//                 ),
-//                 CustomTextField(
-//                   onChanged: (v) => _getSuggestions(v),
-//                   filled: true,
-//                   fillColor: AppColor.greyColor,
-//                   prefixIcon: Icon(Icons.search_rounded)
-//                 ),
-//                 if (_suggestions.isNotEmpty)
-//                   ListView.builder(
-//                     shrinkWrap: true,
-//                     itemCount: _suggestions.length,
-//                     itemBuilder: (context, index) {
-//                       final suggestion = _suggestions[index];
-//                       final location = suggestion['description'];
-//                       final placeId = suggestion['place_id'];
-//                       final pincode = suggestion['pincode'];
-//                       return ListTile(
-//                         leading: Image.asset(
-//                           Assets.iconsLocatinIcon,
-//                           scale: 3,
-//                         ),
-//                         title: elementsBold(
-//                             text: location.toString(),
-//                             color: AppColor.greenColor),
-//                         subtitle: elements(
-//                             text: 'Pin code : $pincode',
-//                             color: AppColor.greenColor),
-//                         onTap: () async {
-//                           FocusScope.of(context).requestFocus(FocusNode());
-//                           try {
-//                             Map<String, dynamic>? locationDetails =
-//                             await getLatLngFromPlaceId(
-//                                 placeId, location.toString());
-//                             print('Selected Location: $location');
-//                             print('Latitude: ${locationDetails['latitude']}');
-//                             print('Longitude: ${locationDetails['longitude']}');
-//                             print('Pincode: ${locationDetails['pincode']}');
+//   List<dynamic> _placeList = [];
+//   List<dynamic> get placeList => _placeList;
+//   void setPlaceData(List<dynamic> val) {
+//     _placeList = val;
+//     notifyListeners();
+//   }
+//   //add marker
 //
-//                             Navigator.pop(
-//                               context,
-//                               {
-//                                 'locationName': location,
-//                                 'latitude': locationDetails['latitude'],
-//                                 'longitude': locationDetails['longitude'],
-//                                 'pincode': locationDetails['pincode'],
-//                               },
-//                             );
-//                           } catch (e) {
-//                             print('Error retrieving location details: $e');
-//                           }
-//                         },
-//                       );
-//                     },
-//                   )
-//                 else
-//                   Center(
-//                     child: Column(
-//                       children: [
-//                         SizedBox(
-//                           height: height * 0.05,
-//                         ),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             Icon(Icons.search_rounded),
-//                             SizedBox(
-//                               width: width * 0.03,
-//                             ),
-//                             titleBold(
-//                                 text: 'No suggestions'.tr,
-//                                 color: AppColor.darkGreen),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                     //  Text('No suggestions'),
-//                   ),
-//               ],
-//             ),
+//   void addMarker(double latitude, double longitude, String markerId) {
+//     markers.remove("marker_$markerId");
+//     markers.add(Marker(
+//       markerId: MarkerId('marker_$markerId'),
+//       position: LatLng(latitude, longitude),
+//       infoWindow: const InfoWindow(title: 'Selected Location'),
+//     ));
+//     changeCameraPosition(latitude, longitude);
+//     notifyListeners();
+//   }
+//
+//   //find lat lng using search place
+//
+//   double _latSrc = 0.0;
+//   double _lngSrc = 0.0;
+//   double _latDes = 0.0;
+//   double _lngDes = 0.0;
+//
+//   double get latSrc => _latSrc;
+//   double get lngSrc => _lngSrc;
+//   double get latDes => _latDes;
+//   double get lngDes => _lngDes;
+//
+//   void setPickupLatLng(double lat, double lng) {
+//     _latSrc = lat;
+//     _lngSrc = lng;
+//     _searchedLocation = LatLng(lat, lng);
+//     addMarker(_latSrc, _lngSrc, "searched Pickup location");
+//     _placeList.clear();
+//     notifyListeners();
+//   }
+//
+//   void setDestinationLatLng(double lat, double lng) {
+//     _latDes = lat;
+//     _lngDes = lng;
+//     _searchedLocation = LatLng(lat, lng);
+//     addMarker(_latDes, _lngDes, "searched Drop location");
+//     _placeList.clear();
+//     notifyListeners();
+//   }
+//
+//
+// //search location api
+//   Future<void> placeSearchApi(dynamic searchCon) async {
+//     Uri uri =
+//         Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
+//       "input": searchCon,
+//       "key": "AIzaSyDpn7sjPxjUUi7tgAKpPHUjplrANUYNov8",
+//       "components": "country:in",
+//     });
+//     var response = await http.get(uri);
+//     if (response.statusCode == 200) {
+//       if (kDebugMode) {
+//         print(response.body);
+//       }
+//       final resData = jsonDecode(response.body)['predictions'];
+//       if (resData != null) {
+//         setPlaceData(resData);
+//       }
+//     } else {
+//       if (kDebugMode) {
+//         print('Error fetching suggestions: ${response.body}');
+//       }
+//     }
+//   }
+//
+//   //search place details
+//
+//   Future<dynamic> getPlaceDetails(String placeId) async {
+//     var res = await http.get(
+//       Uri.parse(
+//           'https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=AIzaSyDpn7sjPxjUUi7tgAKpPHUjplrANUYNov8'),
+//     );
+//     if (kDebugMode) {
+//       print(res.body);
+//     }
+//     if (res.statusCode == 200) {
+//       final resData = jsonDecode(res.body)['result']['geometry']['location'];
+//       if (kDebugMode) {
+//         print("resData");
+//       }
+//       if (kDebugMode) {
+//         print(resData);
+//       }
+//       return resData;
+//     } else {}
+//   }
+//
+//   Future<void> changeCameraPosition(double lat, double lng) async {
+//     final GoogleMapController controller = await completer.future;
+//     CameraPosition givenLocation = CameraPosition(
+//       target: LatLng(lat, lng),
+//       zoom: 14,
+//     );
+//     controller.animateCamera(CameraUpdate.newCameraPosition(givenLocation));
+//   }
+//
+//   Future<void> checkAndRequestPermission(context) async {
+//     LocationPermission permission = await Geolocator.checkPermission();
+//     if (permission == LocationPermission.denied ||
+//         permission == LocationPermission.deniedForever) {
+//       permission = await Geolocator.requestPermission();
+//       if (permission == LocationPermission.deniedForever) {
+//         _showPermissionDeniedDialog(context);
+//       } else if (permission == LocationPermission.denied) {
+//         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+//           content: Text(
+//               'Location permission denied. Please enable it from settings.'),
+//         ));
+//       }
+//     } else {
+//       const LocationSettings locationSettings = LocationSettings(
+//         accuracy: LocationAccuracy.high,
+//         distanceFilter: 100,
+//       );
+//       Position position = await Geolocator.getCurrentPosition(
+//           locationSettings: locationSettings);
+//       addMarker(position.latitude, position.longitude, 'My current Location');
+//       changeCameraPosition(position.latitude, position.longitude);
+//     }
+//     notifyListeners();
+//   }
+//
+//   Future<void> locateUser(BuildContext context) async {
+//     Position position = await Geolocator.getCurrentPosition();
+//     _currentLocation =
+//         LatLng(position.latitude, position.longitude); // Store current location
+//     addMarker(position.latitude, position.longitude, 'My current Location');
+//     changeCameraPosition(position.latitude, position.longitude);
+//   }
+//
+// // after denied the location permission go to background permission
+//   void _showPermissionDeniedDialog(context) {
+//     showDialog(
+//       context: context,
+//       builder: (context) => AlertDialog(
+//         title: const Text('Permission Denied'),
+//         content: const Text(
+//             'Location permissions are permanently denied. Please enable it from settings.'),
+//         actions: [
+//           TextButton(
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             child: const Text('OK'),
 //           ),
-//         ),
+//         ],
 //       ),
 //     );
 //   }
 //
-//   Future<void> _getSuggestions(String input) async {
-//     const apiKey = MapApi.mapKey;
-//     final endpoint = Uri.parse(
-//         '${MapApi.mapSuggetion}$input&key=$apiKey&language=en&region=in');
+//   LatLng? _currentLocation;
+//   LatLng? _searchedLocation;
+//   //add polyline concept
+//   final Set<Polyline> polyLines = {};
 //
-//     final response = await http.get(endpoint);
-//
-//     if (response.statusCode == 200) {
-//       final data = json.decode(response.body);
-//       print('API Response: $data'); // Print API response for debugging
-//       final predictions = data['predictions'];
-//       List<Map<String, dynamic>> tempSuggestions = [];
-//       for (var prediction in predictions) {
-//         final description = prediction['description'] as String;
-//         final placeId = prediction['place_id'] as String;
-//         final pincode = await getPincodeFromPlaceId(placeId);
-//         tempSuggestions.add({
-//           'description': description,
-//           'place_id': placeId,
-//           'pincode': pincode,
-//         });
+//   void drawPolylineToSearchedPlace() {
+//     if (_currentLocation != null && _searchedLocation != null) {
+//       if (kDebugMode) {
+//         print('hlllw');
 //       }
-//       setState(() {
-//         _suggestions = tempSuggestions;
-//       });
-//     } else {
-//       // Handle API error
-//       print('Failed to fetch suggestions: ${response.statusCode}');
+//       final Polyline polyline = Polyline(
+//         polylineId: const PolylineId('route'),
+//         points: [_currentLocation!, _searchedLocation!],
+//         width: 5,
+//         color: Colors.blue,
+//         geodesic: true,
+//       );
+//       polyLines.add(polyline);
+//       notifyListeners();
 //     }
-//   }
-//
-//   Future<String> getPincodeFromPlaceId(String placeId) async {
-//     const apiKey = MapApi.mapKey;
-//     final response = await http
-//         .get(Uri.parse('${MapApi.mapGetLatLong}$placeId&key=$apiKey'));
-//
-//     if (response.statusCode == 200) {
-//       final decodedResponse = json.decode(response.body);
-//       if (decodedResponse['status'] == 'OK') {
-//         final addressComponents = decodedResponse['result']['address_components'];
-//         String pincode = "";
-//         for (var component in addressComponents) {
-//           if (component['types'].contains('postal_code')) {
-//             pincode = component['long_name'];
-//             break;
-//           }
-//         }
-//         return pincode;
-//       } else {
-//         throw Exception(
-//             'Failed to fetch location details: ${decodedResponse['error_message']}');
-//       }
-//     } else {
-//       throw Exception(
-//           'Failed to fetch location details: ${response.statusCode}');
-//     }
-//   }
-//
-//   Future<Map<String, dynamic>> getLatLngFromPlaceId(String placeId, String address) async {
-//     const apiKey = MapApi.mapKey;
-//     final response = await http
-//         .get(Uri.parse('${MapApi.mapGetLatLong}$placeId&key=$apiKey'));
-//
-//     if (response.statusCode == 200) {
-//       final decodedResponse = json.decode(response.body);
-//       if (decodedResponse['status'] == 'OK') {
-//         final location = decodedResponse['result']['geometry']['location'];
-//         searchedLocationLatitude = location['lat'];
-//         searchedLocationLongitude = location['lng'];
-//         final addressComponents = decodedResponse['result']['address_components'];
-//
-//         String pincode = "";
-//         for (var component in addressComponents) {
-//           if (component['types'].contains('postal_code')) {
-//             pincode = component['long_name'];
-//             break;
-//           }
-//         }
-//
-//         _suggestions.clear();
-//         final searchlatlan = LatLng(searchedLocationLatitude, searchedLocationLongitude);
-//         _gotoSpecificPosition(searchlatlan);
-//
-//         return {
-//           'latitude': searchedLocationLatitude,
-//           'longitude': searchedLocationLongitude,
-//           'pincode': pincode,
-//         };
-//       } else {
-//         throw Exception(
-//             'Failed to fetch location details: ${decodedResponse['error_message']}');
-//       }
-//     } else {
-//       throw Exception(
-//           'Failed to fetch location details: ${response.statusCode}');
-//     }
-//   }
-//
-//   Future<void> _gotoSpecificPosition(LatLng position) async {
-//     GoogleMapController mapController = await _controller.future;
-//     mapController.animateCamera(CameraUpdate.newCameraPosition(
-//         CameraPosition(target: position, zoom: 13.5)));
-//   }
-//
-//   Future<Uint8List> getImages(String path, int width) async {
-//     ByteData data = await rootBundle.load(path);
-//     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-//         targetHeight: width);
-//     ui.FrameInfo fi = await codec.getNextFrame();
-//     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-//         .buffer
-//         .asUint8List();
 //   }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import 'dart:async';
+import 'dart:convert';
+import 'dart:math'; // Importing math for calculations
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+
+class MapViewModel with ChangeNotifier {
+  final CameraPosition initialCameraPosition = const CameraPosition(
+    target: LatLng(26.9157806819305, 80.9580939971136),
+    zoom: 14,
+  );
+
+  final Completer<GoogleMapController> completer =
+  Completer<GoogleMapController>();
+
+  final Set<Marker> markers = {};
+
+  List<dynamic> _placeList = [];
+  List<dynamic> get placeList => _placeList;
+
+  void setPlaceData(List<dynamic> val) {
+    _placeList = val;
+    notifyListeners();
+  }
+
+  // Add marker
+  void addMarker(double latitude, double longitude, String markerId) {
+    markers.remove("marker_$markerId");
+    markers.add(Marker(
+      markerId: MarkerId('marker_$markerId'),
+      position: LatLng(latitude, longitude),
+      infoWindow: const InfoWindow(title: 'Selected Location'),
+    ));
+    changeCameraPosition(latitude, longitude);
+    notifyListeners();
+  }
+
+  // Find lat lng using search place
+  double _latSrc = 0.0;
+  double _lngSrc = 0.0;
+  double _latDes = 0.0;
+  double _lngDes = 0.0;
+
+  double get latSrc => _latSrc;
+  double get lngSrc => _lngSrc;
+  double get latDes => _latDes;
+  double get lngDes => _lngDes;
+
+  // Distance variable
+  double _distance = 0.0; // Distance in meters
+  double get distance => _distance; // Getter for distance
+
+  void setPickupLatLng(double lat, double lng) {
+    _latSrc = lat;
+    _lngSrc = lng;
+    _searchedLocation = LatLng(lat, lng);
+    addMarker(_latSrc, _lngSrc, "searched Pickup location");
+    _placeList.clear();
+
+    if (_latDes != 0.0 && _lngDes != 0.0) {
+      _distance = calculateDistance(_latSrc, _lngSrc, _latDes, _lngDes);
+      print("Distance to destination: ${_distance / 1000} km"); // Convert to km
+    } else {
+      _distance = 0.0;
+    }
+
+    notifyListeners();
+  }
+
+
+
+
+
+  void setDestinationLatLng(double lat, double lng) {
+    _distance=0.0;
+    _latDes = lat;
+    _lngDes = lng;
+    _searchedLocation = LatLng(lat, lng);
+    addMarker(_latDes, _lngDes, "searched Drop location");
+    _placeList.clear();
+    if (_latSrc != 0.0 && _lngSrc != 0.0) {
+      _distance = calculateDistance(_latSrc, _lngSrc, _latDes, _lngDes);
+      print("Distance from pickup: ${_distance / 1000} km"); // Convert to km
+    } else {
+      _distance = 0.0;
+    }
+
+    notifyListeners();
+  }
+  void clearFunction(){
+    print('object');
+    _latSrc=0.0;
+    _lngSrc=0.0;
+    _latDes=0.0;
+    _lngDes=0.0;
+    _distance=0.0;
+    _searchedLocation=null;
+    notifyListeners();
+  }
+
+  double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
+    const earthRadius = 6371e3;
+
+    final lat1Rad = lat1 * pi / 180;
+    final lat2Rad = lat2 * pi / 180;
+    final deltaLat = (lat2 - lat1) * pi / 180;
+    final deltaLng = (lng2 - lng1) * pi / 180;
+
+    final a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+        cos(lat1Rad) * cos(lat2Rad) *
+            sin(deltaLng / 2) * sin(deltaLng / 2);
+    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadius * c;
+  }
+
+  // Search location API
+  Future<void> placeSearchApi(dynamic searchCon) async {
+
+    markers.clear();
+    notifyListeners();
+
+    Uri uri = Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
+      "input": searchCon,
+      "key": "AIzaSyDpn7sjPxjUUi7tgAKpPHUjplrANUYNov8",
+      "components": "country:in",
+    });
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      if (kDebugMode) {
+        print(response.body);
+      }
+      final resData = jsonDecode(response.body)['predictions'];
+      if (resData != null) {
+        setPlaceData(resData);
+      }
+    } else {
+      if (kDebugMode) {
+        print('Error fetching suggestions: ${response.body}');
+      }
+    }
+  }
+
+  // Search place details
+  Future<dynamic> getPlaceDetails(String placeId) async {
+    var res = await http.get(
+      Uri.parse(
+          'https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=AIzaSyDpn7sjPxjUUi7tgAKpPHUjplrANUYNov8'),
+    );
+    if (kDebugMode) {
+      print(res.body);
+    }
+    if (res.statusCode == 200) {
+      final resData = jsonDecode(res.body)['result']['geometry']['location'];
+      if (kDebugMode) {
+        print("resData");
+        print(resData);
+      }
+      return resData;
+    } else {}
+  }
+
+  Future<void> changeCameraPosition(double lat, double lng) async {
+    final GoogleMapController controller = await completer.future;
+    CameraPosition givenLocation = CameraPosition(
+      target: LatLng(lat, lng),
+      zoom: 14,
+    );
+    controller.animateCamera(CameraUpdate.newCameraPosition(givenLocation));
+  }
+
+  Future<void> checkAndRequestPermission(context) async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        _showPermissionDeniedDialog(context);
+      } else if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permission denied. Please enable it from settings.'),
+        ));
+      }
+    } else {
+      const LocationSettings locationSettings = LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 100,
+      );
+      Position position = await Geolocator.getCurrentPosition(
+          locationSettings: locationSettings);
+      addMarker(position.latitude, position.longitude, 'My current Location');
+      changeCameraPosition(position.latitude, position.longitude);
+    }
+    notifyListeners();
+  }
+
+  Future<void> locateUser(BuildContext context) async {
+    Position position = await Geolocator.getCurrentPosition();
+    _currentLocation =
+        LatLng(position.latitude, position.longitude); // Store current location
+    addMarker(position.latitude, position.longitude, 'My current Location');
+    changeCameraPosition(position.latitude, position.longitude);
+  }
+
+  // After denied the location permission go to background permission
+  void _showPermissionDeniedDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Permission Denied'),
+        content: const Text(
+            'Location permissions are permanently denied. Please enable it from settings.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  LatLng? _currentLocation;
+  LatLng? _searchedLocation;
+  // Add polyline concept
+  final Set<Polyline> polyLines = {};
+
+  void drawPolylineToSearchedPlace() {
+    if (_currentLocation != null && _searchedLocation != null) {
+      if (kDebugMode) {
+        print('Drawing polyline...');
+      }
+      final Polyline polyline = Polyline(
+        polylineId: const PolylineId('route'),
+        points: [_currentLocation!, _searchedLocation!],
+        width: 5,
+        color: Colors.blue,
+        geodesic: true,
+      );
+      polyLines.add(polyline);
+      notifyListeners();
+    }
+  }
+}
