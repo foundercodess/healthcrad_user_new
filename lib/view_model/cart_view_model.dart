@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:health_crad_user/model/cart_model.dart';
 
 
 
 import 'package:health_crad_user/repo/cart_repo.dart';
 import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/medicine_view_model.dart';
 
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +39,8 @@ class CartViewModel with ChangeNotifier {
     _addToCartRepo.addToCartApi(data).then((value) {
       if (value['status'] == 200) {
         setLoadingAdd(false);
+        Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
+
         Utils.show('Item Added in cart Successfully', context);
       } else {
       }
@@ -73,6 +77,9 @@ class CartViewModel with ChangeNotifier {
         Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
         setLoadingDc(false);
         Utils.show(value["message"], context);
+        Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
+
+        Navigator.pop(context);
       } else {}
     }).onError((error, stackTrace) {
       setLoadingAdd(false);

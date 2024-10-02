@@ -7,6 +7,9 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/payments/widget/payment_mode_widget.dart';
+import 'package:health_crad_user/view_model/cart_view_model.dart';
+import 'package:health_crad_user/view_model/coupon_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -19,6 +22,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cartViewModel = Provider.of<CartViewModel>(context);
+    final couponViewModel = Provider.of<CouponViewModel>(context);
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
 
@@ -239,7 +245,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         TextConst(
-                          title: '₹ 500',
+                          title: '₹ ${cartViewModel.vModelData!.itemCost.toString()}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.blackColor,
                           fontWeight: FontWeight.w400,
@@ -257,7 +263,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         TextConst(
-                          title: '-₹ 500',
+                          title: '-₹ ${cartViewModel.vModelData!.totalDiscount.toString()}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.greenColor,
                           fontWeight: FontWeight.w400,
@@ -276,14 +282,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         CustomRichText(textSpans: [
                           CustomTextSpan(
-                            text: "₹ 20 ",
+                            text: "₹ ${(50 + (cartViewModel.vModelData!.packagingCharge ?? 0)).toString()} ",
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeTwo,
                           ),
                           CustomTextSpan(
-                            text: " ₹ 10",
+                            text: " ₹ ${cartViewModel.vModelData!.packagingCharge.toString()}",
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeTwo,
@@ -303,14 +309,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         CustomRichText(textSpans: [
                           CustomTextSpan(
-                            text: "₹ 65 ",
+                            text: "₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0)).toString()} ",
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeTwo,
                           ),
                           CustomTextSpan(
-                            text: " ₹ 40",
+                            text: " ₹ ${((cartViewModel.vModelData!.deliveryCharge)).toString()}",
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeTwo,
@@ -337,11 +343,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                           ],
                         ),
-                        TextConst(
-                          title: '₹ 25 ',
-                          fontSize: AppConstant.fontSizeTwo,
-                          color: AppColor.greenColor,
-                          fontWeight: FontWeight.w400,
+                        Consumer<CouponViewModel>(
+                          builder: (context, couponCon,_) {
+                            return TextConst(
+                              title: '₹ ${((cartViewModel.vModelData!.descountCupon=="0" && couponCon.appliedCoupon != null?couponCon.appliedCoupon!.discountPrice:0)).toString()} ',
+                              fontSize: AppConstant.fontSizeTwo,
+                              color: AppColor.greenColor,
+                              fontWeight: FontWeight.w400,
+                            );
+                          }
                         ),
                       ],
                     ),
@@ -367,7 +377,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                           TextConst(
-                            title: '₹ 550',
+                            title: '₹ ${((cartViewModel.vModelData!.totalAmount)).toString()}',
                             fontSize: AppConstant.fontSizeTwo,
                             color: AppColor.buttonBlueColor,
                             fontWeight: FontWeight.w600,
@@ -383,13 +393,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       CustomTextSpan(
-                        text: " ₹ 105 ",
+                        text: " ₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0) - (cartViewModel.vModelData!.deliveryCharge ?? 0) + (50 + (cartViewModel.vModelData!.packagingCharge ?? 0)-(cartViewModel.vModelData!.packagingCharge ?? 0)) + (cartViewModel.vModelData!.totalDiscount ?? 0)).toString()}",
+
                         fontWeight: FontWeight.bold,
                         textColor: AppColor.greenColor,
                         fontSize: AppConstant.fontSizeThree,
                       ),
                       CustomTextSpan(
-                        text: "on this order",
+                        text: " on this order",
                         textColor: AppColor.greenColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
@@ -400,7 +411,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
 
             AppConstant.spaceHeight10,
-            GestureDetector(
+            couponViewModel.appliedCoupon == null ?  GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, RoutesName.applyCouponPage);
               },
@@ -423,9 +434,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                 ),
               ),
-            ),
+            ):
             AppConstant.spaceHeight10,
-            Container(
+            couponViewModel.appliedCoupon != null ?   Container(
               width: screenWidth,
               color: AppColor.whiteColor,
               child: Padding(
@@ -450,15 +461,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ],
                     ),
-                    TextConst(
-                      title: 'REMOVE',
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.redColor,
+                    GestureDetector(
+                      onTap: (){
+
+                        couponViewModel.removeAppliedCoupon(context);
+
+                      },
+                      child: TextConst(
+                        title: 'REMOVE',
+                        fontSize: AppConstant.fontSizeOne,
+                        color: AppColor.redColor,
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
+            ):Container(),
             AppConstant.spaceHeight10,
             Container(
               width: screenWidth,

@@ -54,6 +54,7 @@ class AllMedicineData {
   dynamic discountedAmount;
   dynamic status;
   dynamic prescription;
+  dynamic is_added_to_cart;
 
   AllMedicineData(
       {this.id,
@@ -78,7 +79,9 @@ class AllMedicineData {
         this.coupon,
         this.discountedAmount,
         this.status,
-        this.prescription});
+        this.prescription,
+        this.is_added_to_cart
+      });
 
   AllMedicineData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,6 +107,7 @@ class AllMedicineData {
     discountedAmount = json['discounted_amount'];
     status = json['status'];
     prescription = json['prescription'];
+    is_added_to_cart = json['is_added_to_cart'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +135,7 @@ class AllMedicineData {
     data['discounted_amount'] = discountedAmount;
     data['status'] = status;
     data['prescription'] = prescription;
+    data['is_added_to_cart'] = is_added_to_cart;
     return data;
   }
 }

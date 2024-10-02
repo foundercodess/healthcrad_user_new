@@ -11,6 +11,12 @@ class AddressViewModel with ChangeNotifier {
 
 
 // Add Address API
+
+
+
+
+
+
   bool _loadingAddAddress = false;
 
   bool get loadingAddAddress => _loadingAddAddress;
@@ -61,11 +67,31 @@ class AddressViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+
+  int _selectedIndex = 0;
+
+
+  int get selectedIndex => _selectedIndex;
+
+  String _selectedAddress = "";
+  String get selectedAddress => _selectedAddress;
+  String _selectedName = "";
+  String get selectedName => _selectedName;
+
+  void setSelectedIndex(int index,String address,String name) {
+      _selectedIndex = index;
+      _selectedAddress = address;
+      _selectedName =name;
+      notifyListeners();
+
+  }
+
   Future<void> getAddressApi(context) async {
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
     _addressRepo.getAddressApi(userId).then((value) {
       if (value.status == 200) {
+        setSelectedIndex(selectedIndex,value.getAddressData![selectedIndex].address.toString(),value.getAddressData![selectedIndex].userName.toString());
         setModelAddressData(value);
       } else {
         if (kDebugMode) {
@@ -102,6 +128,7 @@ class AddressViewModel with ChangeNotifier {
     _addressRepo.deleteAddressApi(data).then((value) {
       if (value['status'] == 200) {
         setLoadingDa(false);
+
         final addressViewModel =Provider.of<AddressViewModel>(context, listen: false);
         addressViewModel.getAddressApi(context);
         Utils.show(value["message"], context);

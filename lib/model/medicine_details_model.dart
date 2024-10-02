@@ -1,91 +1,58 @@
-class CartModel {
-  List<ViewCartData>? viewCartData;
-  int? itemCost;
-  int? totalDiscount;
-  int? packagingCharge;
-  int? deliveryCharge;
-  String? descountCupon;
-  int? totalAmount;
+class MedicineDetailsModel {
+  MedicineModelData? medicineModelData;
   int? status;
   String? message;
 
-  CartModel(
-      {this.viewCartData,
-        this.itemCost,
-        this.totalDiscount,
-        this.packagingCharge,
-        this.deliveryCharge,
-        this.descountCupon,
-        this.totalAmount,
-        this.status,
-        this.message});
+  MedicineDetailsModel({this.medicineModelData, this.status, this.message});
 
-  CartModel.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      viewCartData = <ViewCartData>[];
-      json['data'].forEach((v) {
-        viewCartData!.add(ViewCartData.fromJson(v));
-      });
-    }
-    itemCost = json['item_cost'];
-    totalDiscount = json['total_discount'];
-    packagingCharge = json['packaging_charge'];
-    deliveryCharge = json['delivery_charge'];
-    descountCupon = json['descount_cupon'];
-    totalAmount = json['total_amount'];
+  MedicineDetailsModel.fromJson(Map<String, dynamic> json) {
+    medicineModelData = json['data'] != null ? MedicineModelData.fromJson(json['data']) : null;
     status = json['status'];
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (viewCartData != null) {
-      data['data'] = viewCartData!.map((v) => v.toJson()).toList();
+    if (medicineModelData != null) {
+      data['data'] = medicineModelData!.toJson();
     }
-    data['item_cost'] = itemCost;
-    data['total_discount'] = totalDiscount;
-    data['packaging_charge'] = packagingCharge;
-    data['delivery_charge'] = deliveryCharge;
-    data['descount_cupon'] = descountCupon;
-    data['total_amount'] = totalAmount;
     data['status'] = status;
     data['message'] = message;
     return data;
   }
 }
 
-class ViewCartData {
-  dynamic id;
-  dynamic name;
-  dynamic category;
-  dynamic subcategory;
-  dynamic price;
-  dynamic discount;
-  dynamic box;
-  dynamic sPrice;
-  dynamic quantity;
+class MedicineModelData {
+  int? id;
+  String? name;
+  String? category;
+  int? subcategory;
+  String? price;
+  String? discount;
+  String? box;
+  String? sPrice;
+  int? quantity;
   dynamic generic;
   dynamic company;
   dynamic effects;
   dynamic eDate;
   dynamic addDate;
   dynamic hospitalId;
-  dynamic image;
-  dynamic discription;
+  String? image;
+  String? discription;
   dynamic shopid;
   dynamic decriptionRequired;
   dynamic coupon;
-  dynamic discountedAmount;
+  int? discountedAmount;
   dynamic status;
   dynamic prescription;
-  dynamic marketer;
-  dynamic selfComposition;
-  dynamic storage;
-  dynamic detail;
-  dynamic disclaimer;
-  dynamic productQuantity;
+  String? marketer;
+  String? selfComposition;
+  String? storage;
+  String? detail;
+  String? disclaimer;
 
-  ViewCartData(
+  MedicineModelData(
       {this.id,
         this.name,
         this.category,
@@ -113,10 +80,9 @@ class ViewCartData {
         this.selfComposition,
         this.storage,
         this.detail,
-        this.disclaimer,
-        this.productQuantity});
+        this.disclaimer});
 
-  ViewCartData.fromJson(Map<String, dynamic> json) {
+  MedicineModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     category = json['category'];
@@ -145,7 +111,6 @@ class ViewCartData {
     storage = json['storage'];
     detail = json['detail'];
     disclaimer = json['disclaimer'];
-    productQuantity = json['product_quantity'];
   }
 
   Map<String, dynamic> toJson() {
@@ -178,7 +143,6 @@ class ViewCartData {
     data['storage'] = storage;
     data['detail'] = detail;
     data['disclaimer'] = disclaimer;
-    data['product_quantity'] = productQuantity;
     return data;
   }
 }

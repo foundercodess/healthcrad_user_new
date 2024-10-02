@@ -30,7 +30,10 @@ class PathViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+void ImagePickerClear(){
+  _base64Image = null;
 
+}
 
 // Request Api
 

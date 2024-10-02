@@ -26,14 +26,6 @@ class OfferingsListViewState extends State<OfferingsListView> {
           title: 'Doctors',
           img: Assets.pngDoctorBgO,
           onTap: () {
-            showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return CommonDeletePopup(
-                      title: 'Are you sure You want to\ngoto Lobby?',
-                      yes: () {});
-                });
           }),
       OfferingModel(
           title: 'Medicines', img: Assets.pngMedicinesBgO, onTap: () {}),

@@ -3,6 +3,7 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_delete_popup.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
@@ -131,13 +132,29 @@ class CartListViewState extends State<CartListView> {
                               ],
                             ),
                             GestureDetector(
+onTap: () {
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return CommonDeletePopup(
+            title: 'Do you want to delete the added medicines',
+            yes: () {
 
 
-                                onTap: ()  {
-                                  cartViewModel.deleteToCartApi(
-                                      cartViewModel.vModelData!.viewCartData?[index].id,
-                                      context);
-                                },
+
+
+
+                cartViewModel.deleteToCartApi(
+                    cartViewModel.vModelData!.viewCartData?[index].id,
+                    context);
+
+
+
+            });
+      });
+},
+
 
                               child: Container(
                                 height: 25,

@@ -130,7 +130,6 @@ class _RequestLabReportState extends State<RequestLabReport> {
               AppConstant.spaceHeight5,
               TextFieldConst(
                 onTap: () {
-                  print("sdbjbfjfe");
                   showModalBottomSheet(
                       context: context,
                       builder: (_) {

@@ -25,7 +25,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
-      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
+      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
     });
   }
   @override

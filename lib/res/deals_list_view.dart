@@ -52,6 +52,7 @@ class DealsListViewState extends State<DealsListView> {
 }
 
 class DealsMedicine extends StatelessWidget {
+
   final int index;
   final AllMedicineData allMedicineData;
 
@@ -60,6 +61,7 @@ class DealsMedicine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
     final cartViewModel = Provider.of<CartViewModel>(context);
 
     return Padding(
@@ -67,7 +69,7 @@ class DealsMedicine extends StatelessWidget {
           left: index == -1 ? 0 : 15, right: index == 2 ? 15 : 0),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, RoutesName.medicineDetails);
+          medicineViewModel.medicineDetailsApi(context, medicineViewModel.allMedicineModelData!.allMedicineData![index].id.toString());
         },
         child: Container(
           width: screenWidth * 0.37,
@@ -124,21 +126,18 @@ class DealsMedicine extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextConst(
-                        textAlign: TextAlign.left,
-                        // title: 'Dulcoflex Tablet',
-
-                        fontSize: AppConstant.fontSizeOne,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.blackColor,
-                      ),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextConst(
+                      textAlign: TextAlign.left,
+                      maxLines: 1,
+                      title: allMedicineData.name.toString(),
+                      fontSize: AppConstant.fontSizeOne,
+                      fontWeight: FontWeight.w500,
+                      color: AppColor.blackColor,
+                    ),
+                  ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -199,7 +198,7 @@ class DealsMedicine extends StatelessWidget {
                     ],
                   ),
                 ),
-                Align(
+                allMedicineData.is_added_to_cart == 0?      Align(
                   alignment: Alignment.center,
                   child: ButtonConst(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -215,7 +214,32 @@ class DealsMedicine extends StatelessWidget {
                     fontSize: AppConstant.fontSizeTwo,
                     fontWeight: FontWeight.bold,
                   ),
+                ):
+                Align(
+                  alignment: Alignment.center,
+                  child : Container(
+                    height: screenHeight*0.04,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(width: 1,color: AppColor.greyColor.withOpacity(0.4))
+                    ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(Icons.remove,color: AppColor.primaryColor,size: 25,),
+
+                        TextConst(
+                          title: '2',
+                          fontSize: AppConstant.fontSizeThree,
+                          color: AppColor.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        Icon(Icons.add,color: AppColor.primaryColor,size: 25,),
+                      ],
+                    ),
+                  )
                 ),
+
               ],
             ),
           ),
