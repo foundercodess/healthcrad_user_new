@@ -26,6 +26,8 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+
+
   Future<void> addToCartApi(
       dynamic uid, dynamic productId, dynamic quantity, context) async {
     setLoadingAdd(true);

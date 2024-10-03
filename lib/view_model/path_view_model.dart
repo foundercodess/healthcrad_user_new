@@ -25,7 +25,7 @@ class PathViewModel with ChangeNotifier{
       _imageName = image.name;
       List<int> imageBytes = await imageFile.readAsBytes();
         _base64Image = base64Encode(imageBytes);
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
     }
     notifyListeners();
   }

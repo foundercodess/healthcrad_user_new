@@ -97,11 +97,8 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                     addressViewModel.modelAddressData?.getAddressData?[i];
                 return InkWell(
                   onTap: () {
-                    addressViewModel.setSelectedIndex(
-                        i,
-                        resData.address.toString(),
-                        resData.userName.toString());
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    addressViewModel.selectAddress(i);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 10),

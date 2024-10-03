@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarConst(),
-      body:  sliderViewModel.sliderModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
+      body:  sliderViewModel.sliderModelData ==null?const Center(child: CircularProgressIndicator()): SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -525,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         AppConstant.spaceHeight10,
-        SizedBox(height: screenHeight / 3, child: medicineViewModel.allMedicineModelData ==null?Center(child: CircularProgressIndicator()) : DealsListView()),
+        SizedBox(height: screenHeight / 3, child: medicineViewModel.allMedicineModelData ==null?const Center(child: CircularProgressIndicator()) : const DealsListView()),
       ],
     );
   }
@@ -550,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             height: screenHeight / 3,
             alignment: Alignment.center,
-            child: medicineViewModel.medicineModelData ==null?Center(child: CircularProgressIndicator()): CategoryListView()),
+            child: medicineViewModel.medicineModelData ==null?const Center(child: CircularProgressIndicator()): const CategoryListView()),
       ],
     );
   }

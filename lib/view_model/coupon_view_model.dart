@@ -19,17 +19,7 @@ class CouponViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  int _selectedCouponId = 0;
-  int get selectedCouponId => _selectedCouponId;
-  int _selectedCouponAmount = 0;
-  int get selectedCouponAmount => _selectedCouponAmount;
 
-  void setSelectedIndex(int id, int amount) {
-    _selectedCouponId = id;
-    _selectedCouponAmount = amount;
-
-    notifyListeners();
-  }
 
   CouponsModel? _couponsModelData;
 

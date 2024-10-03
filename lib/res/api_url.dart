@@ -27,5 +27,7 @@ class ApiUrl {
   static const ratingUrl = "${baseUrl}rating";
   static const medicineDetailsUrl = "${baseUrl}get_medicine/";
   static const orderCreateUrl = "${baseUrl}order_create";
+  static const updateQuantityUrl = "${baseUrl}update_quantity";
+  static const createOrderPrescriptionUrl = "${baseUrl}create_order_prescription";
 
 }

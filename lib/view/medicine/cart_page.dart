@@ -8,6 +8,7 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view/path_lab/widgets/file_selection_bottomsheet.dart';
 import 'package:health_crad_user/view_model/address_view_model.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
@@ -93,7 +94,17 @@ class _CartPageState extends State<CartPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, RoutesName.payment);
+                            if (addressViewModel
+                                .modelAddressData!.getAddressData!.isEmpty) {
+                              Utils.show("Please Add Your Address", context);
+                              Navigator.pushNamed(
+                                  context, RoutesName.addNewAddressScreen);
+                            } else if (pathViewModel.base64Image == null) {
+                              Utils.show(
+                                  "Please Add Your Prescription", context);
+                            } else {
+                              Navigator.pushNamed(context, RoutesName.payment);
+                            }
                           },
                           child: Container(
                             height: screenHeight * 0.045,
@@ -127,50 +138,79 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
       appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
-        leadingWidth: screenWidth,
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Image.asset(
-                  Assets.iconsArrowBack,
-                  color: AppColor.whiteColor,
-                  scale: 3,
+          backgroundColor: AppColor.primaryColor,
+          leadingWidth: screenWidth,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset(
+                    Assets.iconsArrowBack,
+                    color: AppColor.whiteColor,
+                    scale: 3,
+                  ),
                 ),
-              ),
-              AppConstant.spaceWidth10,
-              TextConst(
-                title: 'My Cart',
-                fontSize: AppConstant.fontSizeThree,
-                color: AppColor.whiteColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ],
+                AppConstant.spaceWidth10,
+                TextConst(
+                  title: 'My Cart',
+                  fontSize: AppConstant.fontSizeThree,
+                  color: AppColor.whiteColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ],
+            ),
           ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(screenHeight * 0.1),
-          child: Container(
-            height: screenHeight * 0.1,
-            width: screenWidth,
-            color: AppColor.whiteColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(screenHeight * 0.1),
+            child:
+                Consumer<AddressViewModel>(builder: (context, addressCon, _) {
+              if (addressCon.modelAddressData!.getAddressData!.isEmpty) {
+                return Container(
+                  color: AppColor.scaffoldBgColor,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.addNewAddressScreen);
+                    },
+                    child: Container(
+                      width: screenWidth,
+                      alignment: Alignment.centerLeft,
+                      color: AppColor.whiteColor,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 15),
+                      child: TextConst(
+                        textAlign: TextAlign.left,
+                        title: '+  Add new address',
+                        fontSize: AppConstant.fontSizeTwo,
+                        color: AppColor.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                );
+              }
+              final selectedAddressData = addressCon
+                  .modelAddressData!.getAddressData![addressCon.selectedIndex];
+              return Container(
+                height: screenHeight * 0.1,
+                width: screenWidth,
+                color: AppColor.whiteColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
                         width: screenWidth / 1.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomRichText(textSpans: [
                               CustomTextSpan(
@@ -179,14 +219,14 @@ class _CartPageState extends State<CartPage> {
                                   textColor: AppColor.blackColor,
                                   fontSize: AppConstant.fontSizeOne),
                               CustomTextSpan(
-                                  text: addressViewModel.selectedName,
+                                  text: "${selectedAddressData.userName}",
                                   textColor: AppColor.blackColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: AppConstant.fontSizeOne)
                             ]),
                             AppConstant.spaceHeight5,
                             TextConst(
-                              title: addressViewModel.selectedAddress,
+                              title: selectedAddressData.address,
                               fontSize: AppConstant.fontSizeOne,
                               color: AppColor.textColor,
                             ),
@@ -217,13 +257,11 @@ class _CartPageState extends State<CartPage> {
                         ),
                       )
                     ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+                  ),
+                ),
+              );
+            }),
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -256,13 +294,17 @@ class _CartPageState extends State<CartPage> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Image.asset(
-                      Assets.iconsCamaraIcon,
-                      scale: 1.5,
-                      color: pathViewModel.base64Image == null
-                          ? AppColor.primaryColor
-                          : AppColor.greenColor,
-                    )
+                    pathViewModel.base64Image == null
+                        ? Image.asset(
+                            Assets.iconsCamaraIcon,
+                            scale: 1.5,
+                            color: AppColor.primaryColor,
+                          )
+                        : Icon(
+                            Icons.check_circle,
+                            color: AppColor.greenColor,
+                            size: 30,
+                          )
                   ],
                 ),
               ),

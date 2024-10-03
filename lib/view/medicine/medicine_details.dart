@@ -11,6 +11,7 @@ import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -22,11 +23,11 @@ class MedicineDetails extends StatefulWidget {
 }
 
 class _MedicineDetailsState extends State<MedicineDetails> {
-  int number =2;
   @override
   Widget build(BuildContext context) {
 
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
+    final updateQuantityViewModel = Provider.of<UpdateQuantityViewModel>(context);
 
 
     return Scaffold(
@@ -298,89 +299,47 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                       color: AppColor.blackColor,
                       fontWeight: FontWeight.w500,
                     ),
-                Container(
-                  alignment: Alignment.center,
-                  height: screenHeight * 0.038,
-                  width: screenWidth * 0.22,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.buttonBgColor,width: 0.5),
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: AssetImage(Assets.pngPlusMinusIcon),
-                      fit: BoxFit.fill,
+                    Container(
+                      alignment: Alignment.center,
+                      height: screenHeight * 0.038,
+                      width: screenWidth * 0.24,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: AppColor.buttonBgColor, width: 0.5),
+                        borderRadius: BorderRadius.circular(5),
+                        image: const DecorationImage(
+                          image: AssetImage(Assets.pngPlusMinusIcon),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            child: Container(
+                              height: screenHeight * 0.05,
+                              width: screenWidth * 0.095,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          TextConst(
+                            title:  medicineViewModel.medicineDetailsData!.medicineModelData!.quantity.toString(),
+                            fontSize: AppConstant.fontSizeThree,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.blackColor,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                            },
+                            child: Container(
+                              height: screenHeight * 0.05,
+                              width: screenWidth * 0.095,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (number > 0) { // To prevent negative numbers
-                              number--;
-                            }
-                          });
-                        },
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.095,
-                          color: Colors.transparent,
-                        ),
-
-                      ),
-                      TextConst(
-                        title: "$number",
-                        fontSize: AppConstant.fontSizeThree,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.blackColor,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            number++; // Increase the number when green container is clicked
-                          });
-                        },
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.095,
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Container(
-                    //       alignment: Alignment.center,
-                    //       height: 30,
-                    //       width: 30,
-                    //       decoration: const BoxDecoration(
-                    //           image: DecorationImage(
-                    //               image: AssetImage(Assets.iconsMinusIcon),
-                    //               fit: BoxFit.fill)),
-                    //     ),
-                    //     AppConstant.spaceWidth20,
-                    //     TextConst(
-                    //       title: '2',
-                    //       fontSize: AppConstant.fontSizeThree,
-                    //       color: AppColor.blackColor,
-                    //     ),
-                    //     AppConstant.spaceWidth20,
-                    //     Container(
-                    //       alignment: Alignment.center,
-                    //       height: 30,
-                    //       width: 30,
-                    //       decoration: const BoxDecoration(
-                    //           shape: BoxShape.circle,
-                    //           image: DecorationImage(
-                    //               image: AssetImage(Assets.iconsPlusIcon),
-                    //               fit: BoxFit.fill)),
-                    //     ),
-                    //   ],
-                    // )
                   ],
                 ),
               ),

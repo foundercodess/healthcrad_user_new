@@ -7,8 +7,10 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/payments/widget/payment_mode_widget.dart';
+import 'package:health_crad_user/view_model/address_view_model.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/coupon_view_model.dart';
+import 'package:health_crad_user/view_model/order_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -19,22 +21,29 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final addressViewModel =
+        Provider.of<AddressViewModel>(context, listen: false);
+    addressViewModel.getAddressApi(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     final cartViewModel = Provider.of<CartViewModel>(context);
     final couponViewModel = Provider.of<CouponViewModel>(context);
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
-
-
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             color: AppColor.whiteColor,
-            border: Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))
-        ),
-
+            border:
+                Border(top: BorderSide(color: AppColor.greyColor, width: 0.5))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
@@ -43,7 +52,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Container(
                 width: screenWidth,
                 color: AppColor.whiteColor,
-                child:  Image.asset(
+                child: Image.asset(
                   Assets.iconsSafeIcon,
                   scale: 4,
                 ),
@@ -51,13 +60,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(int.parse((screenWidth/8).toStringAsFixed(0)), (i)=>TextConst(
-                  title:
-                  '-',
-                  fontSize: AppConstant.fontSizeZero,
-                  color: AppColor.textColor.withOpacity(0.3),
-                  fontWeight: FontWeight.w500,
-                ),),
+                children: List.generate(
+                  int.parse((screenWidth / 8).toStringAsFixed(0)),
+                  (i) => TextConst(
+                    title: '-',
+                    fontSize: AppConstant.fontSizeZero,
+                    color: AppColor.textColor.withOpacity(0.3),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               AppConstant.spaceHeight5,
               Row(
@@ -75,6 +86,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
+
+
+                      orderViewModel.createOrderApi(paymentMode.toString(), context);
+
+
                       Navigator.pushNamed(context, RoutesName.payment);
                     },
                     child: Container(
@@ -99,75 +115,96 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
       ),
-
-
-
-
-
-
       appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
-        leadingWidth: screenWidth*0.35,
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Image.asset(
-                  Assets.iconsArrowBack,
-                  color: AppColor.whiteColor,
-                  scale: 3,
+          backgroundColor: AppColor.primaryColor,
+          leadingWidth: screenWidth * 0.35,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset(
+                    Assets.iconsArrowBack,
+                    color: AppColor.whiteColor,
+                    scale: 3,
+                  ),
                 ),
-              ),
-              TextConst(
-                title: 'Payment',
-                fontSize: AppConstant.fontSizeThree,
-                color: AppColor.whiteColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ],
-          ),
-        ),
-        // title:
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-            child: Container(
-              height: screenHeight * 0.038,
-              width: screenWidth * 0.28,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                TextConst(
+                  title: 'Payment',
+                  fontSize: AppConstant.fontSizeThree,
                   color: AppColor.whiteColor,
-                  image: const DecorationImage(
-                      image: AssetImage(Assets.iconsPSecureIcons),
-                      fit: BoxFit.fill)),
+                  fontWeight: FontWeight.w600,
+                ),
+              ],
             ),
-          )
-        ],
-        bottom: PreferredSize(
-          preferredSize:
-              Size.fromHeight(screenHeight * 0.1), // Specify the height
-          child: Container(
-            height: screenHeight * 0.1,
-            width: screenWidth,
-            color: AppColor.whiteColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
+          ),
+          // title:
+          actions: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: Container(
+                height: screenHeight * 0.038,
+                width: screenWidth * 0.28,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppColor.whiteColor,
+                    image: const DecorationImage(
+                        image: AssetImage(Assets.iconsPSecureIcons),
+                        fit: BoxFit.fill)),
+              ),
+            )
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(screenHeight * 0.1),
+            child:
+                Consumer<AddressViewModel>(builder: (context, addressCon, _) {
+              if (addressCon.modelAddressData!.getAddressData!.isEmpty) {
+                return Container(
+                  color: AppColor.scaffoldBgColor,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.addNewAddressScreen);
+                    },
+                    child: Container(
+                      width: screenWidth,
+                      alignment: Alignment.centerLeft,
+                      color: AppColor.whiteColor,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 15),
+                      child: TextConst(
+                        textAlign: TextAlign.left,
+                        title: '+  Add new address',
+                        fontSize: AppConstant.fontSizeTwo,
+                        color: AppColor.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                );
+              }
+              final selectedAddressData = addressCon
+                  .modelAddressData!.getAddressData![addressCon.selectedIndex];
+              return Container(
+                height: screenHeight * 0.1,
+                width: screenWidth,
+                color: AppColor.whiteColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: screenWidth/1.5,
+                        width: screenWidth / 1.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomRichText(textSpans: [
                               CustomTextSpan(
@@ -176,44 +213,49 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   textColor: AppColor.blackColor,
                                   fontSize: AppConstant.fontSizeOne),
                               CustomTextSpan(
-                                  text: "Om Shankar Sh... , 848125",
+                                  text: "${selectedAddressData.userName}",
                                   textColor: AppColor.blackColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: AppConstant.fontSizeOne)
                             ]),
                             AppConstant.spaceHeight5,
                             TextConst(
-                              title: 'Sharda Nagar (Banti Kirana Store), Purn..',
+                              title: selectedAddressData.address,
                               fontSize: AppConstant.fontSizeOne,
                               color: AppColor.textColor,
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        height: screenHeight * 0.04,
-                        width: screenWidth/5,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                width: 1,
-                                color: AppColor.primaryColor.withOpacity(0.4))),
-                        child: TextConst(
-                          title: 'Change',
-                          fontSize: AppConstant.fontSizeTwo,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.w500,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutesName.savedAddressScreen);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: screenHeight * 0.04,
+                          width: screenWidth / 5,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                  width: 1,
+                                  color:
+                                      AppColor.primaryColor.withOpacity(0.4))),
+                          child: TextConst(
+                            title: 'Change',
+                            fontSize: AppConstant.fontSizeTwo,
+                            color: AppColor.primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       )
                     ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+                  ),
+                ),
+              );
+            }),
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -222,7 +264,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               width: screenWidth,
               color: AppColor.whiteColor,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -245,7 +288,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         TextConst(
-                          title: '₹ ${cartViewModel.vModelData!.itemCost.toString()}',
+                          title:
+                              '₹ ${cartViewModel.vModelData!.itemCost.toString()}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.blackColor,
                           fontWeight: FontWeight.w400,
@@ -263,7 +307,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         TextConst(
-                          title: '-₹ ${cartViewModel.vModelData!.totalDiscount.toString()}',
+                          title:
+                              '-₹ ${cartViewModel.vModelData!.totalDiscount.toString()}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.greenColor,
                           fontWeight: FontWeight.w400,
@@ -282,14 +327,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         CustomRichText(textSpans: [
                           CustomTextSpan(
-                            text: "₹ ${(50 + (cartViewModel.vModelData!.packagingCharge ?? 0)).toString()} ",
+                            text:
+                                "₹ ${(50 + (cartViewModel.vModelData!.packagingCharge ?? 0)).toString()} ",
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeTwo,
                           ),
                           CustomTextSpan(
-                            text: " ₹ ${cartViewModel.vModelData!.packagingCharge.toString()}",
+                            text:
+                                " ₹ ${cartViewModel.vModelData!.packagingCharge.toString()}",
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeTwo,
@@ -309,14 +356,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         CustomRichText(textSpans: [
                           CustomTextSpan(
-                            text: "₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0)).toString()} ",
+                            text:
+                                "₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0)).toString()} ",
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeTwo,
                           ),
                           CustomTextSpan(
-                            text: " ₹ ${((cartViewModel.vModelData!.deliveryCharge)).toString()}",
+                            text:
+                                " ₹ ${((cartViewModel.vModelData!.deliveryCharge)).toString()}",
                             fontWeight: FontWeight.w400,
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeTwo,
@@ -344,29 +393,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                         Consumer<CouponViewModel>(
-                          builder: (context, couponCon,_) {
-                            return TextConst(
-                              title: '₹ ${((cartViewModel.vModelData!.descountCupon=="0" && couponCon.appliedCoupon != null?couponCon.appliedCoupon!.discountPrice:0)).toString()} ',
-                              fontSize: AppConstant.fontSizeTwo,
-                              color: AppColor.greenColor,
-                              fontWeight: FontWeight.w400,
-                            );
-                          }
-                        ),
+                            builder: (context, couponCon, _) {
+                          return TextConst(
+                            title:
+                                '₹ ${((cartViewModel.vModelData!.descountCupon == "0" && couponCon.appliedCoupon != null ? couponCon.appliedCoupon!.discountPrice : 0)).toString()} ',
+                            fontSize: AppConstant.fontSizeTwo,
+                            color: AppColor.greenColor,
+                            fontWeight: FontWeight.w400,
+                          );
+                        }),
                       ],
                     ),
-
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 3),
                       child: Divider(),
                     ),
                     AppConstant.spaceHeight5,
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
-                        color: AppColor.searchFieldBgColor,
-                        borderRadius: BorderRadius.circular(5)
-                      ),
+                          color: AppColor.searchFieldBgColor,
+                          borderRadius: BorderRadius.circular(5)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -377,7 +425,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                           TextConst(
-                            title: '₹ ${((cartViewModel.vModelData!.totalAmount)).toString()}',
+                            title:
+                                '₹ ${((cartViewModel.vModelData!.totalAmount)).toString()}',
                             fontSize: AppConstant.fontSizeTwo,
                             color: AppColor.buttonBlueColor,
                             fontWeight: FontWeight.w600,
@@ -393,8 +442,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       CustomTextSpan(
-                        text: " ₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0) - (cartViewModel.vModelData!.deliveryCharge ?? 0) + (50 + (cartViewModel.vModelData!.packagingCharge ?? 0)-(cartViewModel.vModelData!.packagingCharge ?? 0)) + (cartViewModel.vModelData!.totalDiscount ?? 0)).toString()}",
-
+                        text:
+                            " ₹ ${(70 + (cartViewModel.vModelData!.deliveryCharge ?? 0) - (cartViewModel.vModelData!.deliveryCharge ?? 0) + (50 + (cartViewModel.vModelData!.packagingCharge ?? 0) - (cartViewModel.vModelData!.packagingCharge ?? 0)) + (cartViewModel.vModelData!.totalDiscount ?? 0)).toString()}",
                         fontWeight: FontWeight.bold,
                         textColor: AppColor.greenColor,
                         fontSize: AppConstant.fontSizeThree,
@@ -409,80 +458,84 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
             ),
-
             AppConstant.spaceHeight10,
-            couponViewModel.appliedCoupon == null ?  GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RoutesName.applyCouponPage);
-              },
-              child: Container(
-                color: AppColor.whiteColor,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  leading: Image.asset(Assets.gifCouponGif),
-                  title: TextConst(
-                    textAlign:TextAlign.start,
-                    title: 'Apply Coupon',
-                    fontSize: AppConstant.fontSizeTwo,
-                    color: AppColor.blackColor,
-
-                  ),
-                  trailing: Image.asset(
-                    Assets.iconsIconsArrowRight,
-                    scale: 3,
-                    color: AppColor.blackColor,
-                  ),
-                ),
-              ),
-            ):
-            AppConstant.spaceHeight10,
-            couponViewModel.appliedCoupon != null ?   Container(
-              width: screenWidth,
-              color: AppColor.whiteColor,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        TextConst(
-                          title: 'Coupon Applied',
+            couponViewModel.appliedCoupon == null
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.applyCouponPage);
+                    },
+                    child: Container(
+                      color: AppColor.whiteColor,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        leading: Image.asset(Assets.gifCouponGif),
+                        title: TextConst(
+                          textAlign: TextAlign.start,
+                          title: 'Apply Coupon',
                           fontSize: AppConstant.fontSizeTwo,
-                          color: AppColor.greenColor,
+                          color: AppColor.blackColor,
                         ),
-                        AppConstant.spaceWidth10,
-                        Container(
-                          height: 18,
-                          width: 18,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.iconsGreenCheckIcons))),
+                        trailing: Image.asset(
+                          Assets.iconsIconsArrowRight,
+                          scale: 3,
+                          color: AppColor.blackColor,
                         ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: (){
-
-                        couponViewModel.removeAppliedCoupon(context);
-
-                      },
-                      child: TextConst(
-                        title: 'REMOVE',
-                        fontSize: AppConstant.fontSizeOne,
-                        color: AppColor.redColor,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ):Container(),
+                  )
+                : AppConstant.spaceHeight10,
+            couponViewModel.appliedCoupon != null
+                ? Container(
+                    width: screenWidth,
+                    color: AppColor.whiteColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              TextConst(
+                                title: 'Coupon Applied',
+                                fontSize: AppConstant.fontSizeTwo,
+                                color: AppColor.greenColor,
+                              ),
+                              AppConstant.spaceWidth10,
+                              Container(
+                                height: 18,
+                                width: 18,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            Assets.iconsGreenCheckIcons))),
+                              ),
+                            ],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              couponViewModel.removeAppliedCoupon(context);
+                            },
+                            child: TextConst(
+                              title: 'REMOVE',
+                              fontSize: AppConstant.fontSizeOne,
+                              color: AppColor.redColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(),
             AppConstant.spaceHeight10,
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -502,14 +555,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ],
                     ),
                     AppConstant.spaceHeight15,
-                    const PaymentModeWidget(
-                      index: 0,
-                      title: "Cash on Delivery",
-                    ),
-                    const PaymentModeWidget(
-                      index: 1,
-                      title: "Online Payment",
-                    )
+                    paymentModeWidget(0, "Cash on Delivery"),
+                    paymentModeWidget(1, "Online Payment"),
                   ],
                 ),
               ),
@@ -519,7 +566,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               width: screenWidth,
               color: AppColor.whiteColor,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -570,6 +618,63 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
     );
   }
+
+  int paymentMode = 0;
+  Widget paymentModeWidget(int index, String title) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          paymentMode = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        width: screenWidth,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                width: 1,
+                color: index == paymentMode
+                    ? AppColor.primaryColor
+                    : AppColor.greyColor)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          child: Row(
+            children: [
+              Container(
+                height: 18,
+                width: 18,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: index == paymentMode
+                        ? AppColor.primaryColor
+                        : Colors.transparent,
+                    border: Border.all(
+                        color: index != paymentMode
+                            ? AppColor.greyColor
+                            : Colors.transparent)),
+                child: index == paymentMode
+                    ? Container(
+                        height: 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColor.whiteColor,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              AppConstant.spaceWidth10,
+              TextConst(
+                title: title,
+                fontSize: AppConstant.fontSizeTwo,
+                color: AppColor.textColor,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
-
-

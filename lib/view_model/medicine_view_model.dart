@@ -9,7 +9,9 @@ import 'package:health_crad_user/repo/doctor_repo.dart';
 import 'package:health_crad_user/repo/medicine_repo.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 import '../repo/silder_repo.dart';
 
 class MedicineViewModel with ChangeNotifier {
@@ -73,6 +75,7 @@ class MedicineViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+
   Future<void> allMedicineApi(context,String catId,String limitCon, String offsetCon,) async {
     setLoading(true);
 
@@ -124,6 +127,7 @@ class MedicineViewModel with ChangeNotifier {
     _medicineDetailsData = value;
     notifyListeners();
   }
+
 
   Future<void> medicineDetailsApi(context, dynamic medicineId) async {
     setLoadingMD(true);

@@ -18,9 +18,11 @@ import 'view_model/doctor_view_model.dart';
 import 'view_model/lab_report_download_view_model.dart';
 import 'view_model/map_view_model.dart';
 import 'view_model/medicine_view_model.dart';
+import 'view_model/order_view_model.dart';
 import 'view_model/path_view_model.dart';
 import 'view_model/profile_view_model.dart';
 import 'view_model/rating_view_model.dart';
+import 'view_model/update_quantity_view_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +55,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LabReportDownloadViewModel()),
         ChangeNotifierProvider(create: (context) => HelpViewModel()),
         ChangeNotifierProvider(create: (context) => RatingViewModel()),
+        ChangeNotifierProvider(create: (context) => OrderViewModel()),
+        ChangeNotifierProvider(create: (context) => UpdateQuantityViewModel()),
 
 
 

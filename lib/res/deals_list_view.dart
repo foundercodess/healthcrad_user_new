@@ -9,6 +9,7 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,6 @@ class DealsListViewState extends State<DealsListView> {
 }
 
 class DealsMedicine extends StatelessWidget {
-
   final int index;
   final AllMedicineData allMedicineData;
 
@@ -69,7 +69,10 @@ class DealsMedicine extends StatelessWidget {
           left: index == -1 ? 0 : 15, right: index == 2 ? 15 : 0),
       child: GestureDetector(
         onTap: () {
-          medicineViewModel.medicineDetailsApi(context, medicineViewModel.allMedicineModelData!.allMedicineData![index].id.toString());
+          medicineViewModel.medicineDetailsApi(
+              context,
+              medicineViewModel.allMedicineModelData!.allMedicineData![index].id
+                  .toString());
         },
         child: Container(
           width: screenWidth * 0.37,
@@ -198,48 +201,90 @@ class DealsMedicine extends StatelessWidget {
                     ],
                   ),
                 ),
-                allMedicineData.is_added_to_cart == 0?      Align(
-                  alignment: Alignment.center,
-                  child: ButtonConst(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    height: screenHeight * 0.04,
-                    onTap: () async {
-                      String? getUserData = await UserViewModel().getUser();
-                      cartViewModel.addToCartApi(
-                          getUserData, allMedicineData.id, '1', context);
-                    },
-                    color: AppColor.buttonBlueColor,
-                    label: 'Add'.toUpperCase(),
-                    textColor: AppColor.whiteColor,
-                    fontSize: AppConstant.fontSizeTwo,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ):
-                Align(
-                  alignment: Alignment.center,
-                  child : Container(
-                    height: screenHeight*0.04,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 1,color: AppColor.greyColor.withOpacity(0.4))
-                    ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.remove,color: AppColor.primaryColor,size: 25,),
-
-                        TextConst(
-                          title: '2',
-                          fontSize: AppConstant.fontSizeThree,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.w600,
+              allMedicineData.stock==0?
+            ButtonConst(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              height: screenHeight * 0.04,
+              onTap: () async {
+                String? getUserData =
+                await UserViewModel().getUser();
+                cartViewModel.addToCartApi(
+                    getUserData, allMedicineData.id, '1', context);
+              },
+              color: AppColor.redColor,
+              label: 'Out of stock'.toUpperCase(),
+              textColor: AppColor.whiteColor,
+              fontSize: AppConstant.fontSizeTwo,
+              fontWeight: FontWeight.bold,
+            )
+                :
+                allMedicineData.isAddedToCart == 0
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: ButtonConst(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          height: screenHeight * 0.04,
+                          onTap: () async {
+                            String? getUserData =
+                                await UserViewModel().getUser();
+                            cartViewModel.addToCartApi(
+                                getUserData, allMedicineData.id, '1', context);
+                          },
+                          color: AppColor.buttonBlueColor,
+                          label: 'Add'.toUpperCase(),
+                          textColor: AppColor.whiteColor,
+                          fontSize: AppConstant.fontSizeTwo,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Icon(Icons.add,color: AppColor.primaryColor,size: 25,),
-                      ],
-                    ),
-                  )
-                ),
-
+                      )
+                    : Consumer<UpdateQuantityViewModel>(
+                        builder: (context, updateQuantityCon, _) {
+                        return Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: screenHeight * 0.04,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      width: 1,
+                                      color:
+                                          AppColor.greyColor.withOpacity(0.4))),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        updateQuantityCon.updateProductQuantity(
+                                            context, index, "sub");
+                                      },
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: AppColor.primaryColor,
+                                        size: 25,
+                                      )),
+                                  TextConst(
+                                    title: allMedicineData.quantity.toString(),
+                                    fontSize: AppConstant.fontSizeThree,
+                                    color: AppColor.primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        updateQuantityCon.updateProductQuantity(
+                                            context, index, "add");
+                                      },
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppColor.primaryColor,
+                                        size: 25,
+                                      )),
+                                ],
+                              ),
+                            ));
+                      }),
               ],
             ),
           ),
