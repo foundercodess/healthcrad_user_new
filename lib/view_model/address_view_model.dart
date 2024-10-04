@@ -83,6 +83,7 @@ class AddressViewModel with ChangeNotifier {
   Future<void> getAddressApi(context) async {
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
+
     _addressRepo.getAddressApi(userId).then((value) {
       if (value.status == 200) {
         setModelAddressData(value);

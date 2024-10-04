@@ -238,8 +238,7 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                         children: [
                           ButtonConst(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RoutesName.verifyOtpScreen);
+
                             },
                             width: screenWidth * 0.35,
                             height: screenHeight * 0.043,
@@ -265,8 +264,7 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
                           ),
                           ButtonConst(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RoutesName.verifyOtpScreen);
+
                             },
                             width: screenWidth * 0.35,
                             height: screenHeight * 0.043,

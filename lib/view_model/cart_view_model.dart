@@ -7,6 +7,7 @@ import 'package:health_crad_user/model/cart_model.dart';
 import 'package:health_crad_user/repo/cart_repo.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
 
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class CartViewModel with ChangeNotifier {
       if (value['status'] == 200) {
         setLoadingAdd(false);
         Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
-
+        cartViewApi(context);
         Utils.show('Item Added in cart Successfully', context);
       } else {
       }
@@ -65,7 +66,7 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteToCartApi(dynamic productId, context) async {
+  Future<void> deleteToCartApi(dynamic productId, context, int index) async {
     setLoadingDc(true);
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
@@ -80,6 +81,7 @@ class CartViewModel with ChangeNotifier {
         setLoadingDc(false);
         Utils.show(value["message"], context);
         Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
+      //  Provider.of<UpdateQuantityViewModel>(context).getMedicineQuantityFromCart(context,index );
 
         Navigator.pop(context);
       } else {}

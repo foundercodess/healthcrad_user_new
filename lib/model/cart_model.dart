@@ -121,7 +121,7 @@ class ViewCartData {
     name = json['name'];
     category = json['category'];
     subcategory = json['subcategory'];
-    price = json['price'];
+    price = json['price']??0;
     discount = json['discount'];
     box = json['box'];
     sPrice = json['s_price'];

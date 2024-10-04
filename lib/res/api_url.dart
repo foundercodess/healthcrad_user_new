@@ -29,5 +29,6 @@ class ApiUrl {
   static const orderCreateUrl = "${baseUrl}order_create";
   static const updateQuantityUrl = "${baseUrl}update_quantity";
   static const createOrderPrescriptionUrl = "${baseUrl}create_order_prescription";
+  static const orderHistoryUrl = "${baseUrl}order_history/";
 
 }

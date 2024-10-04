@@ -86,12 +86,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-
-
                       orderViewModel.createOrderApi(paymentMode.toString(), context);
 
-
-                      Navigator.pushNamed(context, RoutesName.payment);
                     },
                     child: Container(
                       alignment: Alignment.center,

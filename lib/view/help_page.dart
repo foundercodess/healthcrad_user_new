@@ -28,6 +28,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     final helpViewModel = Provider.of<HelpViewModel>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.whiteColor,
       appBar: const CommonAppBarMore(
         title: 'Support',

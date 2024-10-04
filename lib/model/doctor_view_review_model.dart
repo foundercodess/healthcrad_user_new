@@ -37,7 +37,7 @@ class DoctorViewReviewModel {
 class Data {
   int? id;
   int? docterId;
-  Null imgUrl;
+  dynamic imgUrl;
   String? name;
   String? email;
   String? address;
@@ -46,23 +46,23 @@ class Data {
   String? department;
   String? profile;
   int? exp;
-  Null fees;
-  Null ionUserId;
-  Null hospitalId;
-  Null departmentName;
-  Null appointmentConfirmation;
-  Null signature;
-  Null aadharFront;
-  Null aadharBack;
-  Null license;
-  Null status;
-  Null password;
-  Null docstatus;
-  Null city;
-  Null landmark;
-  Null otp;
-  Null about;
-  Null adminShow;
+  dynamic fees;
+  dynamic ionUserId;
+  dynamic hospitalId;
+  dynamic departmentName;
+  dynamic appointmentConfirmation;
+  dynamic signature;
+  dynamic aadharFront;
+  dynamic aadharBack;
+  dynamic license;
+  dynamic status;
+  dynamic password;
+  dynamic docstatus;
+  dynamic city;
+  dynamic landmark;
+  dynamic otp;
+  dynamic about;
+  dynamic adminShow;
   String? review;
 
   Data(

@@ -63,7 +63,13 @@ class DealsMedicine extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
     final cartViewModel = Provider.of<CartViewModel>(context);
-
+    final data = Provider.of<CartViewModel>(context).vModelData;
+    final updateQuantityViewModel =
+        Provider.of<UpdateQuantityViewModel>(context);
+// WidgetsBinding.instance.addPostFrameCallback((_){
+//   print("it  is execuded");
+//    updateQuantityViewModel.getMedicineQuantityFromCart(context, index);
+// });
     return Padding(
       padding: EdgeInsets.only(
           left: index == -1 ? 0 : 15, right: index == 2 ? 15 : 0),
@@ -201,90 +207,98 @@ class DealsMedicine extends StatelessWidget {
                     ],
                   ),
                 ),
-              allMedicineData.stock==0?
-            ButtonConst(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              height: screenHeight * 0.04,
-              onTap: () async {
-                String? getUserData =
-                await UserViewModel().getUser();
-                cartViewModel.addToCartApi(
-                    getUserData, allMedicineData.id, '1', context);
-              },
-              color: AppColor.redColor,
-              label: 'Out of stock'.toUpperCase(),
-              textColor: AppColor.whiteColor,
-              fontSize: AppConstant.fontSizeTwo,
-              fontWeight: FontWeight.bold,
-            )
-                :
-                allMedicineData.isAddedToCart == 0
-                    ? Align(
-                        alignment: Alignment.center,
-                        child: ButtonConst(
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          height: screenHeight * 0.04,
-                          onTap: () async {
-                            String? getUserData =
-                                await UserViewModel().getUser();
-                            cartViewModel.addToCartApi(
-                                getUserData, allMedicineData.id, '1', context);
-                          },
-                          color: AppColor.buttonBlueColor,
-                          label: 'Add'.toUpperCase(),
-                          textColor: AppColor.whiteColor,
-                          fontSize: AppConstant.fontSizeTwo,
-                          fontWeight: FontWeight.bold,
-                        ),
+                allMedicineData.stock == 0
+                    ? ButtonConst(
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        height: screenHeight * 0.04,
+                        onTap: () async {
+                          String? getUserData = await UserViewModel().getUser();
+                          cartViewModel.addToCartApi(
+                              getUserData, allMedicineData.id, '1', context);
+                        },
+                        color: AppColor.redColor,
+                        label: 'Out of stock'.toUpperCase(),
+                        textColor: AppColor.whiteColor,
+                        fontSize: AppConstant.fontSizeTwo,
+                        fontWeight: FontWeight.bold,
                       )
-                    : Consumer<UpdateQuantityViewModel>(
-                        builder: (context, updateQuantityCon, _) {
-                        return Align(
+                    : allMedicineData.isAddedToCart == 0
+                        ? Align(
                             alignment: Alignment.center,
-                            child: Container(
-                              height: screenHeight * 0.04,
+                            child: ButtonConst(
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      width: 1,
-                                      color:
-                                          AppColor.greyColor.withOpacity(0.4))),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        updateQuantityCon.updateProductQuantity(
-                                            context, index, "sub");
-                                      },
-                                      child: Icon(
-                                        Icons.remove,
+                              height: screenHeight * 0.04,
+                              onTap: () async {
+                                String? getUserData =
+                                    await UserViewModel().getUser();
+                                cartViewModel.addToCartApi(getUserData,
+                                    allMedicineData.id, '1', context);
+                              },
+                              color: AppColor.buttonBlueColor,
+                              label: 'Add'.toUpperCase(),
+                              textColor: AppColor.whiteColor,
+                              fontSize: AppConstant.fontSizeTwo,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Consumer<UpdateQuantityViewModel>(
+                            builder: (context, updateQuantityCon, _) {
+                            return Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  height: screenHeight * 0.04,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: AppColor.greyColor
+                                              .withOpacity(0.4))),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            // updateQuantityCon
+                                            //     .updateQuantityApi(
+                                            //     (int.parse(allMedicineData.addedQuantity-1)).toString(),allMedicineData.id.toString(),context);
+                                            updateQuantityCon
+                                                .updateProductQuantity(
+                                                    context, index, "sub");
+                                          },
+                                          child: Icon(
+                                            Icons.remove,
+                                            color: AppColor.primaryColor,
+                                            size: 25,
+                                          )),
+                                      TextConst(
+                                        title:
+                                            allMedicineData.addedQuantity.toString(),
+                                        fontSize: AppConstant.fontSizeThree,
                                         color: AppColor.primaryColor,
-                                        size: 25,
-                                      )),
-                                  TextConst(
-                                    title: allMedicineData.quantity.toString(),
-                                    fontSize: AppConstant.fontSizeThree,
-                                    color: AppColor.primaryColor,
-                                    fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            updateQuantityCon
+                                                .updateProductQuantity(
+                                                context, index, "add");
+                                            // updateQuantityCon
+                                            //     .updateQuantityApi(
+                                            //     (int.parse(allMedicineData.addedQuantity)+1).toString(),allMedicineData.id.toString(),context);
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppColor.primaryColor,
+                                            size: 25,
+                                          )),
+                                    ],
                                   ),
-                                  InkWell(
-                                      onTap: () {
-                                        updateQuantityCon.updateProductQuantity(
-                                            context, index, "add");
-                                      },
-                                      child: Icon(
-                                        Icons.add,
-                                        color: AppColor.primaryColor,
-                                        size: 25,
-                                      )),
-                                ],
-                              ),
-                            ));
-                      }),
+                                ));
+                          }),
               ],
             ),
           ),

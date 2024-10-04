@@ -172,6 +172,7 @@ class AllMedicineData {
   String? disclaimer;
   dynamic isAddedToCart;
   dynamic stock;
+  dynamic addedQuantity;
 
   AllMedicineData(
       {this.id,
@@ -203,7 +204,8 @@ class AllMedicineData {
         this.detail,
         this.disclaimer,
       this.isAddedToCart,
-        this.stock
+        this.stock,
+        this.addedQuantity,
       });
 
   AllMedicineData.fromJson(Map<String, dynamic> json) {
@@ -212,7 +214,7 @@ class AllMedicineData {
     category = json['category'];
     subcategory = json['subcategory'];
     price = json['price'];
-    discount = json['discount'];
+    discount = json['discount']??0;
     box = json['box'];
     sPrice = json['s_price'];
     quantity = json['quantity']??0;
@@ -237,6 +239,7 @@ class AllMedicineData {
     disclaimer = json['disclaimer'];
     isAddedToCart=json['is_added_to_cart'];
     stock=json['stock'];
+    addedQuantity=json['added_quantity'];
 
   }
 
@@ -272,6 +275,7 @@ class AllMedicineData {
     data['disclaimer'] = disclaimer;
     data['is_added_to_cart'] = isAddedToCart;
     data['stock']= stock;
+    data['added_quantity']= addedQuantity;
     return data;
   }
 }

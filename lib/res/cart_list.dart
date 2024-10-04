@@ -162,7 +162,7 @@ class CartListViewState extends State<CartListView> {
                                                           .vModelData!
                                                           .viewCartData?[index]
                                                           .id,
-                                                      context);
+                                                      context, index);
                                                 });
                                           });
                                     },

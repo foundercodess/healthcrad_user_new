@@ -22,17 +22,68 @@ class UpdateQuantityViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // getMedicineQuantityFromCart(context, index) {
+  //   final medicViewModel =
+  //       Provider.of<MedicineViewModel>(context, listen: false);
+  //   final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+  //
+  //   medicViewModel.allMedicineModelData!.allMedicineData![index].quantity =
+  //       int.parse((cartViewModel.vModelData!.viewCartData!
+  //               .where((e) =>
+  //                   medicViewModel
+  //                       .allMedicineModelData!.allMedicineData![index].id ==
+  //                   e.id)
+  //               .first
+  //               .productQuantity)
+  //           .toString());
+  // }
+
+  // getMedicineQuantityFromCart(BuildContext context, int index) {
+  //   final medicViewModel = Provider.of<MedicineViewModel>(context, listen: false);
+  //   final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+  //
+  //   // Check if any of these objects are null
+  //   final allMedicines = medicViewModel.allMedicineModelData?.allMedicineData;
+  //   final cartItems = cartViewModel.vModelData?.viewCartData;
+  //   if (allMedicines == null || cartItems == null) {
+  //     // Return early or handle the null case as needed
+  //     print("Medicine or Cart data is null.");
+  //     return;
+  //   }
+  //
+  //   // Ensure the index is within bounds
+  //   if (index >= cartItems.length) {
+  //     print("Index out of bounds.");
+  //     return;
+  //   }
+  //
+  //   final medicine = allMedicines[index];
+  //   // Find the cart item that matches the medicine by ID
+  //   medicine.quantity=1;
+  //   final cartItem = cartItems.firstWhere(
+  //         (e) => medicine.id == e.id,
+  //   );
+  //
+  //   if (cartItem != null) {
+  //     medicine.quantity = int.tryParse(cartItem.productQuantity?.toString() ?? '0') ?? 0;
+  //   } else {
+  //     print("Cart item not found for the medicine ID: ${medicine.id}");
+  //   }
+  //   medicViewModel.notifyListeners();
+  // }
+
+
   updateProductQuantity(context, int index, String type) {
     final medicViewModel =
         Provider.of<MedicineViewModel>(context, listen: false);
     if (type == "add") {
       if (int.parse((medicViewModel
-                  .allMedicineModelData!.allMedicineData![index].quantity)
+                  .allMedicineModelData!.allMedicineData![index].addedQuantity)
               .toString()) <
           15) {
-        medicViewModel.allMedicineModelData!.allMedicineData![index].quantity =
+        medicViewModel.allMedicineModelData!.allMedicineData![index].addedQuantity =
             int.parse(medicViewModel
-                    .allMedicineModelData!.allMedicineData![index].quantity
+                    .allMedicineModelData!.allMedicineData![index].addedQuantity
                     .toString()) +
                 1;
       } else {
@@ -40,26 +91,31 @@ class UpdateQuantityViewModel with ChangeNotifier {
       }
     } else if (type == "sub") {
       if (int.parse((medicViewModel
-                  .allMedicineModelData!.allMedicineData![index].quantity)
+                  .allMedicineModelData!.allMedicineData![index].addedQuantity)
               .toString()) >
           1) {
-        medicViewModel.allMedicineModelData!.allMedicineData![index].quantity =
+        medicViewModel.allMedicineModelData!.allMedicineData![index].addedQuantity =
             int.parse(medicViewModel
-                    .allMedicineModelData!.allMedicineData![index].quantity
+                    .allMedicineModelData!.allMedicineData![index].addedQuantity
                     .toString()) -
                 1;
       } else {
-
-        if(medicViewModel.allMedicineModelData!.allMedicineData![index].isAddedToCart==1){
+        if (medicViewModel
+                .allMedicineModelData!.allMedicineData![index].isAddedToCart ==
+            1) {
           showDialog(
               barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return CommonDeletePopup(
-                    title:
-                    'Do you want to delete the added medicines',
+                    title: 'Do you want to delete the added medicines',
                     yes: () {
-                      Provider.of<CartViewModel>(context, listen: false).deleteToCartApi(medicViewModel.allMedicineModelData!.allMedicineData![index].id.toString(), context);
+                      Provider.of<CartViewModel>(context, listen: false)
+                          .deleteToCartApi(
+                              medicViewModel.allMedicineModelData!
+                                  .allMedicineData![index].id
+                                  .toString(),
+                              context,index);
                     });
               });
         }
@@ -70,7 +126,7 @@ class UpdateQuantityViewModel with ChangeNotifier {
     }
     medicViewModel.notifyListeners();
     updateQuantityApi(
-        medicViewModel.allMedicineModelData!.allMedicineData![index].quantity
+        medicViewModel.allMedicineModelData!.allMedicineData![index].addedQuantity
             .toString(),
         medicViewModel.allMedicineModelData!.allMedicineData![index].id
             .toString(),
@@ -96,6 +152,7 @@ class UpdateQuantityViewModel with ChangeNotifier {
       if (value['status'] == 200) {
         setLoading(false);
         Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
+        // Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','1');
         Provider.of<MedicineViewModel>(context, listen: false)
             .medicineCatApi(context);
       }
@@ -106,4 +163,5 @@ class UpdateQuantityViewModel with ChangeNotifier {
       }
     });
   }
+
 }

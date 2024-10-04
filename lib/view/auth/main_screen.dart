@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.whiteColor,
       body: Column(
         children: [
@@ -72,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
             child: ButtonConst(
               height: screenHeight * 0.06,
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.login);
+                Navigator.pushReplacementNamed(context, RoutesName.login);
               },
               borderRadius: BorderRadius.circular(30),
               color: const Color(0xff0154a2),

@@ -167,7 +167,8 @@ class _CartPageState extends State<CartPage> {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(screenHeight * 0.1),
             child:
-                Consumer<AddressViewModel>(builder: (context, addressCon, _) {
+            addressViewModel.modelAddressData?.getAddressData ==null?const Center(child: CircularProgressIndicator())   :
+            Consumer<AddressViewModel>(builder: (context, addressCon, _) {
               if (addressCon.modelAddressData!.getAddressData!.isEmpty) {
                 return Container(
                   color: AppColor.scaffoldBgColor,

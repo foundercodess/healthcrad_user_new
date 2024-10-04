@@ -28,7 +28,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         automaticallyImplyLeading: false,
         toolbarHeight: screenHeight * 0.32,
         actions: [
-          Container(
+             Container(
             width: screenWidth,
             padding: EdgeInsets.symmetric(
                 horizontal: screenWidth * 0.05, vertical: 10),
@@ -84,13 +84,13 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                 ),
                 AppConstant.spaceHeight20,
-                Row(
+                doctorViewModel.doctorVRModel == null ?CircularProgressIndicator()    :      Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
                       width: screenWidth * 0.6,
                       // color: Colors.red,
-                      child: Column(
+                      child:   Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -149,7 +149,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body:   SingleChildScrollView(
         child: Column(
           children: [
             AppConstant.spaceHeight10,

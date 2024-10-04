@@ -29,7 +29,6 @@ class _MedicineDetailsState extends State<MedicineDetails> {
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
     final updateQuantityViewModel = Provider.of<UpdateQuantityViewModel>(context);
 
-
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(

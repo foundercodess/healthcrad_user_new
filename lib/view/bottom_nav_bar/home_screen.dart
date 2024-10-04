@@ -18,6 +18,8 @@ import 'package:health_crad_user/view_model/medicine_view_model.dart';
 import 'package:health_crad_user/view_model/slider_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../view_model/cart_view_model.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       Provider.of<SliderViewModel>(context, listen: false).sliderApi(context);
+      Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
       Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
     });
   }
