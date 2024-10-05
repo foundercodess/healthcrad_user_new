@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_delete_popup.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/view_model/service/bottom_services.dart';
 import 'package:provider/provider.dart';
@@ -17,60 +19,66 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Consumer<BottomNavViewModel>(builder: (context, bnm, child) {
-      return Scaffold(
-        body: bnm.widgetOptions.elementAt(bnm.selectedIndex),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-              color: AppColor.whiteColor,
-              // boxShadow: [
-              //   BoxShadow(
-              //       offset: const Offset(0, -1),
-              //       color: Colors.grey.shade200,
-              //       spreadRadius: 1,
-              //       blurRadius: 3)
-              // ]
-              boxShadow: [
-                BoxShadow(
-                    offset: const Offset(0, 0),
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 6)
-              ]
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          height: 60,
-          // shape: const CircularNotchedRectangle(),
-          // notchMargin: 5,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildNavItem(
-                index: 0,
-                icon: Assets.iconsHome,
-                label: "Home",
-              ),
-              _buildNavItem(
-                index: 1,
-                icon: Assets.iconsAppointments,
-                label: "Appointments",
-              ),
-              _buildNavItem(
-                index: 2,
-                icon: Assets.iconsDoctor,
-                label: "Doctor",
-              ),
-              _buildNavItem(
-                  index: 3,
-                  icon: Assets.iconsEmergency,
-                  label: "Emergency",
-                  isColorDiffer: true),
-              _buildNavItem(
-                index: 4,
-                icon: Assets.iconsMore,
-                label: "More",
-              ),
-            ],
+      return WillPopScope(
+        onWillPop: () async {
+          return await showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return CommonDeletePopup(
+                    title: 'Are You Sure Want To Exit The Application',
+                    yes: () {
+                      SystemNavigator.pop();
+                      // system.pop(context);
+                    });
+              });
+        },
+        child: Scaffold(
+          body: bnm.widgetOptions.elementAt(bnm.selectedIndex),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(color: AppColor.whiteColor, boxShadow: [
+              BoxShadow(
+                  offset: const Offset(0, 0),
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 6)
+            ]),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 60,
+            // shape: const CircularNotchedRectangle(),
+            // notchMargin: 5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildNavItem(
+                  index: 0,
+                  icon: Assets.iconsHome,
+                  label: "Home",
+                ),
+                _buildNavItem(
+                  index: 1,
+                  icon: Assets.iconsAppointments,
+                  label: "Appointments",
+                ),
+                _buildNavItem(
+                  index: 2,
+                  icon: Assets.iconsDoctor,
+                  label: "Doctor",
+                ),
+                _buildNavItem(
+                    index: 3,
+                    icon: Assets.iconsEmergency,
+                    label: "Emergency",
+                    isColorDiffer: true),
+                _buildNavItem(
+                  index: 4,
+                  icon: Assets.iconsMore,
+                  label: "More",
+                ),
+              ],
+            ),
           ),
         ),
       );

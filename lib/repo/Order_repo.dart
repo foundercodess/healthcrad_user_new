@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:health_crad_user/helper/network/base_api_services.dart';
 import 'package:health_crad_user/helper/network/network_api_services.dart';
 import 'package:health_crad_user/model/order_history_model.dart';
+import 'package:health_crad_user/model/p_order_history_model.dart';
 import 'package:health_crad_user/res/api_url.dart';
 
 class OrderRepo {
@@ -51,4 +52,21 @@ class OrderRepo {
       rethrow;
     }
   }
+
+
+//  P Order History Api
+
+  Future<POrderHistoryModel> pOrderHistoryApi(dynamic data) async {
+    try {
+      dynamic response =
+      await _apiServices.getGetApiResponse(ApiUrl.orderPrescriptionUrl + data);
+      return POrderHistoryModel.fromJson(response);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error occurred during pOrderHistoryApi: $e');
+      }
+      rethrow;
+    }
+  }
+
 }

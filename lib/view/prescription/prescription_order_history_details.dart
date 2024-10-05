@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/view_model/order_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../generated/assets.dart';
 import '../../main.dart';
@@ -42,6 +44,8 @@ class _PrescriptionOrderHistoryDetailsScreenState
   }
   @override
   Widget build(BuildContext context) {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final pOrderDetail = orderViewModel.pOrderHistoryModel!.pOrderHistoryData![orderViewModel.pSelectedIndex];
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: appBarWidget(),
@@ -68,7 +72,7 @@ class _PrescriptionOrderHistoryDetailsScreenState
                               fontSize: AppConstant.fontSizeOne,
                             ),
                             TextConst(
-                              title: "465",
+                              title: pOrderDetail.id.toString(),
                               color: AppColor.textColor,
                               fontSize: AppConstant.fontSizeOne,
                             ),
@@ -415,6 +419,8 @@ class _PrescriptionOrderHistoryDetailsScreenState
   }
 
   Widget shippingDetails() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final pOrderDetail = orderViewModel.pOrderHistoryModel!.pOrderHistoryData![orderViewModel.pSelectedIndex];
     return Container(
       width: screenWidth,
       color: AppColor.whiteColor,
@@ -432,14 +438,14 @@ class _PrescriptionOrderHistoryDetailsScreenState
           ),
           AppConstant.spaceHeight5,
           TextConst(
-            title: "Om Shankar Sharma",
+            title: pOrderDetail.userName.toString(),
             color: AppColor.blackColor,
             fontSize: AppConstant.fontSizeTwo,
             fontWeight: FontWeight.w500,
           ),
           AppConstant.spaceHeight5,
           TextConst(
-            title: "Sharda nagar (Banti Kirana Store), Bus Stand Purnea 485695",
+            title: pOrderDetail.address.toString(),
             color: AppColor.textColor,
             fontSize: AppConstant.fontSizeOne,
             textAlign: TextAlign.left,

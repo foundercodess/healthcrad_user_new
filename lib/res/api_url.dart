@@ -18,7 +18,7 @@ class ApiUrl {
   static const deleteAddressUrl = "${baseUrl}delete_address";
   static const ambulanceTypeUrl = "${baseUrl}ambulancetype";
   static const getCouponsUrl = "${baseUrl}get_coupons";
-  static const doctorGetListUrl = "${baseUrl}doctor_list/";
+  static const doctorGetListUrl = "${baseUrl}doctor_list";
   static const requestAmbulanceUrl = "${baseUrl}req_ambulance_booking";
   static const myLabReportUrl = "${baseUrl}pathlab_report_view/";
   static const doctorViewReviewUrl = "${baseUrl}doctor_view/";
@@ -30,5 +30,7 @@ class ApiUrl {
   static const updateQuantityUrl = "${baseUrl}update_quantity";
   static const createOrderPrescriptionUrl = "${baseUrl}create_order_prescription";
   static const orderHistoryUrl = "${baseUrl}order_history/";
+  static const orderPrescriptionUrl = "${baseUrl}order_prescription/";
+  static const doctorAppointmentUrl = "${baseUrl}doctor_appointment";
 
 }

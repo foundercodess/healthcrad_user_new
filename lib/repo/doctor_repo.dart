@@ -28,10 +28,10 @@ class DoctorDepartmentRepo {
 //   Doctor Get List Api
 
 
-  Future<GetDoctorModel> getDoctorApi(String catId) async {
+  Future<GetDoctorModel> getDoctorApi(dynamic data) async {
     try {
       dynamic response =
-      await _apiServices.getGetApiResponse(ApiUrl.doctorGetListUrl + catId);
+      await _apiServices.getPostApiResponse(ApiUrl.doctorGetListUrl ,data);
       return GetDoctorModel.fromJson(response);
     } catch (e) {
       if (kDebugMode) {

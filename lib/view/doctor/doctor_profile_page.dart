@@ -17,11 +17,17 @@ class DoctorProfilePage extends StatefulWidget {
 class _DoctorProfilePageState extends State<DoctorProfilePage> {
   int ratingValue = 3;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<DoctorViewModel>(context, listen: false).doctorVRApi(context,'12');
 
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final doctorViewModel = Provider.of<DoctorViewModel>(context);
-
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: AppBar(
@@ -84,7 +90,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                 ),
                 AppConstant.spaceHeight20,
-                doctorViewModel.doctorVRModel == null ?CircularProgressIndicator()    :      Row(
+                doctorViewModel.doctorVRModel! == null ?const CircularProgressIndicator()    :      Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(

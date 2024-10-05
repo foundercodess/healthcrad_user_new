@@ -239,7 +239,7 @@ class AllMedicineData {
     disclaimer = json['disclaimer'];
     isAddedToCart=json['is_added_to_cart'];
     stock=json['stock'];
-    addedQuantity=json['added_quantity'];
+    addedQuantity=json['added_quantity']??0;
 
   }
 

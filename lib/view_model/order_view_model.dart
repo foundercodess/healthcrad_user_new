@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/model/address_get_model.dart';
 import 'package:health_crad_user/model/order_history_model.dart';
+import 'package:health_crad_user/model/p_order_history_model.dart';
 import 'package:health_crad_user/repo/Order_repo.dart';
 import 'package:health_crad_user/repo/address_repo.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
@@ -148,4 +149,46 @@ class OrderViewModel with ChangeNotifier {
       }
     });
   }
+
+  // Order History Api
+
+  POrderHistoryModel? _pOrderHistoryModel;
+  POrderHistoryModel? get pOrderHistoryModel => _pOrderHistoryModel;
+
+  void setPOrderHistoryModel(POrderHistoryModel name) {
+    _pOrderHistoryModel = name;
+    notifyListeners();
+  }
+
+
+  int _pSelectedIndex = 0;
+
+  int get pSelectedIndex => _pSelectedIndex;
+
+  void pSelectOrderHistory(int addIndex){
+    _pSelectedIndex =addIndex;
+    notifyListeners();
+  }
+
+
+  Future<void> pOrderHistoryApi(context) async {
+    UserViewModel userViewModel = UserViewModel();
+    String? userId = await userViewModel.getUser();
+    _orderRepo.pOrderHistoryApi(userId).then((value) {
+      if (value.status == 200) {
+        setPOrderHistoryModel(value);
+      } else {
+        if (kDebugMode) {
+          print('value: ${value.message}');
+        }
+      }
+    }).onError((error, stackTrace) {
+      if (kDebugMode) {
+        print('error: $error');
+      }
+    });
+  }
+
+
+
 }

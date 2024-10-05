@@ -13,6 +13,7 @@ import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'view_model/address_view_model.dart';
+import 'view_model/appointment_view_model.dart';
 import 'view_model/cart_view_model.dart';
 import 'view_model/doctor_view_model.dart';
 import 'view_model/lab_report_download_view_model.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RatingViewModel()),
         ChangeNotifierProvider(create: (context) => OrderViewModel()),
         ChangeNotifierProvider(create: (context) => UpdateQuantityViewModel()),
+        ChangeNotifierProvider(create: (context) => AppointmentViewModel()),
 
 
 

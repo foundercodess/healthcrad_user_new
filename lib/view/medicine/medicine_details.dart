@@ -27,7 +27,8 @@ class _MedicineDetailsState extends State<MedicineDetails> {
   Widget build(BuildContext context) {
 
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
-    final updateQuantityViewModel = Provider.of<UpdateQuantityViewModel>(context);
+    final cartViewModel = Provider.of<CartViewModel>(context);
+
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
@@ -163,18 +164,23 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                 Positioned(
                   left: screenHeight * 0.028,
                   bottom: screenHeight * 0.017,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: screenHeight * 0.04,
-                    width: screenWidth * 0.04,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColor.redColor,
-                    ),
-                    child: TextConst(
-                      title: '3',
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.whiteColor,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context, RoutesName.cartPage);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: screenHeight * 0.04,
+                      width: screenWidth * 0.04,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColor.redColor,
+                      ),
+                      child: TextConst(
+                        title: cartViewModel.vModelData!.viewCartData!.length.toString(),
+                        fontSize: AppConstant.fontSizeOne,
+                        color: AppColor.whiteColor,
+                      ),
                     ),
                   ),
                 ),
@@ -298,46 +304,58 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                       color: AppColor.blackColor,
                       fontWeight: FontWeight.w500,
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: screenHeight * 0.038,
-                      width: screenWidth * 0.24,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColor.buttonBgColor, width: 0.5),
-                        borderRadius: BorderRadius.circular(5),
-                        image: const DecorationImage(
-                          image: AssetImage(Assets.pngPlusMinusIcon),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            child: Container(
-                              height: screenHeight * 0.05,
-                              width: screenWidth * 0.095,
-                              color: Colors.transparent,
+                    Consumer<UpdateQuantityViewModel>(
+                        builder: (context, updateQuantityCon, _) {
+                          return Container(
+                          alignment: Alignment.center,
+                          height: screenHeight * 0.038,
+                          width: screenWidth * 0.24,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColor.buttonBgColor, width: 0.5),
+                            borderRadius: BorderRadius.circular(5),
+                            image: const DecorationImage(
+                              image: AssetImage(Assets.pngPlusMinusIcon),
+                              fit: BoxFit.fill,
                             ),
                           ),
-                          TextConst(
-                            title:  medicineViewModel.medicineDetailsData!.medicineModelData!.quantity.toString(),
-                            fontSize: AppConstant.fontSizeThree,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.blackColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  updateQuantityCon
+                                      .updateProductQuantity(
+                                      context,medicineViewModel.allMedicineModelData!.allMedicineData!.indexWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id),"sub");
+                                },
+                                child: Container(
+                                  height: screenHeight * 0.05,
+                                  width: screenWidth * 0.095,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              TextConst(
+                                title:  medicineViewModel.allMedicineModelData!.allMedicineData!.firstWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id).addedQuantity.toString(),
+                                fontSize: AppConstant.fontSizeThree,
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.blackColor,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  updateQuantityCon
+                                      .updateProductQuantity(
+                                      context, medicineViewModel.allMedicineModelData!.allMedicineData!.indexWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id), "add");
+                                },
+                                child: Container(
+                                  height: screenHeight * 0.05,
+                                  width: screenWidth * 0.095,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ],
                           ),
-                          GestureDetector(
-                            onTap: () {
-                            },
-                            child: Container(
-                              height: screenHeight * 0.05,
-                              width: screenWidth * 0.095,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      }
                     ),
                   ],
                 ),

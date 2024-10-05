@@ -46,6 +46,7 @@ class CartListViewState extends State<CartListView> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: cartViewModel.vModelData?.viewCartData!.length,
             itemBuilder: (context, index) {
+
               return Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 padding:

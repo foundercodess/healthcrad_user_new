@@ -99,7 +99,7 @@ class GetDoctorModelData {
     department = json['department'];
     profile = json['profile'];
     exp = json['Exp'];
-    fees = json['fees'];
+    fees = json['fees']??0;
     ionUserId = json['ion_user_id'];
     hospitalId = json['hospital_id'];
     departmentName = json['department_name'];

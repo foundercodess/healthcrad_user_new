@@ -14,6 +14,7 @@ import 'package:health_crad_user/res/offerings_list_view.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/doctor_view_model.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
 import 'package:health_crad_user/view_model/slider_view_model.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<SliderViewModel>(context, listen: false).sliderApi(context);
       Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
       Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .getDoctorApi(context, "");
+
     });
   }
   @override
@@ -161,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   PreferredSizeWidget appBarConst() {
+    final cartViewModel = Provider.of<CartViewModel>(context);
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight * 1.2),
       child: Container(
@@ -257,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColor.redColor,
                       ),
                       child: TextConst(
-                        title: '3',
+                        title: cartViewModel.vModelData!.viewCartData!.length.toString(),
                         fontSize: AppConstant.fontSizeOne,
                         color: AppColor.whiteColor,
                       ),
@@ -654,6 +659,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget bookAppointmentForTopDoctor() {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -670,7 +676,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         AppConstant.spaceHeight10,
         SizedBox(
-            height: screenHeight / 2.85, child: const AppointmentListView()),
+            height: screenHeight / 2.85, child:  AppointmentListView()),
       ],
     );
   }

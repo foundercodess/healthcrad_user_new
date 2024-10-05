@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
@@ -36,6 +37,7 @@ class _MedicineOrderHistoryScreenState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       Provider.of<OrderViewModel>(context, listen: false).orderHistoryApi(context);
+      Provider.of<OrderViewModel>(context, listen: false).pOrderHistoryApi(context);
 
     });
   }
@@ -175,13 +177,19 @@ class _MedicineOrderHistoryScreenState
   }
 
   Widget prescriptionOrderList() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final pOrderDetail = orderViewModel.pOrderHistoryModel!.pOrderHistoryData![orderViewModel.pSelectedIndex];
     return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         shrinkWrap: true,
-        itemCount: 4,
+        itemCount: orderViewModel.pOrderHistoryModel!.pOrderHistoryData!.length,
         itemBuilder: (_, int i) {
+          final resData =
+          orderViewModel.pOrderHistoryModel?.pOrderHistoryData?[i];
           return InkWell(
+
             onTap: (){
+              orderViewModel.pSelectOrderHistory(i);
                Navigator.pushNamed(context, RoutesName.prescriptionOrderHistoryDetailsScreen);
             },
             child: Container(
@@ -192,24 +200,24 @@ class _MedicineOrderHistoryScreenState
                           BorderSide(width: 0.3, color: AppColor.greyColor))),
               child: Row(
                 children: [
-                  Image.asset(
-                    Assets.imageTablelBg,
-                    width: screenWidth / 6,
-                  ),
+                  // Image.network(
+                  //   pOrderDetail[i].images.toString(),
+                  //   width: screenWidth / 6,
+                  // ),
                   AppConstant.spaceWidth10,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      orderStatus(i),
+                      orderStatus(orderViewModel.pOrderHistoryModel!.pOrderHistoryData!.length),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "MyPees.png",
+                        title: pOrderDetail.userName,
                         color: AppColor.textColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "29 sept, 2024",
+                        title: pOrderDetail.datetime,
                         color: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),

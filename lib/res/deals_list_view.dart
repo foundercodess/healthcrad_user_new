@@ -138,13 +138,17 @@ class DealsMedicine extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextConst(
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      title: allMedicineData.name.toString(),
-                      fontSize: AppConstant.fontSizeOne,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.blackColor,
+                    Container(
+                      alignment: Alignment.center,
+                      width: screenWidth*0.36,
+                      child: TextConst(
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        title: allMedicineData.name.toString(),
+                        fontSize: AppConstant.fontSizeOne,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.blackColor,
+                      ),
                     ),
                   ],
                 ),
@@ -211,11 +215,6 @@ class DealsMedicine extends StatelessWidget {
                     ? ButtonConst(
                         margin: const EdgeInsets.symmetric(horizontal: 10),
                         height: screenHeight * 0.04,
-                        onTap: () async {
-                          String? getUserData = await UserViewModel().getUser();
-                          cartViewModel.addToCartApi(
-                              getUserData, allMedicineData.id, '1', context);
-                        },
                         color: AppColor.redColor,
                         label: 'Out of stock'.toUpperCase(),
                         textColor: AppColor.whiteColor,
@@ -262,9 +261,6 @@ class DealsMedicine extends StatelessWidget {
                                     children: [
                                       InkWell(
                                           onTap: () {
-                                            // updateQuantityCon
-                                            //     .updateQuantityApi(
-                                            //     (int.parse(allMedicineData.addedQuantity-1)).toString(),allMedicineData.id.toString(),context);
                                             updateQuantityCon
                                                 .updateProductQuantity(
                                                     context, index, "sub");

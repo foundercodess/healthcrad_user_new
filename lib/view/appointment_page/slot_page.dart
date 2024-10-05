@@ -6,7 +6,9 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/doctor_view_model.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class SlotPage extends StatefulWidget {
   const SlotPage({super.key});
@@ -17,14 +19,35 @@ class SlotPage extends StatefulWidget {
 
 class _SlotPageState extends State<SlotPage> {
   int selectedList = 0;
+  String? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .getDoctorApi(context, "");
+    });
+  }
+
+  List<String> morning = [
+    '08:00 AM',
+    '09:00 AM',
+    '11:00 AM',
+    '12:00 AM',
+    '01:00 AM'
+  ];
+  List<String> afterNon = ['02:00 AM', '04:00 AM', '05:00 AM'];
   @override
   Widget build(BuildContext context) {
+    final doctorViewModel = Provider.of<DoctorViewModel>(context);
     List<String> dates = List.generate(15, (index) {
       DateTime date = DateTime.now().add(Duration(days: index));
       return DateFormat('EEEE, d MMM').format(date);
     });
+
     return Scaffold(
-      backgroundColor: AppColor.scaffoldBgColor,
+        backgroundColor: AppColor.scaffoldBgColor,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight * 1.2,
           backgroundColor: AppColor.primaryColor,
@@ -45,10 +68,12 @@ class _SlotPageState extends State<SlotPage> {
               Container(
                 height: kToolbarHeight / 1.2,
                 width: kToolbarHeight / 1.2,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(Assets.imageSlotDoctorBg),
+                    image: NetworkImage(doctorViewModel.getDoctorModelData!
+                        .getDoctorModelData![selectedList].imgUrl
+                        .toString()),
                     scale: 3,
                   ),
                 ),
@@ -58,14 +83,16 @@ class _SlotPageState extends State<SlotPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextConst(
-                    title: 'Dr. Shubham Kumar',
+                    title: doctorViewModel.getDoctorModelData!
+                        .getDoctorModelData![selectedList].name,
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.whiteColor,
                     fontWeight: FontWeight.w600,
                   ),
                   AppConstant.spaceHeight5,
                   TextConst(
-                    title: 'Line bazar, Purnea, Bihar',
+                    title: doctorViewModel.getDoctorModelData!
+                        .getDoctorModelData![selectedList].address,
                     fontSize: AppConstant.fontSizeOne,
                     color: AppColor.whiteColor,
                     fontWeight: FontWeight.w500,
@@ -114,6 +141,7 @@ class _SlotPageState extends State<SlotPage> {
                         onTap: () {
                           setState(() {
                             selectedList = index;
+                            selectedDate=dates[index];
                           });
                         },
                         child: Container(
@@ -122,8 +150,7 @@ class _SlotPageState extends State<SlotPage> {
                               left: 15, right: index == 14 ? 15 : 0, bottom: 5),
                           decoration: BoxDecoration(
                             color: selectedList == index
-                                ? AppColor.fadedPrimaryColor
-                                    .withOpacity(0.05)
+                                ? AppColor.fadedPrimaryColor.withOpacity(0.05)
                                 : AppColor.whiteColor,
                             border: Border.all(
                                 width: 0.5,
@@ -133,8 +160,7 @@ class _SlotPageState extends State<SlotPage> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TextConst(
                                 title: dates[index],
@@ -166,8 +192,8 @@ class _SlotPageState extends State<SlotPage> {
                   height: screenHeight * 0.4,
                   color: AppColor.whiteColor,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.05),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                     child: Column(
                       children: [
                         AppConstant.spaceHeight10,
@@ -181,11 +207,9 @@ class _SlotPageState extends State<SlotPage> {
                           width: screenWidth,
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: List.generate(
-                              int.parse(
-                                  (screenWidth / 5).toStringAsFixed(0)),
+                              int.parse((screenWidth / 5).toStringAsFixed(0)),
                               (i) => TextConst(
                                 title: '-',
                                 fontSize: 5,
@@ -219,8 +243,7 @@ class _SlotPageState extends State<SlotPage> {
                                 width: 1, color: AppColor.primaryColor),
                           ),
                           child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Image.asset(
                                 Assets.iconsGreenCallIcon,
@@ -245,8 +268,8 @@ class _SlotPageState extends State<SlotPage> {
                   height: screenHeight * 0.4,
                   color: AppColor.whiteColor,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.05),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                     child: Column(
                       children: [
                         AppConstant.spaceHeight10,
@@ -260,11 +283,9 @@ class _SlotPageState extends State<SlotPage> {
                           width: screenWidth,
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: List.generate(
-                              int.parse(
-                                  (screenWidth / 5).toStringAsFixed(0)),
+                              int.parse((screenWidth / 5).toStringAsFixed(0)),
                               (i) => TextConst(
                                 title: '-',
                                 fontSize: 5,
@@ -297,9 +318,12 @@ class _SlotPageState extends State<SlotPage> {
                           ],
                         ),
                         AppConstant.spaceHeight10,
-                        const GridSlotWidget(
-                          itemCount: 5,
-                          title: '11:00 AM',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RoutesName.appointmentBooking);
+                          },
+                          child: GridSlotWidget(data: morning,selectedDate: selectedDate!),
                         ),
                         AppConstant.spaceHeight20,
                         Row(
@@ -325,83 +349,82 @@ class _SlotPageState extends State<SlotPage> {
                         ),
                         AppConstant.spaceHeight10,
                         GridSlotWidget(
-                            itemCount: 3,
-                            title: '02:20 PM',
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, RoutesName.appointmentBooking);
-                            }),
+                          data: afterNon,
+                          selectedDate: selectedDate!,
+                        ),
                       ],
                     ),
                   ),
                 ),
           AppConstant.spaceHeight10,
-          selectedList == 0?const SizedBox.shrink():
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            width: screenWidth,
-            alignment: Alignment.center,
-            color: AppColor.whiteColor,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                      decoration: BoxDecoration(
-                        color: AppColor.whiteColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                            width: 1, color: AppColor.primaryColor),
+          selectedList == 0
+              ? const SizedBox.shrink()
+              : Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  width: screenWidth,
+                  alignment: Alignment.center,
+                  color: AppColor.whiteColor,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            decoration: BoxDecoration(
+                              color: AppColor.whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  width: 1, color: AppColor.primaryColor),
+                            ),
+                            child: TextConst(
+                              title: "00:00 PM",
+                              color: AppColor.primaryColor,
+                              fontSize: AppConstant.fontSizeTwo,
+                            ),
+                          ),
+                          AppConstant.spaceWidth15,
+                          TextConst(
+                            title: "This colour shows slot open for booking",
+                            fontSize: AppConstant.fontSizeOne,
+                            color: AppColor.textColor,
+                          )
+                        ],
                       ),
-                      child: TextConst(
-                        title: "00:00 PM",
-                        color: AppColor.primaryColor,
-                        fontSize: AppConstant.fontSizeTwo,
+                      AppConstant.spaceHeight15,
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            decoration: BoxDecoration(
+                              color: AppColor.whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  width: 1, color: AppColor.greyColor),
+                            ),
+                            child: TextConst(
+                              title: "00:00 PM",
+                              color: AppColor.greyColor,
+                              fontSize: AppConstant.fontSizeTwo,
+                            ),
+                          ),
+                          AppConstant.spaceWidth15,
+                          TextConst(
+                            textAlign: TextAlign.start,
+                            title:
+                                "This colour shows slot already booked.\nChoose another slot.",
+                            fontSize: AppConstant.fontSizeOne,
+                            color: AppColor.textColor,
+                          )
+                        ],
                       ),
-                    ),
-                    AppConstant.spaceWidth15,
-                    TextConst(
-                      title: "This colour shows slot open for booking",
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.textColor,
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-                AppConstant.spaceHeight15,
-                Row(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                      decoration: BoxDecoration(
-                        color: AppColor.whiteColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border:
-                            Border.all(width: 1, color: AppColor.greyColor),
-                      ),
-                      child: TextConst(
-                        title: "00:00 PM",
-                        color: AppColor.greyColor,
-                        fontSize: AppConstant.fontSizeTwo,
-                      ),
-                    ),
-                    AppConstant.spaceWidth15,
-                    TextConst(
-                      textAlign: TextAlign.start,
-                      title:
-                          "This colour shows slot already booked.\nChoose another slot.",
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.textColor,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
         ]));
   }
 }
@@ -409,13 +432,11 @@ class _SlotPageState extends State<SlotPage> {
 class GridSlotWidget extends StatelessWidget {
   const GridSlotWidget({
     super.key,
-    required this.itemCount,
-    required this.title,
-    this.onTap,
+    required this.data, required this.selectedDate,
   });
-  final int itemCount;
-  final String title;
-  final VoidCallback? onTap;
+  final List<String> data;
+  final String selectedDate;
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -427,10 +448,13 @@ class GridSlotWidget extends StatelessWidget {
           mainAxisSpacing: 10,
           childAspectRatio: (screenWidth * 0.23) / (screenHeight * 0.05),
         ),
-        itemCount: itemCount,
+        itemCount: data.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: onTap,
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.appointmentBooking,
+                  arguments: {"date": selectedDate, 'time': data[index]});
+            },
             child: Container(
               alignment: Alignment.center,
               height: screenHeight * 0.05,
@@ -441,7 +465,7 @@ class GridSlotWidget extends StatelessWidget {
                 border: Border.all(width: 1, color: AppColor.primaryColor),
               ),
               child: TextConst(
-                title: title,
+                title: data[index],
                 color: AppColor.primaryColor,
                 fontSize: AppConstant.fontSizeTwo,
               ),

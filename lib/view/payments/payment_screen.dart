@@ -6,7 +6,6 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
-import 'package:health_crad_user/view/payments/widget/payment_mode_widget.dart';
 import 'package:health_crad_user/view_model/address_view_model.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/coupon_view_model.dart';
