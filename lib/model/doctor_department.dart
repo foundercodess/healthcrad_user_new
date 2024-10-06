@@ -28,14 +28,14 @@ class DoctorDepartment {
 }
 
 class DoctorCat {
-  int? id;
-  String? name;
-  String? description;
+  dynamic id;
+  dynamic name;
+  dynamic description;
    dynamic x;
   dynamic y;
-  String? hospitalId;
-  String? image;
-  String? status;
+  dynamic hospitalId;
+  dynamic image;
+  dynamic status;
 
   DoctorCat(
       {this.id,

@@ -22,11 +22,6 @@ class DoctorViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-
-
   DoctorDepartment? _doctorModelData;
 
   DoctorDepartment? get doctorDepartmentModelData => _doctorModelData;
@@ -65,17 +60,14 @@ class DoctorViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-
-
   int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;
 
-  void selectDoctorProfile(int addIndex){
-    _selectedIndex =addIndex;
+  void selectDoctorProfile(int addIndex) {
+    _selectedIndex = addIndex;
     notifyListeners();
   }
-
 
   Future<void> getDoctorApi(context, String catId) async {
     Map data = {
@@ -84,7 +76,7 @@ class DoctorViewModel with ChangeNotifier {
     _doctorDepartmentRepo.getDoctorApi(data).then((value) {
       if (value.status == 200) {
         setGetDoctorModelData(value);
-        // Navigator.pushNamed(context, RoutesName.cTapDoctor);
+
       } else {
         if (kDebugMode) {
           print('value: ${value.message}');
@@ -106,6 +98,7 @@ class DoctorViewModel with ChangeNotifier {
     _doctorVRModel = name;
     notifyListeners();
   }
+
   Future<void> doctorVRApi(context, String doctorId) async {
     _doctorDepartmentRepo.doctorVRApi(doctorId).then((value) {
       if (value.status == 200) {

@@ -83,7 +83,7 @@ class ViewCartData {
   dynamic storage;
   dynamic detail;
   dynamic disclaimer;
-  String? productQuantity;
+  dynamic productQuantity;
 
   ViewCartData(
       {this.id,

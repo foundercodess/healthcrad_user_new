@@ -38,15 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
       Provider.of<DoctorViewModel>(context, listen: false)
           .getDoctorApi(context, "");
+      Provider.of<DoctorViewModel>(context, listen: false).doctorCatApi(context);
 
     });
   }
   @override
   Widget build(BuildContext context) {
     final sliderViewModel = Provider.of<SliderViewModel>(context);
+    final cartViewModel = Provider.of<CartViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarConst(),
+      appBar:  appBarConst(),
       body:  sliderViewModel.sliderModelData ==null?const Center(child: CircularProgressIndicator()): SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,9 +168,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   PreferredSizeWidget appBarConst() {
     final cartViewModel = Provider.of<CartViewModel>(context);
-    return PreferredSize(
+    return    PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight * 1.2),
-      child: Container(
+      child:  cartViewModel.vModelData! == null ? Center(child: CircularProgressIndicator()) :Container(
         decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [

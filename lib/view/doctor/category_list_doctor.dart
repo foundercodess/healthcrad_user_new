@@ -138,15 +138,20 @@ class _CategoryTapListDoctorState extends State<CategoryTapListDoctor> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      TextConst(
-                                        title: doctorViewModel
-                                            .getDoctorModelData
-                                            ?.getDoctorModelData?[index]
-                                            .name,
-                                        maxLines: 1,
-                                        fontSize: AppConstant.fontSizeThree,
-                                        color: AppColor.blackColor,
-                                        fontWeight: FontWeight.w600,
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        width: screenWidth*0.55,
+                                        child: TextConst(
+                                          textAlign: TextAlign.start,
+                                          title: doctorViewModel
+                                              .getDoctorModelData
+                                              ?.getDoctorModelData?[index]
+                                              .name,
+                                          maxLines: 1,
+                                          fontSize: AppConstant.fontSizeThree,
+                                          color: AppColor.blackColor,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                       const Icon(
                                         Icons.check_circle,

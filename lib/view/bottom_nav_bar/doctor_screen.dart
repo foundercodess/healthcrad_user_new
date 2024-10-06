@@ -19,18 +19,7 @@ class DoctorScreen extends StatefulWidget {
 }
 
 class _DoctorScreenState extends State<DoctorScreen> {
-//
-//   List<DoctorGridModel> doctorGridModelList = [
-//     DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
-//     DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
-//     DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
-//     DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
-//     DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye), DoctorGridModel(title: 'General Physician', img: Assets.imageGeneralPhysician),
-//     DoctorGridModel(title: 'Kidney\nSpecialist', img: Assets.imageKideny),
-//     DoctorGridModel(title: 'Heart Specialist', img: Assets.imageHeart),
-//     DoctorGridModel(title: 'Dentist', img: Assets.imageDentist),
-//     DoctorGridModel(title: 'Eye Specialist', img: Assets.imageEye),
-// ];
+
 @override
 void initState() {
   super.initState();
@@ -96,6 +85,7 @@ void initState() {
                 return GestureDetector(
                   onTap: (){
                    doctorViewModel.getDoctorApi(context,doctorViewModel.doctorDepartmentModelData!.doctorCat![index].id.toString() );
+                   Navigator.pushNamed(context, RoutesName.cTapDoctor);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -124,7 +114,7 @@ void initState() {
                           child: TextConst(
                             textAlign: TextAlign.start,
                             title: doctorViewModel.doctorDepartmentModelData!.doctorCat?[index].name,
-                            // title: doctorGridModelList[index].title,
+
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.blackColor,
                             fontWeight: FontWeight.w600,
