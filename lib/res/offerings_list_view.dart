@@ -4,6 +4,7 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_delete_popup.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 
 import 'text_const.dart';
@@ -21,7 +22,11 @@ class OfferingsListViewState extends State<OfferingsListView> {
   @override
   Widget build(BuildContext context) {
     List<OfferingModel> offeringModelList = [
-      OfferingModel(title: 'Doctors', img: Assets.pngDoctorBgO, onTap: () {}),
+      OfferingModel(
+          title: 'Doctors',
+          img: Assets.pngDoctorBgO,
+          onTap: () {
+          }),
       OfferingModel(
           title: 'Medicines', img: Assets.pngMedicinesBgO, onTap: () {}),
       OfferingModel(
@@ -39,7 +44,7 @@ class OfferingsListViewState extends State<OfferingsListView> {
     ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate((offeringModelList.length), (index){
+      children: List.generate((offeringModelList.length), (index) {
         return GestureDetector(
           onTap: offeringModelList[index].onTap,
           child: Container(
@@ -48,7 +53,11 @@ class OfferingsListViewState extends State<OfferingsListView> {
                 borderRadius: BorderRadius.circular(6),
                 color: AppColor.whiteColor,
                 boxShadow: [
-                  BoxShadow(offset: const Offset(0, 1), color: Colors.grey.shade100, spreadRadius: 1, blurRadius: 3)
+                  BoxShadow(
+                      offset: const Offset(0, 1),
+                      color: Colors.grey.shade100,
+                      spreadRadius: 1,
+                      blurRadius: 3)
                 ]),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,25 +68,24 @@ class OfferingsListViewState extends State<OfferingsListView> {
                   height: screenWidth / 6.8,
                   width: screenWidth,
                   alignment: Alignment.center,
-                  decoration:  BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                    ),
+                    image: DecorationImage(
+                        image: AssetImage(offeringModelList[index].img),
+                        fit: BoxFit.cover),
 
-                      ),
-                    image: DecorationImage(image: AssetImage(offeringModelList[index].img),fit: BoxFit.cover),
-
-
-                  // child: SvgPicture.asset(
-                  //   offeringModelList[index].img,
-                  //  fit: BoxFit.fill,
-                  // ),
-                ),
+                    // child: SvgPicture.asset(
+                    //   offeringModelList[index].img,
+                    //  fit: BoxFit.fill,
+                    // ),
+                  ),
                 ),
                 const Spacer(),
                 Padding(
-                  padding:
-                  const EdgeInsets.only(left: 7, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(left: 7, top: 5, bottom: 5),
                   child: TextConst(
                     title: offeringModelList[index].title,
                     fontWeight: FontWeight.w600,

@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/order_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../generated/assets.dart';
 import '../../res/app_color.dart';
@@ -28,6 +31,17 @@ class _MedicineOrderHistoryScreenState
       end: Alignment.bottomCenter,
       colors: [Color(0xffCBE6FF), Color(0xffD7ECFF), Color(0xffFFFFFF)]);
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<OrderViewModel>(context, listen: false).orderHistoryApi(context);
+      Provider.of<OrderViewModel>(context, listen: false).pOrderHistoryApi(context);
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,13 +177,19 @@ class _MedicineOrderHistoryScreenState
   }
 
   Widget prescriptionOrderList() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final pOrderDetail = orderViewModel.pOrderHistoryModel!.pOrderHistoryData![orderViewModel.pSelectedIndex];
     return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         shrinkWrap: true,
-        itemCount: 4,
+        itemCount: orderViewModel.pOrderHistoryModel!.pOrderHistoryData!.length,
         itemBuilder: (_, int i) {
+          final resData =
+          orderViewModel.pOrderHistoryModel?.pOrderHistoryData?[i];
           return InkWell(
+
             onTap: (){
+              orderViewModel.pSelectOrderHistory(i);
                Navigator.pushNamed(context, RoutesName.prescriptionOrderHistoryDetailsScreen);
             },
             child: Container(
@@ -180,24 +200,24 @@ class _MedicineOrderHistoryScreenState
                           BorderSide(width: 0.3, color: AppColor.greyColor))),
               child: Row(
                 children: [
-                  Image.asset(
-                    Assets.imageTablelBg,
-                    width: screenWidth / 6,
-                  ),
+                  // Image.network(
+                  //   pOrderDetail[i].images.toString(),
+                  //   width: screenWidth / 6,
+                  // ),
                   AppConstant.spaceWidth10,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      orderStatus(i),
+                      orderStatus(orderViewModel.pOrderHistoryModel!.pOrderHistoryData!.length),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "MyPees.png",
+                        title: pOrderDetail.userName,
                         color: AppColor.textColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "29 sept, 2024",
+                        title: pOrderDetail.datetime,
                         color: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
@@ -216,13 +236,18 @@ class _MedicineOrderHistoryScreenState
   }
 
   Widget myOrderList() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final orderDetail = orderViewModel.orderHistoryModel!.orderHistoryData![orderViewModel.selectedIndex].medicinedata;
     return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         shrinkWrap: true,
-        itemCount: 13,
+        itemCount: orderViewModel.orderHistoryModel!.orderHistoryData!.length,
         itemBuilder: (_, int i) {
+          final resData =
+          orderViewModel.orderHistoryModel?.orderHistoryData?[i];
           return InkWell(
             onTap: (){
+              orderViewModel.selectOrderHistory(i);
               Navigator.pushNamed(context, RoutesName.medicineOrderHistoryDetailScreen);
             },
             child: Container(
@@ -233,24 +258,26 @@ class _MedicineOrderHistoryScreenState
                           BorderSide(width: 0.3, color: AppColor.greyColor))),
               child: Row(
                 children: [
-                  Image.asset(
-                    Assets.imageTablelBg,
+                  Image.network(
+
+                    orderDetail![selectedIndex].image.toString(),
                     width: screenWidth / 6,
                   ),
                   AppConstant.spaceWidth10,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      orderStatus(i),
+                      orderStatus(
+                          int.parse("${orderViewModel.orderHistoryModel!.orderHistoryData![i].status}")),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "6 items (Medicine)",
+                        title: "${orderViewModel.orderHistoryModel!.orderHistoryData![i].medicinedata!.length} items (Medicine)",
                         color: AppColor.textColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
                       AppConstant.spaceHeight5,
                       TextConst(
-                        title: "29 sept, 2024",
+                        title: orderViewModel.orderHistoryModel!.orderHistoryData![i].createdAt,
                         color: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeTwo,
                       ),
@@ -269,6 +296,7 @@ class _MedicineOrderHistoryScreenState
   }
 
   Widget orderStatus(int index) {
+
     switch (index) {
       case 1:
         return TextConst(

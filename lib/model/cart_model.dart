@@ -1,9 +1,24 @@
 class CartModel {
   List<ViewCartData>? viewCartData;
-  int? status;
-  String? message;
+  dynamic itemCost;
+  dynamic totalDiscount;
+  dynamic packagingCharge;
+  dynamic deliveryCharge;
+  dynamic descountCupon;
+  dynamic totalAmount;
+  dynamic status;
+  dynamic message;
 
-  CartModel({this.viewCartData, this.status, this.message});
+  CartModel(
+      {this.viewCartData,
+        this.itemCost,
+        this.totalDiscount,
+        this.packagingCharge,
+        this.deliveryCharge,
+        this.descountCupon,
+        this.totalAmount,
+        this.status,
+        this.message});
 
   CartModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -12,6 +27,12 @@ class CartModel {
         viewCartData!.add(ViewCartData.fromJson(v));
       });
     }
+    itemCost = json['item_cost'];
+    totalDiscount = json['total_discount'];
+    packagingCharge = json['packaging_charge'];
+    deliveryCharge = json['delivery_charge'];
+    descountCupon = json['descount_cupon'];
+    totalAmount = json['total_amount'];
     status = json['status'];
     message = json['message'];
   }
@@ -21,6 +42,12 @@ class CartModel {
     if (viewCartData != null) {
       data['data'] = viewCartData!.map((v) => v.toJson()).toList();
     }
+    data['item_cost'] = itemCost;
+    data['total_discount'] = totalDiscount;
+    data['packaging_charge'] = packagingCharge;
+    data['delivery_charge'] = deliveryCharge;
+    data['descount_cupon'] = descountCupon;
+    data['total_amount'] = totalAmount;
     data['status'] = status;
     data['message'] = message;
     return data;
@@ -28,8 +55,8 @@ class CartModel {
 }
 
 class ViewCartData {
-  int? id;
-  String? name;
+  dynamic id;
+  dynamic name;
   dynamic category;
   dynamic subcategory;
   dynamic price;
@@ -51,6 +78,11 @@ class ViewCartData {
   dynamic discountedAmount;
   dynamic status;
   dynamic prescription;
+  dynamic marketer;
+  dynamic selfComposition;
+  dynamic storage;
+  dynamic detail;
+  dynamic disclaimer;
   dynamic productQuantity;
 
   ViewCartData(
@@ -77,15 +109,19 @@ class ViewCartData {
         this.discountedAmount,
         this.status,
         this.prescription,
-      this.productQuantity
-      });
+        this.marketer,
+        this.selfComposition,
+        this.storage,
+        this.detail,
+        this.disclaimer,
+        this.productQuantity});
 
   ViewCartData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     category = json['category'];
     subcategory = json['subcategory'];
-    price = json['price'];
+    price = json['price']??0;
     discount = json['discount'];
     box = json['box'];
     sPrice = json['s_price'];
@@ -104,6 +140,11 @@ class ViewCartData {
     discountedAmount = json['discounted_amount'];
     status = json['status'];
     prescription = json['prescription'];
+    marketer = json['marketer'];
+    selfComposition = json['self_composition'];
+    storage = json['storage'];
+    detail = json['detail'];
+    disclaimer = json['disclaimer'];
     productQuantity = json['product_quantity'];
   }
 
@@ -132,6 +173,11 @@ class ViewCartData {
     data['discounted_amount'] = discountedAmount;
     data['status'] = status;
     data['prescription'] = prescription;
+    data['marketer'] = marketer;
+    data['self_composition'] = selfComposition;
+    data['storage'] = storage;
+    data['detail'] = detail;
+    data['disclaimer'] = disclaimer;
     data['product_quantity'] = productQuantity;
     return data;
   }

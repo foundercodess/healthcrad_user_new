@@ -122,6 +122,7 @@ class Assets {
   static const String pngAmbuO = 'assets/png/ambu_o.png';
   static const String pngAppLogoClint = 'assets/png/app_logo_clint.png';
   static const String pngBabyMother = 'assets/png/baby_mother.png';
+  static const String pngCartBox = 'assets/png/cart_box.png';
   static const String pngCashback = 'assets/png/cashback.png';
   static const String pngDiabetesMedicines = 'assets/png/diabetes_medicines.png';
   static const String pngDoctorBgO = 'assets/png/doctor_bg_o.jpg';
@@ -135,6 +136,7 @@ class Assets {
   static const String pngMainBg = 'assets/png/main_bg.png';
   static const String pngMainScreenArrow = 'assets/png/main_screen_arrow.png';
   static const String pngMedicinesBgO = 'assets/png/medicines_bg_o.jpg';
+  static const String pngMessageIcon = 'assets/png/message_icon.png';
   static const String pngNotificatiobBellIcon = 'assets/png/notificatiob_bell_icon.png';
   static const String pngOtcMedicines = 'assets/png/otc_medicines.png';
   static const String pngPathLabBgO = 'assets/png/path_lab_bg_o.png';

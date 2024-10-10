@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:health_crad_user/generated/assets.dart';
@@ -8,7 +10,11 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/ambulance_view_model.dart';
+import 'package:health_crad_user/view_model/map_view_model.dart';
+import 'package:health_crad_user/view_model/user_view_model.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 class AmbulancePage extends StatefulWidget {
@@ -20,12 +26,7 @@ class AmbulancePage extends StatefulWidget {
 
 class _AmbulancePageState extends State<AmbulancePage> {
   int _selectedIndex = 0;
-  // List<String> gridList = [
-  //   'Mortuary',
-  //   'Patient Transport',
-  //   'Basic Life Support',
-  //   'Advance Life Support'
-  // ];
+  int _selectedIndex1 = 0;
 
   @override
   void initState() {
@@ -33,12 +34,23 @@ class _AmbulancePageState extends State<AmbulancePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AmbulanceViewModel>(context, listen: false)
           .ambulanceTypeApi(context);
+      final mapViewModel = Provider.of<MapViewModel>(context, listen: false);
+      mapViewModel.clearFunction();
     });
   }
+
+  final TextEditingController startLocationCon = TextEditingController();
+  final TextEditingController destinationLocationCon = TextEditingController();
+  final TextEditingController patientNameCon = TextEditingController();
+  final TextEditingController patientPhoneCon = TextEditingController();
+
+  double srcLat = 0.0;
+  double srcLng = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final ambulanceViewModel = Provider.of<AmbulanceViewModel>(context);
+    final mapViewModel = Provider.of<MapViewModel>(context);
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
@@ -92,8 +104,38 @@ class _AmbulancePageState extends State<AmbulancePage> {
                     ],
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, RoutesName.ambulanceReview);
+                    onTap: () async {
+                      if (startLocationCon.text.isEmpty) {
+                        Utils.show("Please Enter Pickup Location", context);
+                      } else if (destinationLocationCon.text.isEmpty) {
+                        Utils.show("Please Enter Drop Location", context);
+                      } else if (patientNameCon.text.isEmpty) {
+                        Utils.show("Please Enter Patient Name", context);
+                      } else if (patientPhoneCon.text.isEmpty) {
+                        Utils.show("Please Enter Valid Phone Number", context);
+                      } else {
+                        UserViewModel userViewModel = UserViewModel();
+                        String? userId = await userViewModel.getUser();
+                        Map data = {
+                          "address": startLocationCon.text,
+                          "distance":
+                              "${(mapViewModel.distance / 1000).toStringAsFixed(2)}Km",
+                          "username": patientNameCon.text,
+                          "phone": patientPhoneCon.text,
+                          "originlatitude": mapViewModel.latSrc,
+                          "originlongitude": mapViewModel.latDes,
+                          "destinationlatitude": mapViewModel.latDes,
+                          "destinationlogitude": mapViewModel.lngDes,
+                          "pickup_address": startLocationCon.text,
+                          "drop_address": destinationLocationCon.text,
+                          "ambulance_type": ambulanceViewModel
+                              .ambulanceTypeData!.data?[_selectedIndex].id
+                              .toString(),
+                          "user_id": userId,
+                        };
+                        ambulanceViewModel.setReqData(context, data);
+                        print(jsonEncode(data));
+                      }
                     },
                     child: Container(
                       height: screenHeight * 0.045,
@@ -215,8 +257,19 @@ class _AmbulancePageState extends State<AmbulancePage> {
                       child: Column(
                         children: [
                           TextFieldConst(
-                            onTap: () {},
+                            onTap: () async {
+                              final selectedLocation =
+                                  await Navigator.pushNamed(
+                                      context, RoutesName.mapPage,
+                                      arguments: {"navType": "src"});
+                              if (selectedLocation != null) {
+                                startLocationCon.text =
+                                    selectedLocation.toString();
+                              }
+                            },
+                            maxLines: 1,
                             enabled: false,
+                            controller: startLocationCon,
                             width: screenWidth * 0.7,
                             keyboardType: TextInputType.text,
                             hint: "Choose start location",
@@ -229,8 +282,19 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           ),
                           AppConstant.spaceHeight10,
                           TextFieldConst(
-                            onTap: () {},
+                            onTap: () async {
+                              final selectedDestination =
+                                  await Navigator.pushNamed(
+                                      context, RoutesName.mapPage,
+                                      arguments: {"navType": "des"});
+                              if (selectedDestination != null) {
+                                destinationLocationCon.text =
+                                    selectedDestination.toString();
+                              }
+                            },
                             enabled: false,
+                            maxLines: 1,
+                            controller: destinationLocationCon,
                             width: screenWidth * 0.7,
                             keyboardType: TextInputType.text,
                             hint: "To your destination",
@@ -287,37 +351,6 @@ class _AmbulancePageState extends State<AmbulancePage> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      // Showing the dialog box on tap
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor:
-                                                AppColor.whiteColor,
-                                            title: Text(
-                                                "${ambulanceViewModel.ambulanceTypeData!.data?[index].type.toString()}"),
-                                            content: SingleChildScrollView(
-                                              child: ListBody(
-                                                children: [
-                                                  Text(
-                                                      "${ambulanceViewModel.ambulanceTypeData!.data?[index].description.toString()}"),
-                                                ],
-                                              ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                child: Text('OK'),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-
-                                      // Handling selection logic
                                       setState(() {
                                         _selectedIndex = index;
                                       });
@@ -354,10 +387,50 @@ class _AmbulancePageState extends State<AmbulancePage> {
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                          Image.asset(
-                                            Assets.iconsTypeIcon,
-                                            height: 15,
-                                            width: 15,
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Showing the dialog box on tap
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        AppColor.whiteColor,
+                                                    title: Text(
+                                                        "${ambulanceViewModel.ambulanceTypeData!.data?[index].type.toString()}"),
+                                                    content:
+                                                        SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: [
+                                                          Text(
+                                                              "${ambulanceViewModel.ambulanceTypeData!.data?[index].description.toString()}"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: Text('OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop(); // Close the dialog
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                              // Handling selection logic
+                                              setState(() {
+                                                _selectedIndex1 = index;
+                                              });
+                                            },
+                                            child: Image.asset(
+                                              Assets.iconsTypeIcon,
+                                              height: 15,
+                                              width: 15,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -382,10 +455,17 @@ class _AmbulancePageState extends State<AmbulancePage> {
                       textColor: AppColor.blackColor,
                       fontSize: AppConstant.fontSizeTwo,
                       fontWeight: FontWeight.w600),
+                  // CustomTextSpan(
+                  //     // text: "250 Km",
+                  //     text: mapViewModel.calculateDistance().toString(),
+                  //     textColor: AppColor.textColor,
+                  //     fontSize: AppConstant.fontSizeTwo)
                   CustomTextSpan(
-                      text: "250 Km",
-                      textColor: AppColor.textColor,
-                      fontSize: AppConstant.fontSizeTwo)
+                    text:
+                        "${(mapViewModel.distance / 1000).toStringAsFixed(2)} Km", // Displaying in kilometers
+                    textColor: AppColor.textColor,
+                    fontSize: AppConstant.fontSizeTwo,
+                  ),
                 ]),
               ),
             ),
@@ -414,7 +494,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           filled: true,
                           width: screenWidth * 0.9,
                           keyboardType: TextInputType.text,
-                          maxLength: 20,
+                          controller: patientNameCon,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.only(top: 12, bottom: 12),
                             child: Image.asset(
@@ -437,6 +517,7 @@ class _AmbulancePageState extends State<AmbulancePage> {
                           width: screenWidth * 0.9,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
+                          controller: patientPhoneCon,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.only(top: 12, bottom: 12),
                             child: Image.asset(

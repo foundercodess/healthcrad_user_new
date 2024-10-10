@@ -16,5 +16,21 @@ class ApiUrl {
   static const addAddressUrl = "${baseUrl}add_address";
   static const getAddressUrl = "${baseUrl}get_address/";
   static const deleteAddressUrl = "${baseUrl}delete_address";
-  static const ambulancetypeUrl = "${baseUrl}ambulancetype";
+  static const ambulanceTypeUrl = "${baseUrl}ambulancetype";
+  static const getCouponsUrl = "${baseUrl}get_coupons";
+  static const doctorGetListUrl = "${baseUrl}doctor_list";
+  static const requestAmbulanceUrl = "${baseUrl}req_ambulance_booking";
+  static const myLabReportUrl = "${baseUrl}pathlab_report_view/";
+  static const doctorViewReviewUrl = "${baseUrl}doctor_view/";
+  static const getAmbulanceBookingUrl = "${baseUrl}get_ambulance_bookings/";
+  static const helpUrl = "${baseUrl}help";
+  static const ratingUrl = "${baseUrl}rating";
+  static const medicineDetailsUrl = "${baseUrl}get_medicine/";
+  static const orderCreateUrl = "${baseUrl}order_create";
+  static const updateQuantityUrl = "${baseUrl}update_quantity";
+  static const createOrderPrescriptionUrl = "${baseUrl}create_order_prescription";
+  static const orderHistoryUrl = "${baseUrl}order_history/";
+  static const orderPrescriptionUrl = "${baseUrl}order_prescription/";
+  static const doctorAppointmentUrl = "${baseUrl}doctor_appointment";
+
 }

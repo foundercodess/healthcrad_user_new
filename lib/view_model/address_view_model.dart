@@ -2,18 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/model/address_get_model.dart';
 import 'package:health_crad_user/repo/address_repo.dart';
-import 'package:health_crad_user/repo/auth_repo.dart';
-import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddressViewModel with ChangeNotifier {
   final _addressRepo = AddressRepo();
 
-
 // Add Address API
+
   bool _loadingAddAddress = false;
 
   bool get loadingAddAddress => _loadingAddAddress;
@@ -23,8 +20,16 @@ class AddressViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addAddressApi(dynamic userName, dynamic pName, dynamic pinCode,
-      dynamic state, dynamic city,dynamic landmark,dynamic address,dynamic phoneNo, context) async {
+  Future<void> addAddressApi(
+      dynamic userName,
+      dynamic pName,
+      dynamic pinCode,
+      dynamic state,
+      dynamic city,
+      dynamic landmark,
+      dynamic address,
+      dynamic phoneNo,
+      context) async {
     setLoadingAddAddress(true);
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
@@ -42,7 +47,8 @@ class AddressViewModel with ChangeNotifier {
     _addressRepo.addAddressApi(data).then((value) {
       if (value['status'] == 200) {
         setLoadingAddAddress(false);
-        final addressViewModel =Provider.of<AddressViewModel>(context, listen: false);
+        final addressViewModel =
+            Provider.of<AddressViewModel>(context, listen: false);
         addressViewModel.getAddressApi(context);
         Utils.show(value["message"], context);
         Navigator.pop(context);
@@ -56,7 +62,7 @@ class AddressViewModel with ChangeNotifier {
   }
 
 // Get Address
-  AddressGetModel? _modelAddressData ;
+  AddressGetModel? _modelAddressData;
   AddressGetModel? get modelAddressData => _modelAddressData;
 
   void setModelAddressData(AddressGetModel name) {
@@ -64,9 +70,20 @@ class AddressViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  void selectAddress(int addIndex){
+    _selectedIndex =addIndex;
+    notifyListeners();
+  }
+
+
   Future<void> getAddressApi(context) async {
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
+
     _addressRepo.getAddressApi(userId).then((value) {
       if (value.status == 200) {
         setModelAddressData(value);
@@ -105,7 +122,8 @@ class AddressViewModel with ChangeNotifier {
     _addressRepo.deleteAddressApi(data).then((value) {
       if (value['status'] == 200) {
         setLoadingDa(false);
-        final addressViewModel =Provider.of<AddressViewModel>(context, listen: false);
+        final addressViewModel =
+            Provider.of<AddressViewModel>(context, listen: false);
         addressViewModel.getAddressApi(context);
         Utils.show(value["message"], context);
       } else {}
@@ -116,7 +134,4 @@ class AddressViewModel with ChangeNotifier {
       }
     });
   }
-
 }
-
-

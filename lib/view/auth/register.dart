@@ -196,6 +196,7 @@ void initState() {
               ],
             ),
             AppConstant.spaceHeight20,
+            authViewModel.isRegistering?Utils.loading():
             ButtonConst(
               onTap: () {
                 if(nameCon.text.isEmpty){

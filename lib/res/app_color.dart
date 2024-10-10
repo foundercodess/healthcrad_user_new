@@ -5,6 +5,7 @@ class AppColor {
 
   // static Color blackColor = const Color(0xff000000);
   static Color blackColor = const Color(0xff1E1E1E);
+  static Color yellowColor = const Color(0xfff3a103);
   static Color whiteColor = const Color(0xffffffff);
   static Color shareBgColor = const Color(0xff7C7979);
   static Color plus91Color = const Color(0xff7C7979);

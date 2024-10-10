@@ -3,9 +3,12 @@ import 'package:health_crad_user/generated/assets.dart';
 import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/common_delete_popup.dart';
+import 'package:health_crad_user/res/common_filter_popup.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view/more/widget/common_app_bar_more.dart';
+import 'package:health_crad_user/view/path_lab/widgets/file_selection_bottomsheet.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -62,21 +65,62 @@ class _MoreScreenState extends State<MoreScreen> {
 
       }),
       MoreGridModel(
-          title: 'Help', img: Assets.iconsHelpMore, subTitle: 'Let us help you', onTap: () {  }),
+          title: 'Help', img: Assets.iconsHelpMore, subTitle: 'Let us help you', onTap: () {
+
+            Navigator.pushNamed(context, RoutesName.helpPage);
+
+      }),
       MoreGridModel(
           title: 'Policy',
           img: Assets.iconsPolicyIcon,
-          subTitle: 'Privacy Policy', onTap: () {  }),
+          subTitle: 'Privacy Policy', onTap: () {
+
+
+
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return CommonFilterPopup(
+                    title: 'Filter by status',
+                    );
+              });
+
+
+
+
+      }),
       MoreGridModel(
           title: 'T&C', img: Assets.iconsTCMore, subTitle: 'Company Policies', onTap: () {  }),
       MoreGridModel(
           title: 'FAQs', img: Assets.iconsFaqMore, subTitle: 'Quick Answers', onTap: () {  }),
       MoreGridModel(
-          title: 'Logout', img: Assets.iconsLogOut, subTitle: 'Back to see you', onTap: ()  {
-        UserViewModel userViewModel = UserViewModel();
-       userViewModel.remove();
+          title: 'Logout', img: Assets.iconsLogOut, subTitle: 'Back to see you',
 
-      }),
+
+        onTap: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return CommonDeletePopup(
+                    title:
+                    'Do you want to logout from the account',
+                    yes: () {
+                        UserViewModel userViewModel = UserViewModel();
+                        userViewModel.remove();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RoutesName.mainScreen,
+                                (Route<dynamic> route) => false,
+                            );
+                    });
+              });
+        },
+
+
+
+      ),
     ];
     final profileViewModel =Provider.of<ProfileViewModel>(context).modelData?.data;
     return Scaffold(

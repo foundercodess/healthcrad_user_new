@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/appointment_screen.dart';
-import 'package:health_crad_user/view/bottom_nav_bar/doctor_screen.dart';
+import 'package:health_crad_user/view/bottom_nav_bar/doctor_category_screen.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/home_screen.dart';
 import 'package:health_crad_user/view/bottom_nav_bar/more_screen.dart';
 
@@ -9,7 +9,7 @@ class BottomNavViewModel with ChangeNotifier {
   final List widgetOptions = [
     const HomeScreen(),
     const AppointmentScreen(),
-    const DoctorScreen(),
+    const DoctorCategoryScreen(),
     const MoreScreen(),
     const MoreScreen(),
   ];

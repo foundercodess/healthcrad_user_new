@@ -7,6 +7,9 @@ import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/ambulance_view_model.dart';
 
 class AmbulanceReview extends StatefulWidget {
   const AmbulanceReview({super.key});
@@ -18,6 +21,8 @@ class AmbulanceReview extends StatefulWidget {
 class _AmbulanceReviewState extends State<AmbulanceReview> {
   @override
   Widget build(BuildContext context) {
+    final ambulanceViewModel = Provider.of<AmbulanceViewModel>(context);
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
@@ -64,7 +69,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                         fontWeight: FontWeight.w600,
                       ),
                       TextConst(
-                        title: '250 Km',
+                        title: ambulanceViewModel.reqData['distance'],
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.blackColor,
                       ),
@@ -72,7 +77,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, RoutesName.ambulanceReview);
+                      ambulanceViewModel.ambulanceRequestApi(context,);
                     },
                     child: Container(
                       padding: EdgeInsets.only(left: 5, right: 5),
@@ -202,7 +207,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                             enabled: false,
                             width: screenWidth * 0.7,
                             keyboardType: TextInputType.text,
-                            hint: "Line bazar, Purnea, Bihar",
+                            hint:ambulanceViewModel.reqData['pickup_address'],
                             fontSize: AppConstant.fontSizeTwo,
                             borderSide: BorderSide(
                                 width: 1,
@@ -216,7 +221,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                             enabled: false,
                             width: screenWidth * 0.7,
                             keyboardType: TextInputType.text,
-                            hint: "PMCH, Patna, Bihar",
+                            hint: ambulanceViewModel.reqData['drop_address'],
                             fontSize: AppConstant.fontSizeTwo,
                             borderSide: BorderSide(
                                 width: 1,
@@ -248,7 +253,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                       fontWeight: FontWeight.w600,
                       fontSize: AppConstant.fontSizeTwo),
                   CustomTextSpan(
-                      text: "Basic Life Support",
+                      text: ambulanceViewModel.ambulanceTypeData!.data!.firstWhere((i)=>i.id.toString()==ambulanceViewModel.reqData["ambulance_type"]).type.toString(),
                       textColor: AppColor.textColor,
                       fontSize: AppConstant.fontSizeTwo),
                 ]),
@@ -268,7 +273,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                       fontWeight: FontWeight.w600,
                       fontSize: AppConstant.fontSizeTwo),
                   CustomTextSpan(
-                      text: "250 Km",
+                      text: ambulanceViewModel.reqData['distance'],
                       textColor: AppColor.textColor,
                       fontSize: AppConstant.fontSizeTwo)
                 ]),
@@ -293,7 +298,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                     AppConstant.spaceHeight15,
                     TextFieldConst(
                       keyboardType: TextInputType.text,
-                      maxLength: 20,
+                      enabled: false,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.only(top: 12,bottom: 12),
                         child: Image.asset(
@@ -303,13 +308,14 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                           color: AppColor.primaryColor,
                         ),
                       ),
-                      hint: "Ramesh Kumar",
+                      hint: ambulanceViewModel.reqData['username'],
                       fontSize: AppConstant.fontSizeTwo,
                       borderSide: BorderSide(
                           width: 1, color: AppColor.textColor.withOpacity(0.2)),
                     ),
                     AppConstant.spaceHeight10,
                     TextFieldConst(
+                      enabled: false,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
                       prefixIcon: Padding(
@@ -322,7 +328,7 @@ class _AmbulanceReviewState extends State<AmbulanceReview> {
                         ),
                       ),
                       inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                      hint: "945967006",
+                      hint: ambulanceViewModel.reqData['phone'],
                       fontSize: AppConstant.fontSizeTwo,
                       borderSide: BorderSide(
                           width: 1, color: AppColor.textColor.withOpacity(0.2)),

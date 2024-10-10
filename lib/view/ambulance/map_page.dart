@@ -1,355 +1,595 @@
-// import 'dart:async';
-// import 'dart:convert';
-// import 'dart:ui' as ui;
+// import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:geocoding/geocoding.dart';
-// import 'package:geolocator/geolocator.dart';
-//
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:health_crad_user/generated/assets.dart';
 // import 'package:health_crad_user/main.dart';
+// import 'package:health_crad_user/res/app_btn.dart';
 // import 'package:health_crad_user/res/app_color.dart';
+// import 'package:health_crad_user/res/app_constant.dart';
+// import 'package:health_crad_user/res/text_const.dart';
 // import 'package:health_crad_user/view_model/map_view_model.dart';
+// import 'package:provider/provider.dart';
 //
-// import 'package:http/http.dart' as http;
-//
-//
-// class MapView extends StatefulWidget {
-//   const MapView({super.key});
+// class MapPage extends StatefulWidget {
+//   const MapPage({
+//     super.key,
+//   });
 //
 //   @override
-//   State<MapView> createState() => _MapViewState();
+//   State<MapPage> createState() => _MapPageState();
 // }
 //
-// class _MapViewState extends State<MapView> {
-//   String radius = "30";
-//   double latitude = 31.5111093;
-//   double longitude = 74.279664;
-//   String lat = "0.000";
-//   String long = "0.000";
 //
-//   final Completer<GoogleMapController> _controller = Completer();
-//   String _currentAddress = "";
-//   String _currentDistrict = ""; // New variable to store district name
-//   String _currentPincode = ""; // New variable to store pincode
-//   CameraPosition? _cameraPosition;
-//   late LatLng _defaultLatLng;
-//   late LatLng _draggedLatlng;
-//   Uint8List? marketImages;
-//   final List<Marker> _markers = [];
-//   var suggestedLocationName;
-//   var suggestedLocationLat;
-//   var suggestedLocationLong;
+// class _MapPageState extends State<MapPage> {
+//   TextEditingController searchCon =
+//       TextEditingController(); // Search contr
+//   // oller
+//   int markerIdCounter = 0;
+//   String selectedLocation = "";
+//
+//   double latData = 0.0;
+//   double lngData = 0.0;
 //
 //   @override
 //   void initState() {
 //     super.initState();
-//     _init();
-//   }
-//
-//   void _init() {
-//     _defaultLatLng = const LatLng(20.5937, 78.9629);
-//     _draggedLatlng = _defaultLatLng;
-//     _cameraPosition = CameraPosition(target: _defaultLatLng, zoom: 10.5);
-//     _gotoUserCurrentPosition();
-//   }
-//
-//   Future<Uint8List> getImages(String path, int width) async {
-//     ByteData data = await rootBundle.load(path);
-//     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-//         targetHeight: width);
-//     ui.FrameInfo fi = await codec.getNextFrame();
-//     Uint8List imageData = (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
-//     print("Image loaded: ${imageData.lengthInBytes} bytes");
-//     return imageData;
-//   }
-//
-//   Future<void> _gotoUserCurrentPosition() async {
-//     Position currentPosition = await _determineUserCurrentPosition();
-//     _gotoSpecificPosition(
-//         LatLng(currentPosition.latitude, currentPosition.longitude));
-//     final Uint8List locationIcon = await getImages(Assets.pngLocatinIcon, 70);
-//     setState(() {
-//       lat = currentPosition.latitude.toString();
-//       long = currentPosition.longitude.toString();
-//       _markers.add(Marker(
-//         markerId: const MarkerId('0'),
-//         icon: BitmapDescriptor.fromBytes(locationIcon),
-//         position: LatLng(currentPosition.latitude, currentPosition.longitude),
-//         infoWindow: const InfoWindow(title: "Your Location"),
-//         draggable: true,
-//       ));
-//     });
-//   }
-//
-//   Future<void> _gotoSpecificPosition(LatLng position) async {
-//     GoogleMapController mapController = await _controller.future;
-//     mapController.animateCamera(CameraUpdate.newCameraPosition(
-//         CameraPosition(target: position, zoom: 13.5)));
-//     await _getAddress(position);
-//   }
-//
-//   // Future<void> _getAddress(LatLng position) async {
-//   //   List<Placemark> placemarks =
-//   //   await placemarkFromCoordinates(position.latitude, position.longitude);
-//   //   print("place marks ${placemarks.join("{}")}");
-//   //   Placemark address = placemarks[0];
-//   //   print("hii ashu ${address}");
-//   //   String addressStr =
-//   //       "${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
-//   //   String districtName = address.locality ?? "Unknown District"; // Extract district name
-//   //   String pincode = address.postalCode ?? "Unknown Pincode"; // Extract pincode
-//   //   setState(() {
-//   //     _currentAddress = addressStr;
-//   //     _currentDistrict = districtName; // Update state with district name
-//   //     _currentPincode = pincode; // Update state with pincode
-//   //   });
-//   // }
-//
-//   Future<void> _getAddress(LatLng position) async {
-//     final apiKey = MapApi.mapKey;
-//     final url =
-//         'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$apiKey';
-//
-//     final response = await http.get(Uri.parse(url));
-//
-//     if (response.statusCode == 200) {
-//       final data = jsonDecode(response.body);
-//       if (data['results'].isNotEmpty) {
-//         var result = data['results'][0];
-//         String districtName = '';
-//         String pincode = '';
-//         print(data['results'][0]);
-//         print("formatted address here ${result['formatted_address']}");
-//         String formattedAddress = result['formatted_address'];
-//
-//         for (var component in result['address_components']) {
-//
-//           if (component['types'].contains('administrative_area_level_3')) {
-//             print("my component: $component");
-//             // Extract district (administrative_area_level_2 typically refers to the district)
-//             districtName = component['long_name'];
-//           }
-//           if (component['types'].contains('postal_code')) {
-//             // Extract pincode
-//             pincode = component['long_name'];
-//           }
-//         }
-//
-//         setState(() {
-//           _currentDistrict = districtName.isNotEmpty ? districtName : "Unknown District";
-//           _currentPincode = pincode.isNotEmpty ? pincode : "Unknown Pincode";
-//           _currentAddress = formattedAddress;
-//         });
-//       }
-//     } else {
-//       print("Failed to get address from Google API");
-//     }
-//   }
-//
-//   Future<Position> _determineUserCurrentPosition() async {
-//     LocationPermission locationPermission;
-//     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!isLocationServiceEnabled) {
-//       print("User hasn't enabled location services.");
-//     }
-//     locationPermission = await Geolocator.checkPermission();
-//     if (locationPermission == LocationPermission.denied) {
-//       locationPermission = await Geolocator.requestPermission();
-//       if (locationPermission == LocationPermission.denied) {
-//         print("User denied location permissions.");
-//       }
-//     }
-//     if (locationPermission == LocationPermission.deniedForever) {
-//       print("User denied location permissions permanently.");
-//     }
-//     return await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.best);
-//   }
-//
-//   Future<void> _selectLocation() async {
-//     final selectedLocation = await Navigator.push(
-//       context,
-//       MaterialPageRoute(builder: (context) => const AuthMapSearch()),
-//     );
-//     if (selectedLocation != null && selectedLocation is Map<String, dynamic>) {
-//       setState(() {
-//         suggestedLocationName = selectedLocation['locationName'];
-//         suggestedLocationLat = selectedLocation['latitude'];
-//         suggestedLocationLong = selectedLocation['longitude'];
-//         _gotoSpecificPosition(
-//             LatLng(suggestedLocationLat, suggestedLocationLong));
-//         _markers.clear();
-//         getImages(Assets.pngLocatinIcon, 70).then((locationIcon) {
-//           setState(() {
-//             print("Adding custom marker at: $suggestedLocationLat, $suggestedLocationLong");
-//             _markers.add(Marker(
-//               markerId: const MarkerId('0'),
-//               icon: BitmapDescriptor.fromBytes(locationIcon),
-//               position: LatLng(suggestedLocationLat, suggestedLocationLong),
-//               infoWindow: InfoWindow(title: suggestedLocationName),
-//               draggable: true,
-//             ));
-//             _draggedLatlng =
-//                 LatLng(suggestedLocationLat, suggestedLocationLong);
-//             _currentAddress = suggestedLocationName;
-//           });
-//         });
-//       });
-//     }
-//   }
-//
-//   void _handleTap(LatLng tappedPoint) async {
-//     final Uint8List locationIcon = await getImages(Assets.pngLocatinIcon, 70);
-//     setState(() {
-//       _markers.clear();
-//       _markers.add(Marker(
-//         markerId: const MarkerId('tappedPoint'),
-//         position: tappedPoint,
-//         icon: BitmapDescriptor.fromBytes(locationIcon),
-//         infoWindow: const InfoWindow(title: "Selected Location"), // Set InfoWindow title
-//       ));
-//       _draggedLatlng = tappedPoint;
-//     });
-//     _gotoSpecificPosition(tappedPoint);
-//   }
-//
-//   Widget _buildBody() {
-//     ScreenSize.height(context);
-//
-//     return Stack(
-//       children: [
-//         _getMap(),
-//         _getLocationButton(),
-//       ],
-//     );
-//   }
-//
-//   Widget _getMap() {
-//     return ClipRRect(
-//       borderRadius: const BorderRadius.only(
-//         topLeft: Radius.circular(20.0),
-//         topRight: Radius.circular(20.0),
-//       ),
-//       child: GoogleMap(
-//         myLocationEnabled: true,
-//         zoomControlsEnabled: false,
-//         zoomGesturesEnabled: true,
-//         myLocationButtonEnabled: true,
-//         markers: Set<Marker>.of(_markers),
-//         initialCameraPosition: _cameraPosition!,
-//         mapType: MapType.terrain,
-//         onCameraIdle: () {
-//           _getAddress(_draggedLatlng);
-//         },
-//         onCameraMove: (cameraPosition) {
-//           _draggedLatlng = cameraPosition.target;
-//         },
-//         onTap: _handleTap, // Handle tap events
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
-//         },
-//       ),
-//     );
-//   }
-//
-//   Widget _getLocationButton() {
-//     double width = ScreenSize.width(context);
-//     double height = ScreenSize.height(context);
-//
-//
-//     return Positioned(
-//       bottom: height * 0.1,
-//       right: width * 0.2,
-//       child: InkWell(
-//         onTap: _gotoUserCurrentPosition,
-//         child: Container(
-//           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-//           decoration: BoxDecoration(
-//             color: Colors.green.withOpacity(0.7),
-//             borderRadius: BorderRadius.circular(8.0),
-//             border: Border.all(width: 1.2, color: Colors.black),
-//           ),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               Image.asset(Assets.pngLocatinIcon,
-//                   color: AppColor.whiteColor, scale: 3),
-//               SizedBox(width: width * 0.02),
-//               titleBold(text: 'Use current location'.tr, color: AppColor.white),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget bottomWidget() {
-//     double width = ScreenSize.width(context);
-//     double height = ScreenSize.height(context);
-//     return Container(
-//       color: Colors.white,
-//       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           InkWell(
-//             onTap: _selectLocation,
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Image.asset(Assets.pngLocatinIcon, scale: 2.5),
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     SizedBox(
-//                       width: width * 0.7,
-//                       child: elementsBold(
-//                           text: _currentAddress, color: AppColor.darkGreen),
-//                     ),
-//                     SizedBox(
-//                       width: width * 0.7,
-//                       child: elementsBold(
-//                           text: '$_currentDistrict , $_currentPincode', color: AppColor.darkGreen),
-//                     ),
-//                   ],
-//                 ),
-//                  Icon(Icons.edit, color: AppColor.greenColor),
-//               ],
-//             ),
-//           ),
-//           SizedBox(height: height * 0.02),
-//           AppBtn(
-//             title: 'Confirm location'.tr,
-//             onTap: () {
-//               Navigator.pop(context, {
-//                 'locationName': _currentAddress,
-//                 'districtName': _currentDistrict, // Pass district name
-//                 'pincode': _currentPincode, // Pass pincode
-//                 'latitude': _draggedLatlng.latitude.toString(),
-//                 'longitude': _draggedLatlng.longitude.toString(),
-//               });
-//             },
-//           ),
-//         ],
-//       ),
-//     );
+//     WidgetsBinding.instance.addPostFrameCallback((_) {});
+//     final mapViewModel = Provider.of<MapViewModel>(context, listen: false);
+//     mapViewModel.checkAndRequestPermission(context);
 //   }
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     ScreenSize.width(context);
-//     return Scaffold(
-//       backgroundColor: AppColor.greenColor,
-//       appBar: AppBar(
-//         backgroundColor: AppColor.greenColor,
-//         leading: const AppBackBtn(),
-//         title: titleBold(text: 'Select your location'.tr, color: AppColor.white),
-//         toolbarHeight: 90,
+//     return SafeArea(
+//       child: Consumer<MapViewModel>(
+//         builder: (context, mCon, child) {
+//           return Scaffold(
+//             backgroundColor: AppColor.whiteColor,
+//             body: Stack(
+//               children: [
+//                 // The Google Map
+//                 Positioned.fill(
+//                   child: GoogleMap(
+//                     zoomControlsEnabled: false,
+//                     zoomGesturesEnabled: true,
+//                     myLocationButtonEnabled: false,
+//                     myLocationEnabled: true,
+//                     mapType: MapType.normal,
+//                     initialCameraPosition: mCon.initialCameraPosition,
+//                     markers: mCon.markers,
+//                     polylines: mCon.polyLines,
+//                     onMapCreated: (GoogleMapController controller) {
+//                       if (!mCon.completer.isCompleted) {
+//                         mCon.completer.complete(controller);
+//                       }
+//                       // mCon.changeCameraPosition(mCon.lat, mCon.lng);
+//                     },
+//                   ),
+//                 ),
+//                 // The Search Bar positioned at the top
+//                 Positioned(
+//                   top: 10,
+//                   left: 10,
+//                   right: 10,
+//                   child: buildSearchBar(mCon),
+//                 ),
+//                 // The BottomSheetContent positioned at the bottom
+//                 Positioned(
+//                   bottom: 0,
+//                   left: 0,
+//                   right: 0,
+//                   child: BottomSheetContent(selectedLocation: selectedLocation,),
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
 //       ),
-//       bottomNavigationBar: bottomWidget(),
-//       body: Center(child: _buildBody()),
+//     );
+//   }
+//
+//
+//   Widget buildSearchBar(MapViewModel mCon) {
+//     return Column(
+//       children: [
+//         Container(
+//           width: screenWidth,
+//           decoration: BoxDecoration(
+//             color: AppColor.whiteColor,
+//             boxShadow: [
+//               BoxShadow(
+//                 color: Colors.grey.shade300,
+//                 spreadRadius: 0.5,
+//                 blurRadius: 10,
+//                 offset: const Offset(0, 4),
+//               )
+//             ],
+//             borderRadius: BorderRadius.circular(30),
+//           ),
+//           child: TextField(
+//             controller: searchCon,
+//             cursorColor: AppColor.primaryColor,
+//             cursorOpacityAnimates: true,
+//             decoration: InputDecoration(
+//               contentPadding: const EdgeInsets.all(0),
+//               filled: true,
+//               fillColor: AppColor.whiteColor,
+//               hintText: 'Search',
+//               counterText: "",
+//               hintStyle: TextStyle(
+//                 fontFamily: 'poppins',
+//                 fontWeight: FontWeight.w400,
+//                 fontSize: 15,
+//                 color: AppColor.textColor,
+//               ),
+//               prefixIcon: const Icon(
+//                 Icons.search_rounded,
+//                 color: Colors.blue,
+//               ),
+//               border: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: AppColor.buttonBlueColor,
+//                   width: 1,
+//                 ),
+//                 borderRadius: BorderRadius.circular(30),
+//               ),
+//               enabledBorder: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: AppColor.buttonBlueColor,
+//                   width: 1,
+//                 ),
+//                 borderRadius: BorderRadius.circular(30),
+//               ),
+//               focusedBorder: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: AppColor.buttonBlueColor,
+//                   width: 1,
+//                 ),
+//                 borderRadius: BorderRadius.circular(30),
+//               ),
+//               disabledBorder: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: AppColor.buttonBlueColor,
+//                   width: 1,
+//                 ),
+//                 borderRadius: BorderRadius.circular(30),
+//               ),
+//             ),
+//             onChanged: (val) {
+//               mCon.placeSearchApi(val);
+//             },
+//           ),
+//         ),
+//         const SizedBox(height: 5),
+//         searchCon.text.isNotEmpty
+//             ? Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 15),
+//                 child: Container(
+//                   width: screenWidth,
+//                   padding: const EdgeInsets.all(5),
+//                   decoration: BoxDecoration(
+//                     color: Colors.white,
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                   child: ListView.builder(
+//                     itemCount: mCon.placeList.length,
+//                     shrinkWrap: true,
+//                     itemBuilder: (context, index) {
+//                       return GestureDetector(
+//                         onTap: () async {
+//                           final placeId = mCon.placeList[index]['place_id'];
+//                           try {
+//                             Map<String, dynamic> location =
+//                                 await mCon.getPlaceDetails(placeId);
+//                             double lat = location['lat'];
+//                             double lng = location['lng'];
+//                             // mCon.setLatLng(lat, lng);
+//                             searchCon.text =
+//                                 mCon.placeList[index]["description"].toString();
+//                             setState(() {
+//                               selectedLocation = mCon.placeList[index]
+//                                       ["description"]
+//                                   .toString();
+//                               latData=lat;
+//                               lngData=lng;
+//                               mCon.placeList.clear();
+//                               searchCon.clear();
+//                             });
+//                           } catch (e) {
+//                             if (kDebugMode) {
+//                               print('Error fetching place details: $e');
+//                             }
+//                           }
+//                         },
+//                         child: Column(
+//                           children: [
+//                             SizedBox(height: screenHeight * 0.008),
+//                             Row(
+//                               children: [
+//                                 Icon(
+//                                   Icons.place,
+//                                   color: AppColor.blackColor,
+//                                 ),
+//                                 const SizedBox(width: 3),
+//                                 SizedBox(
+//                                   width: screenWidth * 0.7,
+//                                   child: TextConst(
+//                                     title: mCon.placeList[index]["description"],
+//                                     fontSize: 13,
+//                                     fontWeight: FontWeight.w400,
+//                                     color: AppColor.blackColor,
+//                                   ),
+//                                 ),
+//                               ],
+//                             ),
+//                             SizedBox(height: screenHeight * 0.01),
+//                             Row(
+//                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                               children: List.generate(35, (index) {
+//                                 return Container(
+//                                   padding:
+//                                       const EdgeInsets.symmetric(horizontal: 2),
+//                                   height: 1,
+//                                   width: 6,
+//                                   color: AppColor.textColor,
+//                                 );
+//                               }),
+//                             ),
+//                             SizedBox(height: screenHeight * 0.008),
+//                           ],
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               )
+//             : Container(),
+//       ],
+//     );
+//   }
+//
+//   Widget bottomSheet(){
+//     final mapCon= Provider.of<MapViewModel>(context);
+//     Map arguments =
+//     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+//     return Container(
+//         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+//         color: AppColor.whiteColor,
+//         width: screenWidth,
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           children: [
+//             TextConst(
+//               maxLines: 4,
+//               title: selectedLocation.isNotEmpty
+//                   ? selectedLocation
+//                   : 'Selected Location',
+//               color: AppColor.blackColor,
+//               fontSize: AppConstant.fontSizeThree,
+//             ),
+//             AppConstant.spaceHeight10,
+//             ButtonConst(
+//               height: screenHeight * 0.05,
+//               onTap: () {
+//                 // Pop the current page and send back the selectedLocation
+//                 if(arguments["navType"]=="src"){
+//                   mapCon.setPickupLatLng(mapCon.latSrc, mapCon.lngSrc);
+//                 }else if (arguments["navType"]=="des"){
+//                   mapCon.setDestinationLatLng(mapCon.latSrc, mapCon.lngSrc);
+//                 }
+//                 Navigator.pop(context, {
+//                   "location":
+//                   selectedLocation.isNotEmpty
+//                       ? selectedLocation
+//                       : 'No Location Selected',
+//                 });
+//               },
+//               label: 'Pick Location',
+//               textColor: AppColor.whiteColor,
+//               fontSize: AppConstant.fontSizeThree,
+//               color: AppColor.primaryColor,
+//             ),
+//           ],
+//         )
+//
 //     );
 //   }
 // }
+//
+//
+
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:health_crad_user/main.dart';
+import 'package:health_crad_user/res/app_btn.dart';
+import 'package:health_crad_user/res/app_color.dart';
+import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/res/text_const.dart';
+import 'package:health_crad_user/view_model/map_view_model.dart';
+import 'package:provider/provider.dart';
+
+class MapPage extends StatefulWidget {
+  const MapPage({
+    super.key,
+  });
+
+  @override
+  State<MapPage> createState() => _MapPageState();
+}
+
+
+class _MapPageState extends State<MapPage> {
+  TextEditingController searchCon =
+  TextEditingController();
+
+  int markerIdCounter = 0;
+  String selectedLocation = "";
+
+  double latData = 0.0;
+  double lngData = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    final mapViewModel = Provider.of<MapViewModel>(context, listen: false);
+    mapViewModel.checkAndRequestPermission(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Consumer<MapViewModel>(
+        builder: (context, mCon, child) {
+          return Scaffold(
+            backgroundColor: AppColor.whiteColor,
+            body: Stack(
+              children: [
+                // The Google Map
+                Positioned.fill(
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: true,
+                    myLocationButtonEnabled: false,
+                    myLocationEnabled: true,
+                    mapType: MapType.normal,
+                    initialCameraPosition: mCon.initialCameraPosition,
+                    markers: mCon.markers,
+                    polylines: mCon.polyLines,
+                    onMapCreated: (GoogleMapController controller) {
+                      if (!mCon.completer.isCompleted) {
+                        mCon.completer.complete(controller);
+                      }
+                      // mCon.changeCameraPosition(mCon.lat, mCon.lng);
+                    },
+                  ),
+                ),
+                // The Search Bar positioned at the top
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  right: 10,
+                  child: buildSearchBar(mCon),
+                ),
+                // The BottomSheetContent positioned at the bottom
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: bottomSheet(),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
+  Widget buildSearchBar(MapViewModel mCon) {
+    Map arguments =
+    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final mapCon= Provider.of<MapViewModel>(context);
+
+    return Column(
+      children: [
+        Container(
+          width: screenWidth,
+          decoration: BoxDecoration(
+            color: AppColor.whiteColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade300,
+                spreadRadius: 0.5,
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              )
+            ],
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: TextField(
+            controller: searchCon,
+            cursorColor: AppColor.primaryColor,
+            cursorOpacityAnimates: true,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(0),
+              filled: true,
+              fillColor: AppColor.whiteColor,
+              hintText: 'Search',
+              counterText: "",
+              hintStyle: TextStyle(
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+                color: AppColor.textColor,
+              ),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: Colors.blue,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColor.buttonBlueColor,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColor.buttonBlueColor,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColor.buttonBlueColor,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColor.buttonBlueColor,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            onChanged: (val) {
+              mCon.placeSearchApi(val);
+            },
+          ),
+        ),
+        const SizedBox(height: 5),
+        searchCon.text.isNotEmpty
+            ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Container(
+            width: screenWidth,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ListView.builder(
+              itemCount: mCon.placeList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () async {
+                    final placeId = mCon.placeList[index]['place_id'];
+                    try {
+                      Map<String, dynamic> location =
+                      await mCon.getPlaceDetails(placeId);
+                      double lat = location['lat'];
+                      double lng = location['lng'];
+                      setState(() {
+                        selectedLocation = mCon.placeList[index]
+                        ["description"]
+                            .toString();
+                      });
+                      if(arguments["navType"]=="src"){
+                        mapCon.setPickupLatLng(lat,lng);
+
+                      }else if (arguments["navType"]=="des"){
+                        mapCon.setDestinationLatLng(lat, lng);
+                      }else{
+                      }
+                      searchCon.text =
+                          selectedLocation;
+
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print('Error fetching place details: $e');
+                      }
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenHeight * 0.008),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.place,
+                            color: AppColor.blackColor,
+                          ),
+                          const SizedBox(width: 3),
+                          SizedBox(
+                            width: screenWidth * 0.7,
+                            child: TextConst(
+                              title: mCon.placeList[index]["description"],
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.blackColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: screenHeight * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(35, (index) {
+                          return Container(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 2),
+                            height: 1,
+                            width: 6,
+                            color: AppColor.textColor,
+                          );
+                        }),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+            : Container(),
+      ],
+    );
+  }
+
+  Widget bottomSheet(){
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        color: AppColor.whiteColor,
+        width: screenWidth,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextConst(
+              maxLines: 4,
+              title: selectedLocation.isNotEmpty
+                  ? selectedLocation
+                  : 'Selected Location',
+              color: AppColor.blackColor,
+              fontSize: AppConstant.fontSizeThree,
+            ),
+            AppConstant.spaceHeight10,
+            ButtonConst(
+              height: screenHeight * 0.05,
+              onTap: () {
+                Navigator.pop(context,
+                  selectedLocation.isNotEmpty
+                      ? selectedLocation
+                      : 'No Location Selected',
+                );
+              },
+              label: 'Pick Location',
+              textColor: AppColor.whiteColor,
+              fontSize: AppConstant.fontSizeThree,
+              color: AppColor.primaryColor,
+            ),
+          ],
+        )
+
+    );
+  }
+}
+
+

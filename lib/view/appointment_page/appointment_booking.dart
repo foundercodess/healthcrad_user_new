@@ -8,7 +8,11 @@ import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view/payments/widget/payment_mode_widget.dart';
+import 'package:health_crad_user/view_model/appointment_view_model.dart';
+import 'package:health_crad_user/view_model/doctor_view_model.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentBooking extends StatefulWidget {
   const AppointmentBooking({super.key});
@@ -19,42 +23,79 @@ class AppointmentBooking extends StatefulWidget {
 
 class _AppointmentBookingState extends State<AppointmentBooking> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .getDoctorApi(context, "");
+    });
+  }
+
+  final TextEditingController pNameCon = TextEditingController();
+  final TextEditingController addressCon = TextEditingController();
+  final TextEditingController ageCon = TextEditingController();
+  final TextEditingController phoneCon = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    final doctorViewModel = Provider.of<DoctorViewModel>(context);
+    final appointmentViewModel = Provider.of<AppointmentViewModel>(context);
+    Map arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             color: AppColor.whiteColor,
-          border: Border(
-            top: BorderSide(width:0.3, color: AppColor.greyColor)
-          )
-        ),
+            border:
+                Border(top: BorderSide(width: 0.3, color: AppColor.greyColor))),
         height: screenHeight * 0.075,
-
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextConst(
-                title: '₹ 550',
+                title:
+                    '₹ ${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].fees}',
                 fontSize: AppConstant.fontSizeTwo,
                 color: AppColor.blackColor,
                 fontWeight: FontWeight.bold,
               ),
               ButtonConst(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesName.commonOrderScreen,
-                      arguments: {
-                        "name": "Your appointment has been\nsuccessfully booked"
-                      });
+                  if (pNameCon.text.isEmpty) {
+                    Utils.show("Please enter name", context);
+                  } else if (addressCon.text.isEmpty) {
+                    Utils.show("Please enter Address", context);
+                  } else if (ageCon.text.isEmpty) {
+                    Utils.show("Please enter Age", context);
+                  } else if (phoneCon.text.isEmpty) {
+                    Utils.show("Please enter Number", context);
+                  } else {
+                    appointmentViewModel.doctorAppointmentApi(
+                      doctorViewModel.getDoctorModelData!
+                          .getDoctorModelData![doctorViewModel.selectedIndex].id
+                          .toString(),
+                      paymentMode.toString(),
+                      phoneCon.text,
+                      arguments["date"].toString(),
+                      'morning',
+                      arguments["time"].toString(),
+                      addressCon.text,
+                      ageCon.text,
+                      doctorViewModel.getDoctorModelData!
+                          .getDoctorModelData![doctorViewModel.selectedIndex].fees
+                          .toString(),
+                      pNameCon.text,
+                      context
+                    );
+                  }
                 },
-                label:"Request Appointment",
-
-                width: screenWidth/2,
+                label: "Request Appointment",
+                width: screenWidth / 2,
                 height: 40,
                 fontWeight: FontWeight.w600,
-              textColor: AppColor.whiteColor,
+                textColor: AppColor.whiteColor,
               ),
               // GestureDetector(
               //
@@ -83,7 +124,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
         backgroundColor: AppColor.primaryColor,
         automaticallyImplyLeading: false,
         leadingWidth: screenWidth,
-        leading:  Container(
+        leading: Container(
           width: screenWidth,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
@@ -121,15 +162,14 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
         ),
         actions: [
           Container(
-            height: screenHeight * 0.038,
-            width: screenWidth * 0.28,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: AppColor.whiteColor,
-                image: const DecorationImage(
-                    image: AssetImage(Assets.iconsPSecureIcons),
-                    fit: BoxFit.fill))
-          ),
+              height: screenHeight * 0.038,
+              width: screenWidth * 0.28,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppColor.whiteColor,
+                  image: const DecorationImage(
+                      image: AssetImage(Assets.iconsPSecureIcons),
+                      fit: BoxFit.fill))),
           AppConstant.spaceWidth15,
         ],
       ),
@@ -165,7 +205,11 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextConst(
-                                title: 'Dr. Abhishek Kumar',
+                                title: doctorViewModel
+                                    .getDoctorModelData!
+                                    .getDoctorModelData![
+                                        doctorViewModel.selectedIndex]
+                                    .name,
                                 maxLines: 1,
                                 fontSize: AppConstant.fontSizeTwo,
                                 color: AppColor.blackColor,
@@ -181,14 +225,16 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                           AppConstant.spaceHeight5,
                           TextConst(
                             textAlign: TextAlign.start,
-                            title: 'General Physician \nMBBS, MD',
+                            title:
+                                "${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].departmentName}\n${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].qualification}'",
                             maxLines: 2,
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.textColor,
                             fontWeight: FontWeight.w500,
                           ),
                           TextConst(
-                            title: '35 years experience',
+                            title:
+                                "${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].exp} years experience",
                             maxLines: 1,
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.textColor,
@@ -202,8 +248,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                             width: screenWidth * 0.33,
                             decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        Assets.imageVerifyDoctorBg),
+                                    image:
+                                        AssetImage(Assets.imageVerifyDoctorBg),
                                     fit: BoxFit.fill)),
                             child: TextConst(
                               title: 'HealthCRAD Verified',
@@ -267,7 +313,10 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight5,
                   TextConst(
-                    title: 'Line bazar, Purnea, Bihar',
+                    title: doctorViewModel
+                        .getDoctorModelData!
+                        .getDoctorModelData![doctorViewModel.selectedIndex]
+                        .address,
                     maxLines: 1,
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.blackColor,
@@ -352,7 +401,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight5,
                   TextConst(
-                    title: 'Fri, 2 Aug 11:00 AM',
+                    title: "${arguments["date"] + arguments["time"]}",
                     maxLines: 1,
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.blackColor,
@@ -378,11 +427,12 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight15,
                   TextFieldConst(
+                    controller: pNameCon,
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.text,
-                    maxLength: 20,
+
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      padding: const EdgeInsets.only(top: 13, bottom: 13),
                       child: Image.asset(
                         Assets.iconsName,
                         height: 15,
@@ -397,11 +447,12 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight10,
                   TextFieldConst(
+                    controller: addressCon,
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.text,
-                    maxLength: 20,
+
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      padding: const EdgeInsets.only(top: 13, bottom: 13),
                       child: Image.asset(
                         Assets.iconsHome,
                         height: 15,
@@ -416,11 +467,12 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight10,
                   TextFieldConst(
+                    controller: ageCon,
                     fillColor: AppColor.whiteColor,
-                    keyboardType: TextInputType.text,
-                    maxLength: 20,
+                    keyboardType: TextInputType.number,
+                    maxLength: 2,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      padding: const EdgeInsets.only(top: 13, bottom: 13),
                       child: Image.asset(
                         Assets.iconsAge,
                         height: 15,
@@ -435,11 +487,12 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                   ),
                   AppConstant.spaceHeight10,
                   TextFieldConst(
+                    controller: phoneCon,
                     fillColor: AppColor.whiteColor,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      padding: const EdgeInsets.only(top: 13, bottom: 13),
                       child: Image.asset(
                         Assets.iconsGreenCallIcon,
                         height: 15,
@@ -499,7 +552,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextConst(
-                              title: '₹ 500',
+                              title:
+                                  '₹ ${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].fees}',
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w400,
@@ -551,7 +605,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                           color: AppColor.blackColor,
                         ),
                         TextConst(
-                          title: '₹ 500',
+                          title:
+                              '₹ ${doctorViewModel.getDoctorModelData!.getDoctorModelData![doctorViewModel.selectedIndex].fees}',
                           fontSize: AppConstant.fontSizeTwo,
                           color: AppColor.blackColor,
                           fontWeight: FontWeight.w500,
@@ -605,14 +660,8 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                       ],
                     ),
                     AppConstant.spaceHeight10,
-                    const PaymentModeWidget(
-                      title: "Pay on Visit",
-                      index: 0,
-                    ),
-                    const PaymentModeWidget(
-                      title: "Online Payment",
-                      index: 1,
-                    )
+                    paymentModeWidget(0, "Pay on Visit"),
+                    paymentModeWidget(1, "Online Payment"),
                   ],
                 ),
               ),
@@ -678,6 +727,65 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
             ),
             AppConstant.spaceHeight10,
           ],
+        ),
+      ),
+    );
+  }
+
+  int paymentMode = 0;
+  Widget paymentModeWidget(int index, String title) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          paymentMode = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        width: screenWidth,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                width: 1,
+                color: index == paymentMode
+                    ? AppColor.primaryColor
+                    : AppColor.greyColor)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          child: Row(
+            children: [
+              Container(
+                height: 18,
+                width: 18,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: index == paymentMode
+                        ? AppColor.primaryColor
+                        : Colors.transparent,
+                    border: Border.all(
+                        color: index != paymentMode
+                            ? AppColor.greyColor
+                            : Colors.transparent)),
+                child: index == paymentMode
+                    ? Container(
+                        height: 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColor.whiteColor,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              AppConstant.spaceWidth10,
+              TextConst(
+                title: title,
+                fontSize: AppConstant.fontSizeTwo,
+                color: AppColor.textColor,
+              ),
+            ],
+          ),
         ),
       ),
     );

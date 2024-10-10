@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:health_crad_user/model/my_path_report.model.dart';
 import 'package:health_crad_user/repo/path_lab_repo.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
@@ -24,12 +25,15 @@ class PathViewModel with ChangeNotifier{
       _imageName = image.name;
       List<int> imageBytes = await imageFile.readAsBytes();
         _base64Image = base64Encode(imageBytes);
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
     }
     notifyListeners();
   }
 
+void ImagePickerClear(){
+  _base64Image = null;
 
+}
 
 // Request Api
 
@@ -79,6 +83,36 @@ class PathViewModel with ChangeNotifier{
       }
     }).onError((error, stackTrace) {
       setLoadingRequest(false);
+      if (kDebugMode) {
+        print('error: $error');
+      }
+    });
+  }
+
+
+  // MY Report View
+
+
+  MyPathModel? _pathViewModelData ;
+  MyPathModel? get pathViewModelData => _pathViewModelData;
+
+  void setPathViewModelData(MyPathModel name) {
+    _pathViewModelData = name;
+    notifyListeners();
+  }
+
+  Future<void> myPathApi(context) async {
+    UserViewModel userViewModel = UserViewModel();
+    String? userId = await userViewModel.getUser();
+    _pathRequestRepo.myPathApi(userId).then((value) {
+      if (value.status == 200) {
+        setPathViewModelData(value);
+      } else {
+        if (kDebugMode) {
+          print('value: ${value.message}');
+        }
+      }
+    }).onError((error, stackTrace) {
       if (kDebugMode) {
         print('error: $error');
       }

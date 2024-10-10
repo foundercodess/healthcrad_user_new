@@ -6,9 +6,10 @@ import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
-import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/cart_view_model.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -24,15 +25,6 @@ class DealsListView extends StatefulWidget {
 }
 
 class DealsListViewState extends State<DealsListView> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MedicineViewModel>(context, listen: false)
-          .allMedicineApi(context, '', '3', '0');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
@@ -60,14 +52,18 @@ class DealsMedicine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
     final cartViewModel = Provider.of<CartViewModel>(context);
-
+    final lastIndex = medicineViewModel.allMedicineModelData!.allMedicineData!.length;
     return Padding(
       padding: EdgeInsets.only(
-          left: index == -1 ? 0 : 15, right: index == 2 ? 15 : 0),
+          left: index == -1 ? 0 : 15, right: index == (lastIndex - 1) ? 15 : 0),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, RoutesName.medicineDetails);
+          medicineViewModel.medicineDetailsApi(
+              context,
+              medicineViewModel.allMedicineModelData!.allMedicineData![index].id
+                  .toString());
         },
         child: Container(
           width: screenWidth * 0.37,
@@ -124,21 +120,22 @@ class DealsMedicine extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextConst(
-                        textAlign: TextAlign.left,
-                        // title: 'Dulcoflex Tablet',
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: screenWidth * 0.36,
+                      child: TextConst(
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        title: allMedicineData.name.toString(),
                         fontSize: AppConstant.fontSizeOne,
                         fontWeight: FontWeight.w500,
                         color: AppColor.blackColor,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -199,23 +196,95 @@ class DealsMedicine extends StatelessWidget {
                     ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: ButtonConst(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    height: screenHeight * 0.04,
-                    onTap: () async {
-                      String? getUserData = await UserViewModel().getUser();
-                      cartViewModel.addToCartApi(
-                          getUserData, allMedicineData.id, '1', context);
-                    },
-                    color: AppColor.buttonBlueColor,
-                    label: 'Add'.toUpperCase(),
-                    textColor: AppColor.whiteColor,
-                    fontSize: AppConstant.fontSizeTwo,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                allMedicineData.stock == 0
+                    ? ButtonConst(
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        height: screenHeight * 0.04,
+                        color: AppColor.redColor,
+                        label: 'Out of stock'.toUpperCase(),
+                        textColor: AppColor.whiteColor,
+                        fontSize: AppConstant.fontSizeTwo,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : allMedicineData.isAddedToCart == 0
+                        ? cartViewModel.loadingAdd
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                color: AppColor.primaryColor,
+                              ))
+                            : Align(
+                                alignment: Alignment.center,
+                                child: ButtonConst(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  height: screenHeight * 0.04,
+                                  onTap: () async {
+                                    String? getUserData =
+                                        await UserViewModel().getUser();
+                                    cartViewModel.addToCartApi(getUserData,
+                                        allMedicineData.id, '1', context);
+                                  },
+                                  color: AppColor.buttonBlueColor,
+                                  label: 'Add'.toUpperCase(),
+                                  textColor: AppColor.whiteColor,
+                                  fontSize: AppConstant.fontSizeTwo,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                        : Consumer<UpdateQuantityViewModel>(
+                            builder: (context, updateQuantityCon, _) {
+                            return cartViewModel.loadingDc
+                                ? Utils.loading()
+                                : Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      height: screenHeight * 0.04,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              width: 1,
+                                              color: AppColor.greyColor
+                                                  .withOpacity(0.4))),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                updateQuantityCon
+                                                    .updateProductQuantity(
+                                                        context, index, "sub");
+                                              },
+                                              child: Icon(
+                                                Icons.remove,
+                                                color: AppColor.primaryColor,
+                                                size: 25,
+                                              )),
+                                          TextConst(
+                                            title: allMedicineData.addedQuantity
+                                                .toString(),
+                                            fontSize: AppConstant.fontSizeThree,
+                                            color: AppColor.primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          InkWell(
+                                              onTap: () {
+                                                updateQuantityCon
+                                                    .updateProductQuantity(
+                                                        context, index, "add");
+                                              },
+                                              child: Icon(
+                                                Icons.add,
+                                                color: AppColor.primaryColor,
+                                                size: 25,
+                                              )),
+                                        ],
+                                      ),
+                                    ));
+                          }),
               ],
             ),
           ),

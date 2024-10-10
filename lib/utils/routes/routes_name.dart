@@ -33,5 +33,7 @@ class RoutesName {
   static const savedAddressScreen = '/savedAddressScreen';
   static const addNewAddressScreen = '/addNewAddressScreen';
   static const mapPage = '/mapPage';
+  static const helpPage = '/helpPage';
+  static const doctorCetagoryScreen = '/doctorCetagoryScreen';
 
 }

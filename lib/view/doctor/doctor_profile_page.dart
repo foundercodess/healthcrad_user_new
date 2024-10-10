@@ -4,6 +4,9 @@ import 'package:health_crad_user/main.dart';
 import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/text_const.dart';
+import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/doctor_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DoctorProfilePage extends StatefulWidget {
   const DoctorProfilePage({super.key});
@@ -13,9 +16,21 @@ class DoctorProfilePage extends StatefulWidget {
 }
 
 class _DoctorProfilePageState extends State<DoctorProfilePage> {
+  int ratingValue = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .doctorVRApi(context, '12');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final doctorViewModel = Provider.of<DoctorViewModel>(context);
+    return doctorViewModel.doctorVRModel!.message.toString()=="400"? Utils.noDataFound():Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -65,8 +80,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   width: screenWidth * 0.33,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(
-                              Assets.imageVerifyDoctorBg),
+                          image: AssetImage(Assets.imageVerifyDoctorBg),
                           fit: BoxFit.fill)),
                   child: TextConst(
                     title: 'HealthCRAD Verified',
@@ -78,63 +92,69 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                 ),
                 AppConstant.spaceHeight20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: screenWidth * 0.6,
-                      // color: Colors.red,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                doctorViewModel.doctorVRModel == null
+                    ? Utils.loading()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AppConstant.spaceHeight10,
-                          TextConst(
-                            title: 'Dr. Abhishek Kumar',
-                            maxLines: 1,
-                            fontSize: AppConstant.fontSizeThree,
-                            color: AppColor.blackColor,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: screenWidth * 0.6,
+                            // color: Colors.red,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                AppConstant.spaceHeight10,
+                                TextConst(
+                                  title:
+                                      doctorViewModel.doctorVRModel!.data!.name,
+                                  maxLines: 1,
+                                  fontSize: AppConstant.fontSizeThree,
+                                  color: AppColor.blackColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                AppConstant.spaceHeight10,
+                                TextConst(
+                                  textAlign: TextAlign.start,
+                                  title: doctorViewModel
+                                      .doctorVRModel!.data!.department,
+                                  maxLines: 1,
+                                  fontSize: AppConstant.fontSizeTwo,
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                TextConst(
+                                  textAlign: TextAlign.start,
+                                  title: doctorViewModel
+                                      .doctorVRModel!.data!.qualification,
+                                  maxLines: 1,
+                                  fontSize: AppConstant.fontSizeTwo,
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                AppConstant.spaceHeight10,
+                                TextConst(
+                                  title:
+                                      '${doctorViewModel.doctorVRModel!.data!.exp} years experience',
+                                  maxLines: 1,
+                                  fontSize: AppConstant.fontSizeTwo,
+                                  color: AppColor.blackColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
                           ),
-                          AppConstant.spaceHeight10,
-                          TextConst(
-                            textAlign: TextAlign.start,
-                            title: 'General Physician',
-                            maxLines: 1,
-                            fontSize: AppConstant.fontSizeTwo,
-                            color: AppColor.textColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          TextConst(
-                            textAlign: TextAlign.start,
-                            title: 'MBBS, MD',
-                            maxLines: 1,
-                            fontSize: AppConstant.fontSizeTwo,
-                            color: AppColor.textColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          AppConstant.spaceHeight10,
-                          TextConst(
-                            title: '25 years experience',
-                            maxLines: 1,
-                            fontSize: AppConstant.fontSizeTwo,
-                            color: AppColor.blackColor,
-                            fontWeight: FontWeight.w500,
+                          Container(
+                            height: screenHeight * 0.11,
+                            width: screenWidth * 0.25,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(Assets.imageDoctorBg),
+                                    fit: BoxFit.fill)),
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      height: screenHeight * 0.11,
-                      width: screenWidth * 0.25,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(Assets.imageDoctorBg),
-                              fit: BoxFit.fill)),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -147,8 +167,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
-              padding:
-                  const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 20, right: 15, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -172,7 +192,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                   AppConstant.spaceHeight5,
                   TextConst(
-                    title: 'Line bazar, Purnea, Bihar',
+                    title: doctorViewModel.doctorVRModel!.data!.address,
                     maxLines: 1,
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.blackColor,
@@ -188,7 +208,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                   AppConstant.spaceHeight5,
                   TextConst(
-                    title: '₹ 500',
+                    title: '₹ ${doctorViewModel.doctorVRModel!.data!.fees}',
                     maxLines: 1,
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.blackColor,
@@ -201,8 +221,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
-              padding:
-              const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 20, right: 15, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -221,7 +241,6 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                         Assets.iconsLoveHeart,
                         height: 25,
                         width: 25,
-
                       ),
                       AppConstant.spaceWidth10,
                       Column(
@@ -296,7 +315,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             Container(
               width: screenWidth,
               color: AppColor.whiteColor,
-              padding:  const EdgeInsets.only(top: 20,bottom: 20,right: 15,left: 15),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 20, right: 15, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -312,7 +332,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   TextConst(
                     textAlign: TextAlign.start,
                     title:
-                        'Dr G. Vilas Sharma is a highly experienced general physician and diabetes specialist in muzaffarpur, Bihar.',
+                        doctorViewModel.doctorVRModel!.data!.about.toString(),
                     fontSize: AppConstant.fontSizeOne,
                     color: AppColor.textColor,
                     fontWeight: FontWeight.w500,
@@ -329,38 +349,24 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                     width: 1, color: AppColor.textColor.withOpacity(0.3)),
                 color: AppColor.whiteColor,
               ),
-              padding: const EdgeInsets.symmetric(
-                  horizontal:15, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextConst(
-                        textAlign: TextAlign.start,
-                        title: 'Patient Review',
-                        maxLines: 1,
-                        fontSize: AppConstant.fontSizeThree,
-                        color: AppColor.blackColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      AppConstant.spaceWidth15,
-                      Container(
-                        width: screenWidth * 0.3,
-                        height: screenHeight * 0.025,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(Assets.imageStarBg),
-                                fit: BoxFit.fill)),
-                      )
-                    ],
+                  TextConst(
+                    textAlign: TextAlign.start,
+                    title: 'Patient Review',
+                    maxLines: 1,
+                    fontSize: AppConstant.fontSizeThree,
+                    color: AppColor.blackColor,
+                    fontWeight: FontWeight.w600,
                   ),
                   AppConstant.spaceHeight15,
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 10,
+                    itemCount:
+                        doctorViewModel.doctorVRModel!.doctorReview!.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -373,7 +379,10 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                   backgroundColor: AppColor.cAvtColor,
                                   child: TextConst(
                                     textAlign: TextAlign.start,
-                                    title: 'A',
+                                    title: doctorViewModel.doctorVRModel!
+                                        .doctorReview![index].userName
+                                        ?.substring(0, 1)
+                                        .toUpperCase(),
                                     maxLines: 1,
                                     fontSize: AppConstant.fontSizeThree,
                                     color: AppColor.whiteColor,
@@ -383,19 +392,40 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                 AppConstant.spaceWidth10,
                                 TextConst(
                                   textAlign: TextAlign.start,
-                                  title: 'Aman Kumar',
+                                  title: doctorViewModel.doctorVRModel!
+                                      .doctorReview![index].userName,
                                   maxLines: 1,
                                   fontSize: AppConstant.fontSizeTwo,
                                   color: AppColor.blackColor,
                                   fontWeight: FontWeight.w500,
-                                )
+                                ),
+                                AppConstant.spaceWidth10,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: List.generate(5, (i) {
+                                    int rating = int.tryParse(doctorViewModel
+                                            .doctorVRModel!
+                                            .doctorReview![index]
+                                            .rating
+                                            .toString()) ??
+                                        0;
+                                    return Icon(
+                                      Icons.star_rounded,
+                                      color: i < rating
+                                          ? AppColor.yellowColor
+                                          : AppColor.greyColor,
+                                      size: 30,
+                                    );
+                                  }),
+                                ),
                               ],
                             ),
                             AppConstant.spaceHeight5,
                             TextConst(
                               textAlign: TextAlign.start,
-                              title:
-                                  "A comprehensive evaluation of the patient's experience with the healthcare provider, including aspects such as communication, treatment effectiveness, and overall satisfaction.",
+                              title: doctorViewModel
+                                  .doctorVRModel!.doctorReview![index].message,
                               fontSize: AppConstant.fontSizeOne,
                               color: AppColor.blackColor.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
@@ -413,8 +443,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                   (i) => TextConst(
                                     title: '-',
                                     fontSize: AppConstant.fontSizeZero,
-                                    color:
-                                        AppColor.textColor.withOpacity(0.7),
+                                    color: AppColor.textColor.withOpacity(0.7),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),

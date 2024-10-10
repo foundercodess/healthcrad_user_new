@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:health_crad_user/model/cart_model.dart';
-
-
 
 import 'package:health_crad_user/repo/cart_repo.dart';
 import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
 
 import 'package:health_crad_user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
-
 
 class CartViewModel with ChangeNotifier {
   final _addToCartRepo = AddToCartRepo();
@@ -36,10 +36,12 @@ class CartViewModel with ChangeNotifier {
     print(data);
     _addToCartRepo.addToCartApi(data).then((value) {
       if (value['status'] == 200) {
-        setLoadingAdd(false);
+        Provider.of<MedicineViewModel>(context, listen: false)
+            .allMedicineApi(context, '', '10', '0');
+        cartViewApi(context);
         Utils.show('Item Added in cart Successfully', context);
-      } else {
-      }
+        setLoadingAdd(false);
+      } else {}
     }).onError((error, stackTrace) {
       setLoadingAdd(false);
       if (kDebugMode) {
@@ -59,8 +61,9 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteToCartApi(dynamic productId, context) async {
+  Future<void> deleteToCartApi(dynamic productId,BuildContext context, int index) async {
     setLoadingDc(true);
+
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
     Map data = {
@@ -70,9 +73,12 @@ class CartViewModel with ChangeNotifier {
 
     _addToCartRepo.deleteToCartApi(data).then((value) {
       if (value['status'] == 200) {
-        Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
-        setLoadingDc(false);
-        Utils.show(value["message"], context);
+        Navigator.pop(context);
+          Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
+          Utils.show(value["message"], context);
+          Provider.of<MedicineViewModel>(context, listen: false)
+              .allMedicineApi(context, '', '10', '0');
+          setLoadingDc(false);
       } else {}
     }).onError((error, stackTrace) {
       setLoadingAdd(false);
@@ -93,12 +99,14 @@ class CartViewModel with ChangeNotifier {
   }
 
   Future<void> cartViewApi(context) async {
+    print("cart view api executed");
     UserViewModel userViewModel = UserViewModel();
     String? userId = await userViewModel.getUser();
     _addToCartRepo.cartViewApi(userId).then((value) {
       if (value.status == 200) {
         setVModelData(value);
       } else {
+        setVModelData(value);
         if (kDebugMode) {
           print('value: ${value.message}');
         }
@@ -108,5 +116,6 @@ class CartViewModel with ChangeNotifier {
         print('error: $error');
       }
     });
+    notifyListeners();
   }
 }

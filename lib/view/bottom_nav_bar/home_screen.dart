@@ -14,9 +14,13 @@ import 'package:health_crad_user/res/offerings_list_view.dart';
 import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/utils/utils.dart';
+import 'package:health_crad_user/view_model/doctor_view_model.dart';
 import 'package:health_crad_user/view_model/medicine_view_model.dart';
 import 'package:health_crad_user/view_model/slider_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../../view_model/cart_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,244 +33,172 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<SliderViewModel>(context, listen: false).sliderApi(context);
-      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
+      Provider.of<CartViewModel>(context, listen: false).cartViewApi(context);
+      Provider.of<MedicineViewModel>(context, listen: false)
+          .allMedicineApi(context, '', '10', '0');
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .getDoctorApi(context, "");
+      Provider.of<DoctorViewModel>(context, listen: false)
+          .doctorCatApi(context);
+      Provider.of<MedicineViewModel>(context, listen: false)
+          .medicineCatApi(context);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final sliderViewModel = Provider.of<SliderViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarConst(),
-      body:  sliderViewModel.sliderModelData ==null?Center(child: CircularProgressIndicator()): SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppConstant.spaceHeight15,
-            searchTextField(),
-            AppConstant.spaceHeight15,
-            const CarouselWithIndicator(),
-            AppConstant.spaceHeight30,
-            orderOptions(),
-            AppConstant.spaceHeight30,
-            ourOffering(),
-            AppConstant.spaceHeight30,
-            specialOfferForYou(),
-            AppConstant.spaceHeight30,
-            limitedTimeOffer(),
-            AppConstant.spaceHeight30,
-            shopMedicineByCategory(),
-            AppConstant.spaceHeight30,
-            bestOffer(),
-            AppConstant.spaceHeight30,
-            doctorFromTopCategories(),
-            AppConstant.spaceHeight30,
-            bookAppointmentForTopDoctor(),
-            AppConstant.spaceHeight30,
-            textInfoMessage(),
-            AppConstant.spaceHeight30,
-            aboutApp(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // PreferredSizeWidget appBarConst() {
-  //   return AppBar(
-  //     toolbarHeight: kToolbarHeight*1.2,
-  //     shape: Border(
-  //       bottom: BorderSide(
-  //         color: Colors.black.withOpacity(0.05),
-  //         width: 2.0,
-  //       ),
-  //     ),
-  //     elevation: 2,
-  //     leadingWidth: screenWidth / 2,
-  //     leading: Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-  //       child: Image.asset(Assets.imageAppLogo),
-  //     ),
-  //     actions: [
-  //       Padding(
-  //         padding: EdgeInsets.only(right: screenWidth * 0.05),
-  //         child: InkWell(
-  //           onTap: () {
-  //             Navigator.pushNamed(context, RoutesName.notificationPage);
-  //           },
-  //           child: Stack(
-  //             clipBehavior: Clip.none,
-  //             children: [
-  //               const Icon(Icons.notifications_outlined, size: 30,),
-  //               Positioned(
-  //                 left: screenHeight * 0.02,
-  //                 bottom: screenHeight * 0.01,
-  //                 child: Container(
-  //                   alignment: Alignment.center,
-  //                   height: screenHeight * 0.04,
-  //                   width: screenWidth * 0.04,
-  //                   decoration: const BoxDecoration(
-  //                     shape: BoxShape.circle,
-  //                     color: Colors.red,
-  //                   ),
-  //                   child: TextConst(
-  //                     title: '3',
-  //                     fontSize: AppConstant.fontSizeOne,
-  //                     color: AppColor.whiteColor,
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       AppConstant.spaceWidth10,
-  //       InkWell(
-  //         onTap: () {
-  //           Navigator.pushNamed(context, RoutesName.cartPage);
-  //         },
-  //         child: Stack(
-  //           clipBehavior: Clip.none,
-  //           children: [
-  //             Image.asset(Assets.imageCartOutline),
-  //             Positioned(
-  //               top: -15,
-  //               right: -5,
-  //               child: Container(
-  //                 alignment: Alignment.center,
-  //                 height: screenHeight * 0.04,
-  //                 width: screenWidth * 0.04,
-  //                 decoration: BoxDecoration(
-  //                   shape: BoxShape.circle,
-  //                   color: AppColor.redColor,
-  //                 ),
-  //                 child: TextConst(
-  //                   title: '3',
-  //                   fontSize: AppConstant.fontSizeOne,
-  //                   color: AppColor.whiteColor,
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       AppConstant.spaceWidth15,
-  //     ],
-  //   );
-  // }
-
-  PreferredSizeWidget appBarConst() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight * 1.2),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 0),
-                  color: Colors.black.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 6)
-            ]
-        ),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          toolbarHeight: kToolbarHeight * 1.2,
-          shape: Border(
-            bottom: BorderSide(
-              color: Colors.black.withOpacity(0.05),
-              width: 2.0,
-            ),
-          ),
-          elevation: 0, // Remove default elevation to avoid double shadow
-          leadingWidth: screenWidth / 2,
-          leading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-            child: Image.asset(Assets.pngAppLogoClint)
-            // Image.asset(Assets.imageAppLogo),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: screenWidth * 0.05),
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.notificationPage);
-                },
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Image.asset(Assets.pngNotificatiobBellIcon,  height: 25,
-                      width: 25,),
-
-                    // SvgPicture.asset(
-                    //   Assets.svgBellCheck,
-                    //   // height: 10,
-                    //   // width: 10,
-                    // ),
-                    Positioned(
-                      left: screenHeight * 0.015,
-                      bottom: screenHeight * 0.01,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: screenHeight * 0.04,
-                        width: screenWidth * 0.04,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                        ),
-                        child: TextConst(
-                          title: '3',
-                          fontSize: AppConstant.fontSizeOne,
-                          color: AppColor.whiteColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            AppConstant.spaceWidth10,
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, RoutesName.cartPage);
-              },
-              child: Stack(
-                clipBehavior: Clip.none,
+      body: sliderViewModel.sliderModelData == null
+          ? Utils.loading()
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(Assets.imageCartOutline,  height: 28,
-                    width: 28,),
-                  // SvgPicture.asset(
-                  //   Assets.svgCart,
-                  //   // height: 10,
-                  //   // width: 10,
-                  // ),
-                  Positioned(
-                    top: -12,
-                    right: -4,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: screenHeight * 0.04,
-                      width: screenWidth * 0.04,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColor.redColor,
-                      ),
-                      child: TextConst(
-                        title: '3',
-                        fontSize: AppConstant.fontSizeOne,
-                        color: AppColor.whiteColor,
-                      ),
-                    ),
-                  ),
+                  AppConstant.spaceHeight15,
+                  searchTextField(),
+                  AppConstant.spaceHeight15,
+                  const CarouselWithIndicator(),
+                  AppConstant.spaceHeight30,
+                  orderOptions(),
+                  AppConstant.spaceHeight30,
+                  ourOffering(),
+                  AppConstant.spaceHeight30,
+                  specialOfferForYou(),
+                  AppConstant.spaceHeight30,
+                  limitedTimeOffer(),
+                  AppConstant.spaceHeight30,
+                  shopMedicineByCategory(),
+                  AppConstant.spaceHeight30,
+                  bestOffer(),
+                  AppConstant.spaceHeight30,
+                  doctorFromTopCategories(),
+                  AppConstant.spaceHeight30,
+                  bookAppointmentForTopDoctor(),
+                  AppConstant.spaceHeight30,
+                  textInfoMessage(),
+                  AppConstant.spaceHeight30,
+                  aboutApp(),
                 ],
               ),
             ),
-            AppConstant.spaceWidth15,
-          ],
-        ),
-      ),
+    );
+  }
+
+  PreferredSizeWidget appBarConst() {
+    final cartViewModel = Provider.of<CartViewModel>(context);
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight * 1.2),
+      child: cartViewModel.vModelData == null
+          ? Container()
+          : Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    offset: const Offset(0, 0),
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 6)
+              ]),
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                toolbarHeight: kToolbarHeight * 1.2,
+                shape: Border(
+                  bottom: BorderSide(
+                    color: Colors.black.withOpacity(0.05),
+                    width: 2.0,
+                  ),
+                ),
+                elevation: 0,
+                leadingWidth: screenWidth / 2,
+                leading: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    child: Image.asset(Assets.pngAppLogoClint)
+                    // Image.asset(Assets.imageAppLogo),
+                    ),
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(right: screenWidth * 0.05),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RoutesName.notificationPage);
+                      },
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Image.asset(
+                            Assets.pngNotificatiobBellIcon,
+                            height: 25,
+                            width: 25,
+                          ),
+                          Positioned(
+                            left: screenHeight * 0.015,
+                            bottom: screenHeight * 0.01,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: screenHeight * 0.04,
+                              width: screenWidth * 0.04,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                              child: TextConst(
+                                title: '3',
+                                fontSize: AppConstant.fontSizeOne,
+                                color: AppColor.whiteColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  AppConstant.spaceWidth10,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.cartPage);
+                    },
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Image.asset(
+                          Assets.imageCartOutline,
+                          height: 28,
+                          width: 28,
+                        ),
+                        if (cartViewModel.vModelData!.viewCartData!.isNotEmpty)
+                          Positioned(
+                            top: -12,
+                            right: -4,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: screenHeight * 0.04,
+                              width: screenWidth * 0.04,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColor.redColor,
+                              ),
+                              child: TextConst(
+                                title: cartViewModel
+                                    .vModelData!.viewCartData!.length
+                                    .toString(),
+                                fontSize: AppConstant.fontSizeOne,
+                                color: AppColor.whiteColor,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  AppConstant.spaceWidth15,
+                ],
+              ),
+            ),
     );
   }
 
@@ -281,37 +213,25 @@ class _HomeScreenState extends State<HomeScreen> {
         keyboardType: TextInputType.text,
         maxLength: 35,
         maxLines: 1,
-        prefixIcon:  Padding(
-          padding: const EdgeInsets.only(top: 12,bottom: 12),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
           child: SvgPicture.asset(
-              Assets.svgSearchIcons,
-              height:10,
-              width: 10,
-
-
+            Assets.svgSearchIcons,
+            height: 10,
+            width: 10,
           ),
         ),
-        // Image.asset(
-        //   Assets.iconsSearch,
-        //   scale: 1.9,
-        //   color: AppColor.blueColor,
-        // ),
         hintColor: Colors.black.withOpacity(.6),
         hint: "Search for medicines & doctors",
         fontSize: AppConstant.fontSizeTwo,
-        sufixIcon:Padding(
-          padding: const EdgeInsets.only(top: 12,bottom: 12),
+        sufixIcon: Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
           child: SvgPicture.asset(
             Assets.svgMicIcons,
             height: 10,
             width: 10,
           ),
         ),
-        // Image.asset(
-        //   Assets.iconsMic,
-        //   scale: 1.9,
-        //   color: AppColor.blueColor,
-        // ),
       ),
     );
   }
@@ -330,7 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Container(
               width: screenWidth / 2.2,
-           padding:const EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 7),
+              padding:
+                  const EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 7),
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(
@@ -475,24 +396,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget specialOfferForYou() {
     final sliderViewModel = Provider.of<SliderViewModel>(context);
     return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+          ),
+          child: TextConst(
+            fontWeight: FontWeight.w600,
+            title: 'Special Offers for You',
+            fontSize: AppConstant.fontSizeThree,
+            color: AppColor.blackColor,
+          ),
         ),
-        child: TextConst(
-          fontWeight: FontWeight.w600,
-          title: 'Special Offers for You',
-          fontSize: AppConstant.fontSizeThree,
-          color: AppColor.blackColor,
-        ),
-      ),
-
-       OfferSlider(imageList: sliderViewModel.sliderModelData !=null?sliderViewModel.sliderModelData!.bestOffer!:[]),
-    ],
-  );
-    }
+        OfferSlider(
+            imageList: sliderViewModel.sliderModelData != null
+                ? sliderViewModel.sliderModelData!.bestOffer!
+                : []),
+      ],
+    );
+  }
 
   Widget limitedTimeOffer() {
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
@@ -525,7 +448,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         AppConstant.spaceHeight10,
-        SizedBox(height: screenHeight / 3, child: medicineViewModel.allMedicineModelData ==null?Center(child: CircularProgressIndicator()) : DealsListView()),
+        SizedBox(
+            height: screenHeight / 3,
+            child: medicineViewModel.allMedicineModelData == null
+                ? const Center(child: CircularProgressIndicator())
+                : const DealsListView()),
       ],
     );
   }
@@ -550,7 +477,9 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             height: screenHeight / 3,
             alignment: Alignment.center,
-            child: CategoryListView()),
+            child: medicineViewModel.medicineModelData == null
+                ? Utils.loading()
+                : const CategoryListView()),
       ],
     );
   }
@@ -592,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         AppConstant.spaceHeight10,
-         OfferSlider(imageList: sliderViewModel.sliderModelData!.offerSlider!),
+        OfferSlider(imageList: sliderViewModel.sliderModelData!.offerSlider!),
       ],
     );
   }
@@ -631,7 +560,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.doctorCetagoryScreen);
+                    },
                     child: TextConst(
                       textAlign: TextAlign.right,
                       title: 'See all >',
@@ -790,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // margin: const EdgeInsets.only(bottom: 40),
       padding: const EdgeInsets.only(bottom: 30),
       width: screenWidth,
-      decoration:  const BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(Assets.imageBranchOfficeBg), fit: BoxFit.fill)),
       child: Column(
@@ -854,7 +786,8 @@ class _HomeScreenState extends State<HomeScreen> {
           AppConstant.spaceHeight5,
           Padding(
             padding: const EdgeInsets.only(
-                left: 13,),
+              left: 13,
+            ),
             child: Row(
               children: [
                 Image.asset(

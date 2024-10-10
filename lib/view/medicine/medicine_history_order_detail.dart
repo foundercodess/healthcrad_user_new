@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_crad_user/res/app_btn.dart';
 import 'package:health_crad_user/res/app_constant.dart';
+import 'package:health_crad_user/view_model/order_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../generated/assets.dart';
 import '../../main.dart';
@@ -40,9 +42,18 @@ class _MedicineHistoryOrderDetailScreenState
     final dynamic tooltip = _tooltipKeys[index].currentState;
     tooltip.ensureTooltipVisible();
   }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<OrderViewModel>(context, listen: false).orderHistoryApi(context);
 
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final orderDetail = orderViewModel.orderHistoryModel!.orderHistoryData![orderViewModel.selectedIndex];
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       appBar: appBarWidget(),
@@ -70,7 +81,7 @@ class _MedicineHistoryOrderDetailScreenState
                               fontSize: AppConstant.fontSizeOne,
                             ),
                             TextConst(
-                              title: "465",
+                              title: orderDetail.id.toString(),
                               color: AppColor.textColor,
                               fontSize: AppConstant.fontSizeOne,
                             ),
@@ -272,11 +283,14 @@ class _MedicineHistoryOrderDetailScreenState
   }
 
   Widget medicineList() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+    final orderDetail = orderViewModel.orderHistoryModel!.orderHistoryData![orderViewModel.selectedIndex].medicinedata;
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 3,
-        itemBuilder: (_, int i) {
+        itemCount: orderDetail!.length,
+        itemBuilder: (_, int index) {
+final resData=orderDetail[index];
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -285,8 +299,8 @@ class _MedicineHistoryOrderDetailScreenState
             ),
             child: Row(
               children: [
-                Image.asset(
-                  Assets.imageTablelBg,
+                Image.network(
+                  orderDetail[index].image,
                   width: screenWidth / 6,
                 ),
                 AppConstant.spaceWidth15,
@@ -294,7 +308,7 @@ class _MedicineHistoryOrderDetailScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextConst(
-                      title: "Dulcoflex Tablet 10s",
+                      title: resData.name,
                       color: AppColor.blackColor,
                       fontSize: AppConstant.fontSizeTwo,
                     ),
@@ -311,7 +325,7 @@ class _MedicineHistoryOrderDetailScreenState
                               fontSize: AppConstant.fontSizeOne),
                           CustomTextSpan(
                               decoration: TextDecoration.lineThrough,
-                              text: "₹ 22.68",
+                              text: "₹ ${orderDetail[index].price}",
                               textColor: AppColor.textColor,
                               fontSize: AppConstant.fontSizeOne,
                               fontWeight: FontWeight.w500)
@@ -325,7 +339,7 @@ class _MedicineHistoryOrderDetailScreenState
                         AppConstant.spaceWidth5,
                         CustomRichText(textSpans: [
                           CustomTextSpan(
-                              text: "25.03 % off",
+                              text: "${orderDetail[index].discount} % off",
                               textColor: AppColor.greenColor,
                               fontSize: AppConstant.fontSizeOne,
                               fontWeight: FontWeight.bold),
@@ -334,13 +348,13 @@ class _MedicineHistoryOrderDetailScreenState
                     ),
                     AppConstant.spaceHeight5,
                     TextConst(
-                      title: "${AppConstant.rupeeSymbol} 18.14",
+                      title: "${AppConstant.rupeeSymbol} ${orderDetail[index].itemCost}",
                       color: AppColor.blackColor,
                       fontSize: AppConstant.fontSizeTwo,
                       fontWeight: FontWeight.w600,
                     ),
                     TextConst(
-                      title: "Quantity: 3",
+                      title: "Quantity: ${orderDetail[index].quantity}",
                       color: AppColor.blackColor,
                       fontSize: AppConstant.fontSizeOne,
                     ),
@@ -353,6 +367,10 @@ class _MedicineHistoryOrderDetailScreenState
   }
 
   Widget priceDetails() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+
+    final orderDetail = orderViewModel.orderHistoryModel!.orderHistoryData![orderViewModel.selectedIndex];
+
     return Container(
       width: screenWidth,
       color: AppColor.whiteColor,
@@ -380,7 +398,7 @@ class _MedicineHistoryOrderDetailScreenState
                   fontWeight: FontWeight.w400,
                 ),
                 TextConst(
-                  title: '₹ 500',
+                  title: '₹ ${orderDetail.totalAmount}',
                   fontSize: AppConstant.fontSizeTwo,
                   color: AppColor.blackColor,
                   fontWeight: FontWeight.w400,
@@ -398,7 +416,7 @@ class _MedicineHistoryOrderDetailScreenState
                   fontWeight: FontWeight.w400,
                 ),
                 TextConst(
-                  title: '-₹ 500',
+                  title: '-₹ ${orderDetail.discount}',
                   fontSize: AppConstant.fontSizeTwo,
                   color: AppColor.greenColor,
                   fontWeight: FontWeight.w400,
@@ -417,14 +435,16 @@ class _MedicineHistoryOrderDetailScreenState
                 ),
                 CustomRichText(textSpans: [
                   CustomTextSpan(
-                    text: "₹ 20 ",
+
+
+                    text: "₹ ${orderDetail.discount} ",
                     decoration: TextDecoration.lineThrough,
                     fontWeight: FontWeight.w400,
                     textColor: AppColor.textColor,
                     fontSize: AppConstant.fontSizeTwo,
                   ),
                   CustomTextSpan(
-                    text: " ₹ 10",
+                    text: " ₹ ${orderDetail.packagingCharge}",
                     fontWeight: FontWeight.w400,
                     textColor: AppColor.blackColor,
                     fontSize: AppConstant.fontSizeTwo,
@@ -444,14 +464,14 @@ class _MedicineHistoryOrderDetailScreenState
                 ),
                 CustomRichText(textSpans: [
                   CustomTextSpan(
-                    text: "₹ 65 ",
+                    text: "₹ ${orderDetail.deliveryCharge} ",
                     decoration: TextDecoration.lineThrough,
                     fontWeight: FontWeight.w400,
                     textColor: AppColor.textColor,
                     fontSize: AppConstant.fontSizeTwo,
                   ),
                   CustomTextSpan(
-                    text: " ₹ 40",
+                    text: " ₹ ${orderDetail.deliveryCharge}",
                     fontWeight: FontWeight.w400,
                     textColor: AppColor.blackColor,
                     fontSize: AppConstant.fontSizeTwo,
@@ -479,7 +499,7 @@ class _MedicineHistoryOrderDetailScreenState
                   ],
                 ),
                 TextConst(
-                  title: '₹ 25 ',
+                  title: '₹ ${orderDetail.couponAmount}',
                   fontSize: AppConstant.fontSizeTwo,
                   color: AppColor.greenColor,
                   fontWeight: FontWeight.w400,
@@ -508,7 +528,7 @@ class _MedicineHistoryOrderDetailScreenState
                     fontWeight: FontWeight.w600,
                   ),
                   TextConst(
-                    title: '₹ 550',
+                    title: '₹ ${orderDetail.totalAmount}',
                     fontSize: AppConstant.fontSizeTwo,
                     color: AppColor.buttonBlueColor,
                     fontWeight: FontWeight.w600,
@@ -524,7 +544,7 @@ class _MedicineHistoryOrderDetailScreenState
                 fontSize: AppConstant.fontSizeTwo,
               ),
               CustomTextSpan(
-                text: " ₹ 105 ",
+                text: " ₹ ${orderDetail.discount} ",
                 fontWeight: FontWeight.bold,
                 textColor: AppColor.greenColor,
                 fontSize: AppConstant.fontSizeThree,
@@ -542,6 +562,10 @@ class _MedicineHistoryOrderDetailScreenState
   }
 
   Widget shippingDetails() {
+    final orderViewModel = Provider.of<OrderViewModel>(context);
+
+    final orderDetail = orderViewModel.orderHistoryModel!.orderHistoryData![orderViewModel.selectedIndex];
+
     return Container(
       width: screenWidth,
       color: AppColor.whiteColor,
@@ -559,14 +583,14 @@ class _MedicineHistoryOrderDetailScreenState
           ),
           AppConstant.spaceHeight5,
           TextConst(
-            title: "Om Shankar Sharma",
+            title: orderDetail.userName,
             color: AppColor.blackColor,
             fontSize: AppConstant.fontSizeTwo,
             fontWeight: FontWeight.w500,
           ),
           AppConstant.spaceHeight5,
           TextConst(
-            title: "Sharda nagar (Banti Kirana Store), Bus Stand Purnea 485695",
+            title:orderDetail.address,
             color: AppColor.textColor,
             fontSize: AppConstant.fontSizeOne,
             textAlign: TextAlign.left,

@@ -24,10 +24,11 @@ class _MedicinesPageState extends State<MedicinesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','3','0');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Provider.of<MedicineViewModel>(context, listen: false).allMedicineApi(context,'','10','0');
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final medicineViewModel = Provider.of<MedicineViewModel>(context);
@@ -38,7 +39,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
         margin: const EdgeInsets.symmetric(horizontal: 15),
         height: screenHeight / 14,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8),
             color: AppColor.buttonBlueColor),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -158,39 +159,44 @@ class _MedicinesPageState extends State<MedicinesPage> {
         //   ),
         // ),
       ),
-      body:medicineViewModel.allMedicineModelData ==null?Center(child: CircularProgressIndicator()) : SingleChildScrollView(
-
-        child: Column(
-          children: [
-            // AppConstant.spaceHeight10,
-            searchTextField(),
-            AppConstant.spaceHeight20,
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 15,),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
+      body: medicineViewModel.allMedicineModelData == null
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  searchTextField(),
+                  AppConstant.spaceHeight20,
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemCount: medicineViewModel
+                        .allMedicineModelData!.allMedicineData?.length,
+                    itemBuilder: (context, index) {
+                      return DealsMedicine(
+                          index: -1,
+                          allMedicineData: medicineViewModel
+                              .allMedicineModelData!.allMedicineData![index]);
+                    },
+                  ),
+                ],
               ),
-              itemCount: medicineViewModel.allMedicineModelData!.allMedicineData?.length,
-              itemBuilder: (context, index) {
-                return  DealsMedicine(index: -1, allMedicineData: medicineViewModel.allMedicineModelData!.allMedicineData![index]);
-              },
             ),
-          ],
-        ),
-      ),
     );
   }
 
   Widget searchTextField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,vertical: 15
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: TextFieldConst(
         borderRadius: BorderRadius.circular(5),
         fillColor: AppColor.searchFieldBgColor,
@@ -198,23 +204,20 @@ class _MedicinesPageState extends State<MedicinesPage> {
         maxLength: 35,
         maxLines: 1,
         prefixIcon: Padding(
-          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
           child: SvgPicture.asset(
-              Assets.svgSearchIcons,
-              height:10,
-              width: 10,
-
-
+            Assets.svgSearchIcons,
+            height: 10,
+            width: 10,
           ),
         ),
         hintColor: Colors.black.withOpacity(.6),
         hint: "Search for medicines & doctors",
         fontSize: AppConstant.fontSizeTwo,
         sufixIcon: Padding(
-          padding: const EdgeInsets.only(top: 12,bottom: 12),
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
           child: SvgPicture.asset(
             Assets.svgMicIcons,
-
             height: 10,
             width: 10,
           ),

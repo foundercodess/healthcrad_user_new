@@ -7,7 +7,6 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 
 import 'package:health_crad_user/res/text_const.dart';
-import 'package:health_crad_user/utils/routes/routes_name.dart';
 import 'package:health_crad_user/utils/utils.dart';
 import 'package:health_crad_user/view_model/auth_view_model.dart';
 import 'package:pinput/pinput.dart';
@@ -71,6 +70,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
             ),
             AppConstant.spaceHeight25,
             AppConstant.spaceHeight15,
+            authViewModel.isOtpVerifying?Utils.loading():
             ButtonConst(
               onTap: () {
                 if (otpCon.length == 5 || otpCon.text.isNotEmpty) {

@@ -5,6 +5,11 @@ import 'package:health_crad_user/res/app_color.dart';
 import 'package:health_crad_user/res/app_constant.dart';
 import 'package:health_crad_user/res/custom_rich_text.dart';
 import 'package:health_crad_user/res/text_const.dart';
+import 'package:health_crad_user/view_model/lab_report_download_view_model.dart';
+import 'package:health_crad_user/view_model/path_view_model.dart';
+import 'package:provider/provider.dart';
+
+
 
 import 'widgets/filter_popup.dart';
 
@@ -16,8 +21,19 @@ class MyPathReport extends StatefulWidget {
 }
 
 class _MyPathReportState extends State<MyPathReport> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<PathViewModel>(context,listen: false).myPathApi(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final pathViewModel = Provider.of<PathViewModel>(context);
+    final lrdViewModel = Provider.of<LabReportDownloadViewModel>(context);
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
         appBar: AppBar(
@@ -80,10 +96,10 @@ class _MyPathReportState extends State<MyPathReport> {
             ),
           ],
         ),
-        body: ListView.builder(
+        body:  pathViewModel.pathViewModelData ==null?Center(child: CircularProgressIndicator()):    ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: 6,
+          itemCount: pathViewModel.pathViewModelData!.myPathViewData!.length,
           itemBuilder: (context, index) {
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -104,7 +120,7 @@ class _MyPathReportState extends State<MyPathReport> {
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeOne),
                         CustomTextSpan(
-                            text: "432",
+                            text: pathViewModel.pathViewModelData!.myPathViewData![index].id.toString(),
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeOne)
                       ]),
@@ -114,7 +130,7 @@ class _MyPathReportState extends State<MyPathReport> {
                             textColor: AppColor.blackColor,
                             fontSize: AppConstant.fontSizeOne),
                         CustomTextSpan(
-                            text: "12/08/2024",
+                            text: pathViewModel.pathViewModelData!.myPathViewData![index].testDate.toString(),
                             textColor: AppColor.textColor,
                             fontSize: AppConstant.fontSizeOne)
                       ]),
@@ -144,14 +160,14 @@ class _MyPathReportState extends State<MyPathReport> {
                         children: [
                           TextConst(
                             textAlign: TextAlign.start,
-                            title: 'Shivam Diagnostic Center',
+                            title: pathViewModel.pathViewModelData!.myPathViewData![index].labName,
                             fontSize: AppConstant.fontSizeTwo,
                             color: AppColor.blackColor,
                             fontWeight: FontWeight.w600,
                           ),
                           TextConst(
                             title:
-                                'Bihari Talkies, Line bazar, Purnea, Bihar',
+                            pathViewModel.pathViewModelData!.myPathViewData![index].labAddress.toString(),
                             fontSize: AppConstant.fontSizeOne,
                             color: AppColor.textColor,
                             fontWeight: FontWeight.w500,
@@ -262,39 +278,40 @@ class _MyPathReportState extends State<MyPathReport> {
                       AppConstant.spaceWidth15,
                       SizedBox(
                         height: screenHeight * 0.17,
+                        width: screenWidth*0.37,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             TextConst(
-                              title: 'Raju Kumar',
+                              title: pathViewModel.pathViewModelData!.myPathViewData![index].patientName.toString(),
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w500,
                             ),
                             TextConst(
-                              title: '9645125486',
+                              title: pathViewModel.pathViewModelData!.myPathViewData![index].patientPhone.toString(),
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w500,
                             ),
                             TextConst(
-                              title: 'Dr. Amit Kumar',
+                              title: pathViewModel.pathViewModelData!.myPathViewData![index].referredBy.toString(),
                               maxLines: 1,
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w500,
                             ),
                             TextConst(
-                              title: '25 years',
+                              title: '${pathViewModel.pathViewModelData!.myPathViewData![index].age.toString()} years',
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w500,
                             ),
                             TextConst(
-                              title: 'Unpaid',
+                              title: pathViewModel.pathViewModelData!.myPathViewData![index].paymentStatus.toString(),
                               fontSize: AppConstant.fontSizeTwo,
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w500,
@@ -330,17 +347,24 @@ class _MyPathReportState extends State<MyPathReport> {
                               fontWeight: FontWeight.w600,
                             ),
                             AppConstant.spaceWidth15,
-                            Container(
-                              alignment: Alignment.center,
-                              height: screenHeight * 0.04,
-                              width: screenWidth * 0.4,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: AppColor.greenColor),
-                              child: TextConst(
-                                title: 'Download Report',
-                                fontSize: AppConstant.fontSizeTwo,
-                                color: AppColor.whiteColor,
+                            GestureDetector(
+                              onTap: ()  {
+              String fileUrl = pathViewModel.pathViewModelData!.myPathViewData![index].images.toString();
+              print("object---> ${fileUrl}");
+
+              lrdViewModel.downloadFile(fileUrl, "lab_report${pathViewModel.pathViewModelData!.myPathViewData![index].id.toString()}.png");
+            }, child: Container(
+                                alignment: Alignment.center,
+                                height: screenHeight * 0.04,
+                                width: screenWidth * 0.4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: AppColor.greenColor),
+                                child: TextConst(
+                                  title: 'Download Report',
+                                  fontSize: AppConstant.fontSizeTwo,
+                                  color: AppColor.whiteColor,
+                                ),
                               ),
                             ),
                           ],

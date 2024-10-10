@@ -9,6 +9,11 @@ import 'package:health_crad_user/res/custom_text_field.dart';
 import 'package:health_crad_user/res/details_slider.dart';
 import 'package:health_crad_user/res/text_const.dart';
 import 'package:health_crad_user/utils/routes/routes_name.dart';
+import 'package:health_crad_user/view_model/cart_view_model.dart';
+import 'package:health_crad_user/view_model/medicine_view_model.dart';
+import 'package:health_crad_user/view_model/update_quantity_view_model.dart';
+import 'package:health_crad_user/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MedicineDetails extends StatefulWidget {
   const MedicineDetails({super.key});
@@ -18,9 +23,13 @@ class MedicineDetails extends StatefulWidget {
 }
 
 class _MedicineDetailsState extends State<MedicineDetails> {
-  int number =2;
   @override
   Widget build(BuildContext context) {
+
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
+    final cartViewModel = Provider.of<CartViewModel>(context);
+
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       bottomNavigationBar: Container(
@@ -41,12 +50,12 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextConst(
-                        title: 'Quantity: 2',
+                        title: 'Quantity: ${medicineViewModel.medicineDetailsData!.medicineModelData!.quantity}',
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.whiteColor,
                       ),
                       TextConst(
-                        title: 'Rs. 5,126',
+                        title: 'Rs. ${medicineViewModel.medicineDetailsData!.medicineModelData!.price}',
                         fontSize: AppConstant.fontSizeTwo,
                         color: AppColor.whiteColor,
                         fontWeight: FontWeight.w600,
@@ -54,7 +63,18 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                     ],
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+
+
+
+                        // String? getUserData = await UserViewModel().getUser();
+                        // cartViewModel.addToCartApi(
+                        //     getUserData,  medicineViewModel
+                        //     .allMedicineModelData!.allMedicineData![index].id, '1', context);
+
+
+
+
                       Navigator.pushNamed(context, RoutesName.cartPage);
                     },
                     child: Container(
@@ -144,18 +164,23 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                 Positioned(
                   left: screenHeight * 0.028,
                   bottom: screenHeight * 0.017,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: screenHeight * 0.04,
-                    width: screenWidth * 0.04,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColor.redColor,
-                    ),
-                    child: TextConst(
-                      title: '3',
-                      fontSize: AppConstant.fontSizeOne,
-                      color: AppColor.whiteColor,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context, RoutesName.cartPage);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: screenHeight * 0.04,
+                      width: screenWidth * 0.04,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColor.redColor,
+                      ),
+                      child: TextConst(
+                        title: cartViewModel.vModelData!.viewCartData!.length.toString(),
+                        fontSize: AppConstant.fontSizeOne,
+                        color: AppColor.whiteColor,
+                      ),
                     ),
                   ),
                 ),
@@ -178,10 +203,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  Image.asset(
-                    Assets.imageTablelBg,
-                    height: screenWidth / 2.5,
-                  ),
+                  Image.network(medicineViewModel.medicineDetailsData!.medicineModelData!.image.toString(),height: screenWidth / 2.5,),
                   const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -222,7 +244,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextConst(
-                      title: 'Dulcoflex Tablet 10’S',
+                      title: medicineViewModel.medicineDetailsData!.medicineModelData!.name,
                       fontSize: AppConstant.fontSizeThree,
                       color: AppColor.blackColor,
                     ),
@@ -235,7 +257,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                             textColor: AppColor.textColor.withOpacity(0.9),
                             fontSize: AppConstant.fontSizeOne),
                         CustomTextSpan(
-                            text: "270",
+                            text: medicineViewModel.medicineDetailsData!.medicineModelData!.sPrice.toString(),
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.normal,
                             textColor: AppColor.textColor,
@@ -244,7 +266,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                       AppConstant.spaceWidth10,
                       CustomRichText(textSpans: [
                         CustomTextSpan(
-                            text: "25.03 % off",
+                            text: "${medicineViewModel.medicineDetailsData!.medicineModelData!.discount} % off",
                             fontWeight: FontWeight.normal,
                             textColor: AppColor.greenColor,
                             fontSize: AppConstant.fontSizeOne)
@@ -257,7 +279,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                           textColor: AppColor.primaryColor,
                           fontSize: AppConstant.fontSizeTwo),
                       CustomTextSpan(
-                          text: "216",
+                          text: "${medicineViewModel.medicineDetailsData!.medicineModelData!.discountedAmount}",
                           fontWeight: FontWeight.w600,
                           textColor: AppColor.primaryColor,
                           fontSize: AppConstant.fontSizeTwo)
@@ -282,89 +304,59 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                       color: AppColor.blackColor,
                       fontWeight: FontWeight.w500,
                     ),
-                Container(
-                  alignment: Alignment.center,
-                  height: screenHeight * 0.038,
-                  width: screenWidth * 0.22,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.buttonBgColor,width: 0.5),
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: AssetImage(Assets.pngPlusMinusIcon),
-                      fit: BoxFit.fill,
+                    Consumer<UpdateQuantityViewModel>(
+                        builder: (context, updateQuantityCon, _) {
+                          return Container(
+                          alignment: Alignment.center,
+                          height: screenHeight * 0.038,
+                          width: screenWidth * 0.24,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColor.buttonBgColor, width: 0.5),
+                            borderRadius: BorderRadius.circular(5),
+                            image: const DecorationImage(
+                              image: AssetImage(Assets.pngPlusMinusIcon),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  updateQuantityCon
+                                      .updateProductQuantity(
+                                      context,medicineViewModel.allMedicineModelData!.allMedicineData!.indexWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id),"sub");
+                                },
+                                child: Container(
+                                  height: screenHeight * 0.05,
+                                  width: screenWidth * 0.095,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              TextConst(
+                                title:  medicineViewModel.allMedicineModelData!.allMedicineData!.firstWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id).addedQuantity.toString(),
+                                fontSize: AppConstant.fontSizeThree,
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.blackColor,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  updateQuantityCon
+                                      .updateProductQuantity(
+                                      context, medicineViewModel.allMedicineModelData!.allMedicineData!.indexWhere((e)=>e.id==medicineViewModel.medicineDetailsData!.medicineModelData!.id), "add");
+                                },
+                                child: Container(
+                                  height: screenHeight * 0.05,
+                                  width: screenWidth * 0.095,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (number > 0) { // To prevent negative numbers
-                              number--;
-                            }
-                          });
-                        },
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.095,
-                          color: Colors.transparent,
-                        ),
-
-                      ),
-                      TextConst(
-                        title: "$number",
-                        fontSize: AppConstant.fontSizeThree,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.blackColor,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            number++; // Increase the number when green container is clicked
-                          });
-                        },
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.095,
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Container(
-                    //       alignment: Alignment.center,
-                    //       height: 30,
-                    //       width: 30,
-                    //       decoration: const BoxDecoration(
-                    //           image: DecorationImage(
-                    //               image: AssetImage(Assets.iconsMinusIcon),
-                    //               fit: BoxFit.fill)),
-                    //     ),
-                    //     AppConstant.spaceWidth20,
-                    //     TextConst(
-                    //       title: '2',
-                    //       fontSize: AppConstant.fontSizeThree,
-                    //       color: AppColor.blackColor,
-                    //     ),
-                    //     AppConstant.spaceWidth20,
-                    //     Container(
-                    //       alignment: Alignment.center,
-                    //       height: 30,
-                    //       width: 30,
-                    //       decoration: const BoxDecoration(
-                    //           shape: BoxShape.circle,
-                    //           image: DecorationImage(
-                    //               image: AssetImage(Assets.iconsPlusIcon),
-                    //               fit: BoxFit.fill)),
-                    //     ),
-                    //   ],
-                    // )
                   ],
                 ),
               ),
@@ -403,7 +395,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                         textColor: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeOne),
                     CustomTextSpan(
-                        text: "Merck Ltd",
+                        text: medicineViewModel.medicineDetailsData!.medicineModelData!.marketer.toString(),
                         textColor: AppColor.textColor,
                         fontSize: AppConstant.fontSizeOne),
                   ]),
@@ -414,7 +406,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                         textColor: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeOne),
                     CustomTextSpan(
-                        text: "Bisoprolol (5mg) + \nHydrochlorothiazide (12.5mg)",
+                        text: medicineViewModel.medicineDetailsData!.medicineModelData!.selfComposition.toString(),
                         textColor: AppColor.textColor,
                         fontSize: AppConstant.fontSizeOne),
                   ]),
@@ -425,7 +417,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                         textColor: AppColor.blackColor,
                         fontSize: AppConstant.fontSizeOne),
                     CustomTextSpan(
-                        text: "Store below 30°C",
+                        text: medicineViewModel.medicineDetailsData!.medicineModelData!.storage.toString(),
                         textColor: AppColor.textColor,
                         fontSize: AppConstant.fontSizeOne),
                   ]),
@@ -433,15 +425,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                   TextConst(
                     textAlign: TextAlign.start,
                     title:
-                        'Concor Plus Tablet is a combination of two \nmedicines used to treat hypertension',
-                    fontSize: AppConstant.fontSizeOne,
-                    color: AppColor.textColor,
-                  ),
-                  AppConstant.spaceHeight10,
-                  TextConst(
-                    textAlign: TextAlign.start,
-                    title:
-                        "Lorem Ipsum is simply dummy text of the printing \nand typesetting industry. Lorem Ipsum has been the\nindustry's standard dummy text ever",
+                    medicineViewModel.medicineDetailsData!.medicineModelData!.detail.toString(),
                     fontSize: AppConstant.fontSizeOne,
                     color: AppColor.textColor,
                   ),
@@ -458,6 +442,8 @@ class _MedicineDetailsState extends State<MedicineDetails> {
   }
 
   Widget medicineDisclaimer() {
+    final medicineViewModel = Provider.of<MedicineViewModel>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       width: screenWidth,
@@ -475,7 +461,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
           TextConst(
             textAlign: TextAlign.start,
             title:
-                'The contents of this app are for informational purposes only and not intended to be a substitute for professional medical advice, diagnosis, or treatment. Please seek the advice of a physician or other qualified health provider with any questions you may have regarding a medical condition. Do not disregard professional medical advice or delay in seeking it because of something you have read on this app.',
+            medicineViewModel.medicineDetailsData!.medicineModelData!.disclaimer.toString(),
             fontSize: AppConstant.fontSizeOne,
             color: AppColor.textColor,
             fontWeight: FontWeight.w500,
